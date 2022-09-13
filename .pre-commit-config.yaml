@@ -1,0 +1,48 @@
+repos:
+    -   repo: https://github.com/pre-commit/pre-commit-hooks
+        rev: v4.1.0
+        hooks:
+        - id: check-ast
+        - id: fix-byte-order-marker
+        - id: check-docstring-first
+        - id: check-merge-conflict
+        - id: check-toml
+        - id: check-vcs-permalinks
+        - id: debug-statements
+        - id: destroyed-symlinks
+        - id: end-of-file-fixer
+        - id: trailing-whitespace
+
+    -   repo: https://github.com/psf/black
+        rev: 22.3.0
+        hooks:
+        -   id: black
+            args: ["--line-length=110"]
+
+    -   repo: https://github.com/pycqa/flake8
+        rev: 4.0.1
+        hooks:
+        -   id: flake8
+            args: ["--max-line-length=110", "--ignore=E203,E501,W503", "--exclude=.git,__pycache__,__init__.py,.mypy_cache,.pytest_cache"]
+
+    -   repo: https://github.com/Lucas-C/pre-commit-hooks-bandit
+        rev: v1.0.5
+        hooks:
+        -   id: python-bandit-vulnerability-check
+            args: [--skip, "B101", --recursive, clumper]
+
+    -   repo: https://github.com/pypa/pip-audit
+        rev: v2.4.4
+        hooks:
+        -   id: pip-audit
+            args: ["-r", "requirements.txt"]
+
+    -   repo: https://github.com/asottile/pyupgrade
+        rev: v2.29.0
+        hooks:
+        -   id: pyupgrade
+            args: [--py37-plus]
+    -   repo: https://github.com/jorisroovers/gitlint
+        rev: v0.16.0
+        hooks:
+        -   id: gitlint
