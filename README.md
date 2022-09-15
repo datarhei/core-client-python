@@ -5,7 +5,8 @@ Requires Python 3.7+ and datarhei Core v16.9+.
 ---
 
 -   [Features](#features)
--   [Install and usage](#install-and-usage)
+-   [Install](#install)
+-   [Usage](#usage)
 -   [API definitions](#api-definitions)
     -   [General](#general)
     -   [Cluster (experimental)](#cluster)
@@ -41,11 +42,20 @@ Requires Python 3.7+ and datarhei Core v16.9+.
 -   [pydantic Models](https://pydantic-docs.helpmanual.io/)
 -   [HTTPX](https://www.python-httpx.org/)
 
-## Install and usage
+## Install
 
+### Latest
 ```sh
-pip install -e git+https://github.com/datarhei/core-client-python#egg=core_client
+pip install https://github.com/datarhei/core-client-python/archive/refs/heads/main.tar.gz
 ```
+
+### Specific version
+```sh
+pip install https://github.com/datarhei/core-client-python/archive/refs/tags/{release_tag}.tar.gz
+```
+*`{release_tag}` like `1.0.0`*
+
+## Usage
 
 #### Init arguments
 
