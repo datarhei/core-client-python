@@ -1,11 +1,21 @@
 from setuptools import find_packages, setup
 
-install_requirements = ["httpx[http2]>=0.23.0", "pydantic>=1.10.2", "pydantic-collections>=0.3.0"]
-tests_requirements = ["coverage", "pre-commit", "pytest-cov", "pytest", "pytest-asyncio"]
+install_requirements = [
+    "httpx[http2]>=0.23.0",
+    "pydantic>=1.10.2",
+    "pydantic-collections>=0.3.0",
+]
+tests_requirements = [
+    "coverage",
+    "pre-commit",
+    "pytest-cov",
+    "pytest",
+    "pytest-asyncio",
+]
 
 setup(
     name="core_client",
-    version="1.0.0",
+    version="1.1.0",
     url="https://github.com/datarhei/core-client-python",
     description="datarhei Core PyClient",
     author="FOSS GmbH",

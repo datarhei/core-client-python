@@ -27,7 +27,7 @@ class Srt(BaseModel):
         "connections": {
             "132881": {SrtConnection}
         },
-        "logs": {}
+        "log": {}
     }
     """
 
@@ -36,7 +36,7 @@ class Srt(BaseModel):
     publisher: Optional[Dict[str, int]]
     subscriber: Union[Dict[str, List[int]], List[int]]
     connections: Dict[str, SrtConnection]
-    logs: Union[None, Dict[str, str]]
+    log: Union[None, Dict[str, str]]
 
     @root_validator(pre=False)
     def remove_empty(cls, values):

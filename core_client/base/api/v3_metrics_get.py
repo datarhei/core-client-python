@@ -1,41 +1,36 @@
-"""
-Is deprecated. Please use `metrics_post`
-"""
-
 import httpx
 from pydantic import parse_obj_as, validate_arguments
 
 from ...models import Client
 from ..models import Error
-from ..models.v3 import Metrics
+from ..models.v3 import MetricsCollectionList
 
 
 @validate_arguments()
 def _build_request(
     client: Client,
-    config: Metrics,
     retries: int = None,
     timeout: float = None,
 ):
-    if not isinstance(config, dict):
-        config = config.dict()
     if not retries:
         retries = client.retries
     if not timeout:
         timeout = client.timeout
     return {
-        "method": "post",
+        "method": "get",
         "url": f"{client.base_url}/api/v3/metrics",
         "headers": client.headers,
         "timeout": timeout,
         "data": None,
-        "json": config,
+        "json": None,
     }, retries
 
 
 def _build_response(response: httpx.Response):
     if response.status_code == 200:
-        response_200 = parse_obj_as(Metrics, response.json())
+        response_200 = parse_obj_as(
+            MetricsCollectionList, response.json()
+        ).__root__
         return response_200
     else:
         response_error = parse_obj_as(Error, response.json())

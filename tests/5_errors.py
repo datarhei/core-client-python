@@ -2,22 +2,41 @@ import os
 
 from core_client import Client
 from core_client.base.models import Error, Token
-from core_client.base.models.v3 import ProcessList, ProcessProbe, Session, SessionActive
+from core_client.base.models.v3 import (
+    ProcessList,
+    ProcessProbe,
+    Session,
+    SessionActive,
+)
 
 core_url = os.getenv("CORE_URL", "http://127.0.0.1:8080")
-client = Client(base_url=f"{core_url}", username="admin", password="test", timeout=10.0)
+client = Client(
+    base_url=f"{core_url}", username="admin", password="test", timeout=20.0
+)
 
 proc_stream = {
     "autostart": True,
     "id": "test",
-    "input": [{"address": "testsrc2=rate=25:size=16x9", "id": "input_0", "options": ["-re", "-f", "lavfi"]}],
+    "input": [
+        {
+            "address": "testsrc2=rate=25:size=16x9",
+            "id": "input_0",
+            "options": ["-re", "-f", "lavfi"],
+        }
+    ],
     "options": ["-err_detect", "ignore_err", "-y"],
     "output": [
         {
             "address": "[f=hls:start_number=0:hls_time=2:hls_list_size=6:hls_flags=append_list+delete_segments:hls_segment_filename={memfs^:}/{processid}_%04d.ts:method=PUT]{memfs}/{processid}.m3u8|[f=flv]{rtmp,name=test.stream}|[f=mpegts]{srt,name=test,mode=publish}",
             "cleanup": [
-                {"pattern": "memfs:/{processid}_*.ts", "purge_on_delete": True},
-                {"pattern": "memfs:/{processid}.m3u8", "purge_on_delete": True},
+                {
+                    "pattern": "memfs:/{processid}_*.ts",
+                    "purge_on_delete": True,
+                },
+                {
+                    "pattern": "memfs:/{processid}.m3u8",
+                    "purge_on_delete": True,
+                },
             ],
             "id": "output_0",
             "options": [

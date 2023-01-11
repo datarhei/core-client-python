@@ -1,17 +1,10 @@
 import os
 
 from core_client import Client
-from core_client.base.models import About, Error, Token
+from core_client.base.models import About, Error
 
 core_url = os.getenv("CORE_URL", "http://127.0.0.1:8080")
-client = Client(base_url=f"{core_url}", username="", password="", timeout=10.0)
-
-
-def test_token_():
-    res = client.login()
-    assert type(res) is Token
-    assert res.access_token is None
-    assert res.refresh_token is None
+client = Client(base_url=f"{core_url}", username="", password="", timeout=20.0)
 
 
 def test_about():

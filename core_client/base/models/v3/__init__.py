@@ -4,6 +4,7 @@ from .cluster_node_list import ClusterNodeList
 
 from .config_api_access_rules import ConfigApiAccessRules
 from .config_api_access import ConfigApiAccess
+from .config_api_auth_auth0_tenant import ConfigApiAuthAuth0Tenant
 from .config_api_auth_auth0 import ConfigApiAuthAuth0
 from .config_api_auth_jwt import ConfigApiAuthJwt
 from .config_api_auth import ConfigApiAuth
@@ -43,6 +44,9 @@ from .metrics_monitor_name import MetricsMonitorName
 from .metrics_monitor import MetricsMonitor
 from .metrics import Metrics
 
+from .metrics_collection import MetricsCollection
+from .metrics_collection_list import MetricsCollectionList
+
 from .filesystem_file import FilesystemFile
 from .filesystem_file_list import FilesystemFileList
 from .filesystem import Filesystem
@@ -64,8 +68,12 @@ from .process_probe import ProcessProbe
 
 from .process_state_exec import ProcessStateExec
 from .process_state_order import ProcessStateOrder
-from .process_state_progress_io_avstream_io_state import ProcessStateProgressIOAvstreamIOState
-from .process_state_progress_io_avstream_io import ProcessStateProgressIOAvstreamIO
+from .process_state_progress_io_avstream_io_state import (
+    ProcessStateProgressIOAvstreamIOState,
+)
+from .process_state_progress_io_avstream_io import (
+    ProcessStateProgressIOAvstreamIO,
+)
 from .process_state_progress_io_avstream import ProcessStateProgressIOAvstream
 from .process_state_progress_io import ProcessStateProgressIO
 from .process_state_progress import ProcessStateProgress

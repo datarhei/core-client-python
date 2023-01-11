@@ -6,7 +6,9 @@ from ..models import Error
 
 
 @validate_arguments()
-def _build_request(client: Client, id: str, retries: int = None, timeout: float = None):
+def _build_request(
+    client: Client, id: str, retries: int = None, timeout: float = None
+):
     if not retries:
         retries = client.retries
     if not timeout:

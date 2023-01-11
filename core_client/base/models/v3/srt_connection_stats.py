@@ -1,7 +1,17 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, root_validator
+from typing import Optional
 
 
 class SrtConnectionStats(BaseModel):
+    """
+    v16.11.0
+
+    -sent_unique__bytes
+    +sent_unique_bytes
+    -recv_loss__bytes
+    +recv_loss_bytes
+    """
+
     """
     {
         "timestamp_ms": 2325052658,
@@ -25,9 +35,9 @@ class SrtConnectionStats(BaseModel):
         "recv_undecrypt_pkt": 0,
         "sent_bytes": 0,
         "recv_bytes": 680449226780,
-        "sent_unique__bytes": 0,
+        "sent_unique_bytes": 0,
         "recv_unique_bytes": 680449217120,
-        "recv_loss__bytes": 9295,
+        "recv_loss_bytes": 9295,
         "sent_retrans_bytes": 0,
         "send_drop_bytes": 0,
         "recv_drop_bytes": 9660,
@@ -75,21 +85,23 @@ class SrtConnectionStats(BaseModel):
     recv_undecrypt_pkt: int
     sent_bytes: int
     recv_bytes: int
-    sent_unique__bytes: int
+    sent_unique__bytes: Optional[int]
+    sent_unique_bytes: Optional[int]
     recv_unique_bytes: int
-    recv_loss__bytes: int
+    recv_loss__bytes: Optional[int]
+    recv_loss_bytes: Optional[int]
     sent_retrans_bytes: int
     send_drop_bytes: int
     recv_drop_bytes: int
     recv_undecrypt_bytes: int
-    pkt_send_period_us: int
+    pkt_send_period_us: float
     flow_window_pkt: int
     flight_size_pkt: int
-    rtt_ms: int
-    bandwidth_mbit: int
+    rtt_ms: float
+    bandwidth_mbit: float
     avail_send_buf_bytes: int
     avail_recv_buf_bytes: int
-    max_bandwidth_mbit: int
+    max_bandwidth_mbit: float
     mss_bytes: int
     send_buf_pkt: int
     send_buf_bytes: int
@@ -101,3 +113,13 @@ class SrtConnectionStats(BaseModel):
     recv_tsbpd_delay_ms: int
     reorder_tolerance_pkt: int
     pkt_recv_avg_belated_time_ms: int
+
+    @root_validator(pre=False)
+    def remove_empty(cls, values):
+        if values["sent_unique__bytes"] is None:
+            values.pop("sent_unique__bytes")
+            values.pop("recv_loss__bytes")
+        else:
+            values.pop("sent_unique_bytes")
+            values.pop("recv_loss_bytes")
+        return values

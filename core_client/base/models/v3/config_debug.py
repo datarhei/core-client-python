@@ -12,3 +12,4 @@ class ConfigDebug(BaseModel):
 
     profiling: Optional[bool]
     force_gc: Optional[int]
+    memory_limit_mbytes: Optional[int]

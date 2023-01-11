@@ -1,6 +1,6 @@
 # datarhei Core PyClient
-For rapid development of Python applications around the [datarhei Core](https://github.com/datarhei/core).    
-Requires Python 3.7+ and datarhei Core v16.9+.
+For rapid development of Python applications around the [datarhei Core](https://github.com/datarhei/core).
+Requires Python 3.7+ and datarhei Core v16.10+.
 
 ---
 
@@ -107,7 +107,7 @@ asyncio.run(main())
 
 ### Cluster
 
-***Do not use in production!***    
+***Do not use in production!***
 *This is an upcoming feature. More here: [Core v16.10#cluster](https://github.com/datarhei/core/tree/cluster))*
 
 
@@ -216,10 +216,16 @@ asyncio.run(main())
 
 ### Metrics
 
+-   `GET` /api/v3/metrics
+
+    ```python
+    v3_metrics_get()
+    ```
+
 -   `POST` /api/v3/metrics
 
     ```python
-    v3_metrics(config: Metrics)
+    v3_metrics_post(config: Metrics)
     ```
     *Model: [Metrics](https://github.com/datarhei/core-client-python/blob/main/core_client/base/models/v3/metrics.py)*
 
@@ -604,7 +610,7 @@ $ pre-commit run --all-files
 
 ## Contributing
 
-Found a mistake or misconduct? Create a [issue](https://github.com/datarhei/core-client-python/issues) or send a pull-request.    
+Found a mistake or misconduct? Create a [issue](https://github.com/datarhei/core-client-python/issues) or send a pull-request.
 Suggestions for improvement are welcome.
 
 ## Licence

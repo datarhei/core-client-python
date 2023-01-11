@@ -6,7 +6,7 @@ from core_client.base.models import About, Token
 from core_client.base.models.v3 import ConfigSaved
 
 core_url = os.getenv("CORE_URL", "http://127.0.0.1:8080")
-client = Client(base_url=f"{core_url}", username="", password="", timeout=10.0)
+client = Client(base_url=f"{core_url}", username="", password="", timeout=20.0)
 
 
 def test_ping():
@@ -19,6 +19,10 @@ def test_about():
     res = client.about()
     assert type(res) is About
     assert type(res.name) is str
+    # requires core v10.10+
+    core_version = res.version.number.split(".")
+    assert int(core_version[0]) >= 10
+    assert int(core_version[1]) > 9
 
 
 def test_token_():
@@ -39,6 +43,7 @@ jwt_config = {
     "srt": {"enable": True},
     "rtmp": {"enable": True},
     "sessions": {"ip_ignorelist": []},
+    "version": 3,
 }
 
 

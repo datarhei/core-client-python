@@ -1,7 +1,3 @@
-"""
-Is deprecated. Please use `metrics_post`
-"""
-
 import httpx
 from pydantic import parse_obj_as, validate_arguments
 

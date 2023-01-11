@@ -2,7 +2,11 @@ import os
 
 from core_client import Client
 from core_client.base.models import Token, Error
-from core_client.base.models.v3 import ClusterNodeList, ClusterNode, ClusterNodeAuth
+from core_client.base.models.v3 import (
+    ClusterNodeList,
+    ClusterNode,
+    ClusterNodeAuth,
+)
 
 core_url_1 = os.getenv("CORE_URL_1", "http://127.0.0.1:8080")
 core_url_2 = os.getenv("CORE_URL_2", "http://127.0.0.1:8081")
@@ -19,7 +23,9 @@ def test_prepare():
 
 def test_v3_cluster_post_node():
     res_1 = client_1.v3_cluster_post_node(
-        node=ClusterNodeAuth(address="http://10.0.0.1:80", username="", password="")
+        node=ClusterNodeAuth(
+            address="http://10.0.0.1:80", username="", password=""
+        )
     )
     res_2 = client_1.v3_cluster_post_node(
         node=ClusterNodeAuth(address=f"{core_url_2}", username="", password="")
@@ -52,10 +58,16 @@ def test_v3_cluster_put_node():
     #     id="unknown", node=ClusterNodeAuth(address=f"{core_url_2}", username="", password="")
     # )
     res_2 = client_1.v3_cluster_put_node(
-        id=node.id, node=ClusterNodeAuth(address="http://this.test:80", username="", password="")
+        id=node.id,
+        node=ClusterNodeAuth(
+            address="http://this.test:80", username="", password=""
+        ),
     )
     res_3 = client_1.v3_cluster_put_node(
-        id=node.id, node=ClusterNodeAuth(address=f"{core_url_2}", username="", password="")
+        id=node.id,
+        node=ClusterNodeAuth(
+            address=f"{core_url_2}", username="", password=""
+        ),
     )
     # core issue
     # assert type(res_1) is Error

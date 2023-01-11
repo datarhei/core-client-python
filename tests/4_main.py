@@ -7,6 +7,7 @@ from core_client.base.models.v3 import (
     FilesystemFileList,
     Log,
     Metrics,
+    MetricsCollection,
     Process,
     ProcessConfig,
     ProcessList,
@@ -19,24 +20,37 @@ from core_client.base.models.v3 import (
     SessionActive,
     Skills,
     Srt,
-    SrtList,
     Widget,
 )
 
 core_url = os.getenv("CORE_URL", "http://127.0.0.1:8080")
-client = Client(base_url=f"{core_url}", username="admin", password="test", timeout=10.0)
+client = Client(
+    base_url=f"{core_url}", username="admin", password="test", timeout=20.0
+)
 
 proc_stream = {
     "id": "test",
     "reference": "test",
-    "input": [{"address": "testsrc2=rate=25:size=16x9", "id": "input_0", "options": ["-re", "-f", "lavfi"]}],
+    "input": [
+        {
+            "address": "testsrc2=rate=25:size=16x9",
+            "id": "input_0",
+            "options": ["-re", "-f", "lavfi"],
+        }
+    ],
     "options": ["-err_detect", "ignore_err", "-y"],
     "output": [
         {
             "address": "[f=hls:start_number=0:hls_time=2:hls_list_size=6:hls_flags=append_list+delete_segments:hls_segment_filename={memfs^:}/{processid}_%04d.ts:method=PUT]{memfs}/{processid}.m3u8|[f=flv]{rtmp,name=test.stream}|[f=mpegts]{srt,name=test,mode=publish}",
             "cleanup": [
-                {"pattern": "memfs:/{processid}_*.ts", "purge_on_delete": True},
-                {"pattern": "memfs:/{processid}.m3u8", "purge_on_delete": True},
+                {
+                    "pattern": "memfs:/{processid}_*.ts",
+                    "purge_on_delete": True,
+                },
+                {
+                    "pattern": "memfs:/{processid}.m3u8",
+                    "purge_on_delete": True,
+                },
             ],
             "id": "output_0",
             "options": [
@@ -62,9 +76,17 @@ proc_stream = {
 proc_viewer = {
     "id": "test_viewer",
     "reference": "test",
-    "input": [{"address": "{memfs}/test.m3u8", "id": "input_0", "options": ["-re"]}],
+    "input": [
+        {"address": "{memfs}/test.m3u8", "id": "input_0", "options": ["-re"]}
+    ],
     "options": ["-err_detect", "ignore_err", "-y"],
-    "output": [{"address": "-", "id": "output_0", "options": ["-c", "copy", "-f", "null"]}],
+    "output": [
+        {
+            "address": "-",
+            "id": "output_0",
+            "options": ["-c", "copy", "-f", "null"],
+        }
+    ],
 }
 
 
@@ -136,8 +158,21 @@ def test_v3_metadata_get():
     assert type(res_4) is dict
 
 
-def test_v3_metrics():
-    res = client.v3_metrics(config={"metrics": [{"name": "session_total"}, {"name": "session_active"}]})
+def test_v3_metrics_get():
+    res = client.v3_metrics_get()
+    res_about = client.about()
+    core_version = res_about.version.number.split(".")
+    if int(core_version[0]) >= 16 and int(core_version[1]) >= 10:
+        assert type(res) is list
+        assert type(res[0]) is MetricsCollection
+
+
+def test_v3_metrics_post():
+    res = client.v3_metrics_post(
+        config={
+            "metrics": [{"name": "session_total"}, {"name": "session_active"}]
+        }
+    )
     assert type(res) is Metrics
 
 
@@ -199,12 +234,16 @@ def test_v3_widget_get_process():
 
 
 def test_v3_session_get():
-    res = client.v3_session_get(collectors="ffmpeg,hls,hlsingress,http,rtmp,srt")
+    res = client.v3_session_get(
+        collectors="ffmpeg,hls,hlsingress,http,rtmp,srt"
+    )
     assert type(res) is Session
 
 
 def test_v3_session_get_active():
-    res = client.v3_session_get_active(collectors="ffmpeg,hls,hlsingress,http,rtmp,srt")
+    res = client.v3_session_get_active(
+        collectors="ffmpeg,hls,hlsingress,http,rtmp,srt"
+    )
     assert type(res) is SessionActive
 
 
@@ -220,13 +259,7 @@ def test_v3_rtmp_get():
 
 def test_v3_srt_get():
     res = client.v3_srt_get()
-    res_about = client.about()
-    core_version = res_about.version.number.split(".")
-    if int(core_version[1]) <= 9:
-        assert type(res) is Srt
-    else:
-        assert type(res) is SrtList
-        assert type(res[0]) is Srt
+    assert type(res) is Srt
 
 
 def test_v3_process_put():

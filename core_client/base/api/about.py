@@ -1,3 +1,7 @@
+"""
+Is deprecated. Please use `about_get`.
+"""
+
 import httpx
 from pydantic import parse_obj_as, validate_arguments
 

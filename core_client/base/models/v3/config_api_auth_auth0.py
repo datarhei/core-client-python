@@ -1,6 +1,8 @@
 from pydantic import BaseModel
 from typing import Optional, List
 
+from . import ConfigApiAuthAuth0Tenant
+
 
 class ConfigApiAuthAuth0(BaseModel):
     """
@@ -11,4 +13,4 @@ class ConfigApiAuthAuth0(BaseModel):
     """
 
     enable: Optional[bool]
-    tenants: Optional[List[str]]
+    tenants: Optional[List[ConfigApiAuthAuth0Tenant]]
