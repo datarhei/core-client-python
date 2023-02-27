@@ -174,3 +174,8 @@ def test_v3_process_get_state():
 def test_v3_process_delete():
     res = client.v3_process_delete(id="unknown")
     assert type(res) is Error
+
+
+def test_v3_process_put_command_start():
+    res = client.v3_process_put_command(id="unknown", command="start")
+    assert type(res) is Error

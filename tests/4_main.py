@@ -288,6 +288,17 @@ def test_v3_process_get_state():
     assert type(res) is ProcessState
 
 
+def test_v3_process_put_command_stop():
+    res = client.v3_process_put_command(id="test", command="stop")
+    assert type(res) is str
+    assert res == "OK"
+
+
+def test_v3_process_put_command_start():
+    res = client.v3_process_put_command(id="test", command="start")
+    assert res == "OK"
+
+
 def test_v3_process_delete():
     res = client.v3_process_delete(id="test")
     assert type(res) is str

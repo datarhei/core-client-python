@@ -14,8 +14,6 @@ def _build_request(
     retries: int = None,
     timeout: float = None,
 ):
-    if not isinstance(command, dict):
-        command = command.dict()
     if not retries:
         retries = client.retries
     if not timeout:
@@ -26,7 +24,7 @@ def _build_request(
         "headers": client.headers,
         "timeout": timeout,
         "data": None,
-        "json": command,
+        "json": {"command": f"{command}"},
     }, retries
 
 
