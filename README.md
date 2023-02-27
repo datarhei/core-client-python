@@ -261,9 +261,9 @@ asyncio.run(main())
 
 -   `PUT` /api/v3/process/{id}/command
     ```python
-    v3_process_put_command(id: str, command: ProcessCommand)
+    v3_process_put_command(id: str, command: ProcessCommandAction)
     ```
-    *Model: [ProcessCommand](https://github.com/datarhei/core-client-python/blob/main/core_client/base/models/v3/process_command.py)*
+    *Model: [ProcessCommandAction](https://github.com/datarhei/core-client-python/blob/main/core_client/base/models/v3/process_command.py)*
 
 -   `GET` /api/v3/process/{id}/config
     ```python
