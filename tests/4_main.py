@@ -302,3 +302,4 @@ def test_v3_process_put_command_start():
 def test_v3_process_delete():
     res = client.v3_process_delete(id="test")
     assert type(res) is str
+    assert res == "OK"

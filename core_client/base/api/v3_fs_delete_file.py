@@ -29,7 +29,13 @@ def _build_request(
 
 def _build_response(response: httpx.Response):
     if response.status_code == 200:
-        response_200 = response.text
+        if (
+            response.headers["content-type"]
+            == "application/json; charset=UTF-8"
+        ):
+            response_200 = response.json()
+        else:
+            response_200 = response.text
         return response_200
     else:
         response_error = parse_obj_as(Error, response.json())
