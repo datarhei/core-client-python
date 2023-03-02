@@ -1,14 +1,14 @@
 Changelog
 ---------
 
-## 1.x.x
+## 1.2.0 (open)
 
 Breaking changes:
-v3_process_get_report is now v3_process_get_report_list
+`v3_process_get_report` is now `v3_process_get_report_list`
 
--   Add `v3_process_get_report' to get reports by timestamp
+-   Add `v3_process_get_report` to get reports by timestamp
 -   Add `v3_report_get_process` to listen on process states
--   Mod `v3_process_get_report` is now `v3_report_get_process_list
+-   Mod `v3_process_get_report` is now `v3_report_get_process_list`
 -   Fix `v3_process_put_command` model
 
 ## 1.1.1

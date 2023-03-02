@@ -17,6 +17,7 @@ Requires Python 3.7+ and datarhei Core v16.10+.
     -   [Metrics](#metrics)
     -   [Process](#process)
     -   [Process Playout (commercial extention)](#process-playout-commercial-extention)
+    -   [Report](#report)
     -   [RTMP](#rtmp)
     -   [Session](#session)
     -   [Skills](#skills)
@@ -288,7 +289,12 @@ asyncio.run(main())
 
 -   `GET` /api/v3/process/{id}/report
     ```python
-    v3_process_get_report(id: str)
+    v3_process_get_report_list(id: str)
+    ```
+
+-   `GET` /api/v3/process/{id}/report/{at}
+    ```python
+    v3_process_get_report(id: str, created_at: int)
     ```
 
 -   `GET` /api/v3/process/{id}/state
@@ -327,6 +333,13 @@ asyncio.run(main())
 -   `PUT` /api/v3/process/{id}/playout/{input_id}/stream
     ```python
     v3_process_put_playout_input_stream(id: str, input_id: str)
+    ```
+
+### Report
+
+-   `GET` /api/v3/report/process
+    ```python
+    v3_process_get_report(idpattern: str = "", refpattern: str = "", state: str = "", fromdate: int = "", todate: int = "")
     ```
 
 ### RTMP

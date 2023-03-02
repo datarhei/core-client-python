@@ -15,7 +15,7 @@ tests_requirements = [
 
 setup(
     name="core_client",
-    version="1.1.1",
+    version="1.2.0",
     url="https://github.com/datarhei/core-client-python",
     description="datarhei Core PyClient",
     author="FOSS GmbH",
