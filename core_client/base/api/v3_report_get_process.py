@@ -3,14 +3,17 @@ from pydantic import parse_obj_as, validate_arguments
 
 from ...models import Client
 from ..models import Error
-from ..models.v3 import ProcessReportHistory
+from ..models.v3 import ReportProcessList
 
 
 @validate_arguments()
 def _build_request(
     client: Client,
-    id: str,
-    created_at: int,
+    idpattern: str = "",
+    refpattern: str = "",
+    state: str = "",
+    fromdate: int = "",
+    todate: int = "",
     retries: int = None,
     timeout: float = None,
 ):
@@ -20,7 +23,7 @@ def _build_request(
         timeout = client.timeout
     return {
         "method": "get",
-        "url": f"{client.base_url}/api/v3/process/{id}/report/{created_at}",
+        "url": f"{client.base_url}/api/v3/report/process?idpattern={idpattern}&refpattern={refpattern}&state={state}&from={fromdate}&to={todate}",
         "headers": client.headers,
         "timeout": timeout,
         "data": None,
@@ -30,7 +33,7 @@ def _build_request(
 
 def _build_response(response: httpx.Response):
     if response.status_code == 200:
-        response_200 = parse_obj_as(ProcessReportHistory, response.json())
+        response_200 = parse_obj_as(ReportProcessList, response.json())
         return response_200
     else:
         response_error = parse_obj_as(Error, response.json())

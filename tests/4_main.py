@@ -13,7 +13,9 @@ from core_client.base.models.v3 import (
     ProcessList,
     ProcessProbe,
     ProcessReport,
+    ProcessReportHistory,
     ProcessState,
+    ReportProcessList,
     Rtmp,
     RtmpList,
     Session,
@@ -268,9 +270,32 @@ def test_v3_process_put():
     assert res.id == "test"
 
 
-def test_v3_process_get_report():
-    res = client.v3_process_get_report(id="test")
+def test_v3_process_put_command_stop():
+    res = client.v3_process_put_command(id="test", command="stop")
+    assert type(res) is str
+    assert res == "OK"
+
+
+def test_v3_process_put_command_start():
+    res = client.v3_process_put_command(id="test", command="start")
+    assert res == "OK"
+
+
+def test_v3_process_get_report_list():
+    res = client.v3_process_get_report_list(id="test")
     assert type(res) is ProcessReport
+
+
+def test_v3_process_get_report():
+    report_list = client.v3_process_get_report_list(id="test")
+    last_report = report_list.history[0].created_at
+    res = client.v3_process_get_report(id="test", created_at=last_report)
+    assert type(res) is ProcessReportHistory
+
+
+def test_v3_report_get_process():
+    res = client.v3_report_get_process(idpattern="test")
+    assert type(res) is ReportProcessList
 
 
 def test_v3_process_get_probe():
@@ -286,17 +311,6 @@ def test_v3_process_get_config():
 def test_v3_process_get_state():
     res = client.v3_process_get_state(id="test")
     assert type(res) is ProcessState
-
-
-def test_v3_process_put_command_stop():
-    res = client.v3_process_put_command(id="test", command="stop")
-    assert type(res) is str
-    assert res == "OK"
-
-
-def test_v3_process_put_command_start():
-    res = client.v3_process_put_command(id="test", command="start")
-    assert res == "OK"
 
 
 def test_v3_process_delete():

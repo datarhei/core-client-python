@@ -60,9 +60,6 @@ from .process_config_limit import ProcessConfigLimit
 from .process_config_type import ProcessConfigType
 from .process_config import ProcessConfig
 
-from .process_report_history import ProcessReportHistory
-from .process_report import ProcessReport
-
 from .process_probe_stream import ProcessProbeStream
 from .process_probe import ProcessProbe
 
@@ -79,8 +76,14 @@ from .process_state_progress_io import ProcessStateProgressIO
 from .process_state_progress import ProcessStateProgress
 from .process_state import ProcessState
 
+from .process_report_history import ProcessReportHistory
+from .process_report import ProcessReport
+
 from .process import Process
 from .process_list import ProcessList
+
+from .report_process import ReportProcess
+from .report_process_list import ReportProcessList
 
 from .rtmp import Rtmp
 from .rtmp_list import RtmpList

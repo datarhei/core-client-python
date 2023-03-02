@@ -150,8 +150,13 @@ def test_v3_process_put():
     assert type(res) is Error
 
 
+def test_v3_process_get_report_list():
+    res = client.v3_process_get_report_list(id="unknown")
+    assert type(res) is Error
+
+
 def test_v3_process_get_report():
-    res = client.v3_process_get_report(id="unknown")
+    res = client.v3_process_get_report(id="unknown", created_at=123)
     assert type(res) is Error
 
 

@@ -1,6 +1,8 @@
-from typing import List
+from typing import List, Optional
 
 from pydantic import BaseModel
+
+from . import ProcessStateExec, ProcessStateProgress
 
 
 class ProcessReportHistory(BaseModel):
@@ -18,6 +20,15 @@ class ProcessReportHistory(BaseModel):
     }
     """
 
+    """new in vod branch
+    {
+        "exit_state": ProcessStateExec,
+        "progress": ProcessStateProgress
+    }
+    """
+
     created_at: int
+    exit_state: Optional[ProcessStateExec]
     log: List[List[str]]
     prelude: List[str]
+    progress: Optional[ProcessStateProgress]
