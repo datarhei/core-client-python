@@ -6,6 +6,7 @@ Changelog
 Breaking changes:
 `v3_process_get_report` is now `v3_process_get_report_list`
 
+-   Add `v3_fs_put` for storage operations (copy, move)
 -   Add `v3_process_get_report` to get reports by timestamp
 -   Add `v3_report_get_process` to listen on process states
 -   Mod `v3_process_get_report` is now `v3_report_get_process_list`

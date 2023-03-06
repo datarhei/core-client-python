@@ -51,6 +51,8 @@ from .filesystem_file import FilesystemFile
 from .filesystem_file_list import FilesystemFileList
 from .filesystem import Filesystem
 from .filesystem_list import FilesystemList
+from .filesystem_operation_order import FilesystemOperationOrder
+from .filesystem_operation import FilesystemOperation
 
 from .process_command import ProcessCommand, ProcessCommandAction
 

@@ -173,6 +173,13 @@ asyncio.run(main())
     v3_fs_get_list()
     ```
 
+-   `PUT` /api/v3/fs
+    ```python
+    v3_fs_put(source: str, target: str, operation: FilesystemOperationOrder)
+    ```
+    *Model: [FilesystemOperationOrder](https://github.com/datarhei/core-client-python/blob/main/core_client/base/models/v3/filesystem_operation_order.py)*
+
+
 -   `GET` /api/v3/fs/{name}
     ```python
     v3_fs_get_file_list(name=str, glob: str = "", sort: str = "", order: str = "")
@@ -338,6 +345,7 @@ asyncio.run(main())
 ### Report
 
 -   `GET` /api/v3/report/process
+
     ```python
     v3_process_get_report(idpattern: str = "", refpattern: str = "", state: str = "", fromdate: int = "", todate: int = "")
     ```

@@ -313,6 +313,22 @@ def test_v3_process_get_state():
     assert type(res) is ProcessState
 
 
+def test_v3_fs_operation_copy():
+    res = client.v3_fs_put(
+        source="mem://test.m3u8", target="disk://test.m3u8", operation="copy"
+    )
+    assert type(res) is str
+    assert res == "OK"
+
+
+def test_v3_fs_operation_move():
+    res = client.v3_fs_put(
+        source="mem://test.m3u8", target="disk://test.m3u8", operation="move"
+    )
+    assert type(res) is str
+    assert res == "OK"
+
+
 def test_v3_process_delete():
     res = client.v3_process_delete(id="test")
     assert type(res) is str
