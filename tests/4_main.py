@@ -288,8 +288,8 @@ def test_v3_process_get_report_list():
 
 def test_v3_process_get_report():
     report_list = client.v3_process_get_report_list(id="test")
-    last_report = report_list.history[0].created_at
-    res = client.v3_process_get_report(id="test", created_at=last_report)
+    last_report = report_list.history[0].exited_at
+    res = client.v3_process_get_report(id="test", exited_at=last_report)
     assert type(res) is ProcessReportHistory
 
 

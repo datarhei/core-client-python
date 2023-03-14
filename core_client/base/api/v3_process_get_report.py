@@ -10,7 +10,7 @@ from ..models.v3 import ProcessReportHistory
 def _build_request(
     client: Client,
     id: str,
-    created_at: int,
+    exited_at: int,
     retries: int = None,
     timeout: float = None,
 ):
@@ -20,7 +20,7 @@ def _build_request(
         timeout = client.timeout
     return {
         "method": "get",
-        "url": f"{client.base_url}/api/v3/process/{id}/report/{created_at}",
+        "url": f"{client.base_url}/api/v3/process/{id}/report/{exited_at}",
         "headers": client.headers,
         "timeout": timeout,
         "data": None,

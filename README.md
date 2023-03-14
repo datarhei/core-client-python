@@ -301,7 +301,7 @@ asyncio.run(main())
 
 -   `GET` /api/v3/process/{id}/report/{at}
     ```python
-    v3_process_get_report(id: str, created_at: int)
+    v3_process_get_report(id: str, exited_at: int)
     ```
 
 -   `GET` /api/v3/process/{id}/state
