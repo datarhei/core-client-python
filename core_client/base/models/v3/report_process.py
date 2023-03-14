@@ -6,14 +6,16 @@ from . import ProcessStateExec
 class ReportProcess(BaseModel):
     """
     {
-        "created_at": 0,
-        "exit_state": "string",
         "id": "string",
-        "reference": "string"
+        "reference": "string",
+        "exit_state": "string",
+        "created_at": 0,
+        "exited_at": 0,
     }
     """
 
-    created_at: str
-    exit_state: ProcessStateExec
     id: str
     reference: str
+    exit_state: ProcessStateExec
+    created_at: int
+    exited_at: int
