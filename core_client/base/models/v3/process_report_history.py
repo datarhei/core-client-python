@@ -22,13 +22,15 @@ class ProcessReportHistory(BaseModel):
 
     """new in vod branch
     {
+        "exited_at": int,
         "exit_state": ProcessStateExec,
         "progress": ProcessStateProgress
     }
     """
 
     created_at: int
-    exit_state: Optional[ProcessStateExec]
-    log: List[List[str]]
     prelude: List[str]
+    log: List[List[str]]
+    exited_at: Optional[int]
+    exit_state: Optional[ProcessStateExec]
     progress: Optional[ProcessStateProgress]
