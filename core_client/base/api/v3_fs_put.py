@@ -17,7 +17,7 @@ def _build_request(
 ):
     data = {
         "from": source,
-        "operation": f"{operation}",
+        "operation": operation,
         "to": target,
     }
     if not retries:
