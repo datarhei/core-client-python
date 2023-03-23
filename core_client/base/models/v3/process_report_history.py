@@ -29,8 +29,8 @@ class ProcessReportHistory(BaseModel):
     """
 
     created_at: int
-    prelude: List[str]
-    log: List[List[str]]
+    prelude: Optional[List[str]]
+    log: Optional[List[List[str]]]
     exited_at: Optional[int]
     exit_state: Optional[ProcessStateExec]
     progress: Optional[ProcessStateProgress]
