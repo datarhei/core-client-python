@@ -8,7 +8,7 @@ from ..models import Error
 @validate_arguments()
 def _build_request(
     client: Client,
-    name: str,
+    storage: str,
     path: str,
     retries: int = None,
     timeout: float = None,
@@ -19,7 +19,7 @@ def _build_request(
         timeout = client.timeout
     return {
         "method": "get",
-        "url": f"{client.base_url}/api/v3/fs/{name}/{path}",
+        "url": f"{client.base_url}/api/v3/fs/{storage}/{path}",
         "headers": client.headers,
         "timeout": timeout,
         "data": None,

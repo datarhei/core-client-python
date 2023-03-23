@@ -9,8 +9,12 @@ from ..models.v3 import FilesystemFileList
 @validate_arguments()
 def _build_request(
     client: Client,
-    name: str,
+    storage: str,
     glob: str = "",
+    size_min: str = "",
+    size_max: str = "",
+    lastmod_start: str = "",
+    lastmod_end: str = "",
     sort: str = "",
     order: str = "",
     retries: int = None,
@@ -28,7 +32,10 @@ def _build_request(
         timeout = client.timeout
     return {
         "method": "get",
-        "url": f"{client.base_url}/api/v3/fs/{name}?glob={glob}&sort={sort}&order={order}",
+        "url": f"{client.base_url}/api/v3/fs/{storage}"
+        + f"?glob={glob}&size_min={size_min}&size_max={size_max}"
+        + f"&lastmod_start={lastmod_start}&lastmod_end={lastmod_end}"
+        + f"&sort={sort}&order={order}",
         "headers": client.headers,
         "timeout": timeout,
         "data": None,

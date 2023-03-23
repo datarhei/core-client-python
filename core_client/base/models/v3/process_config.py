@@ -24,6 +24,14 @@ class ProcessConfig(BaseModel):
     }
     """
 
+    """
+    v16.13.0
+    {
+        "scheduler": str,
+        "runtime_duration_seconds": int,
+    }
+    """
+
     autostart: bool = True
     id: str
     input: List[ProcessConfigIO]
@@ -34,6 +42,8 @@ class ProcessConfig(BaseModel):
     reconnect_delay_seconds: int = 60
     reference: str
     stale_timeout_seconds: int = 10
+    scheduler: Optional[str]
+    runtime_duration_seconds: Optional[int]
     type: ProcessConfigType = ProcessConfigType.ffmpeg
 
     class Config:

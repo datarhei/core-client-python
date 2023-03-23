@@ -3,14 +3,17 @@ from pydantic import parse_obj_as, validate_arguments
 
 from ...models import Client
 from ..models import Error
-from ..models.v3 import ProcessReportHistory
 
 
 @validate_arguments()
 def _build_request(
     client: Client,
-    id: str,
-    exited_at: int,
+    storage: str,
+    glob: str = "",
+    size_min: str = "",
+    size_max: str = "",
+    lastmod_start: str = "",
+    lastmod_end: str = "",
     retries: int = None,
     timeout: float = None,
 ):
@@ -19,8 +22,10 @@ def _build_request(
     if not timeout:
         timeout = client.timeout
     return {
-        "method": "get",
-        "url": f"{client.base_url}/api/v3/process/{id}/report/{exited_at}",
+        "method": "delete",
+        "url": f"{client.base_url}/api/v3/fs/{storage}"
+        + f"?glob={glob}&size_min={size_min}&size_max={size_max}"
+        + f"&lastmod_start={lastmod_start}&lastmod_end={lastmod_end}",
         "headers": client.headers,
         "timeout": timeout,
         "data": None,
@@ -30,7 +35,13 @@ def _build_request(
 
 def _build_response(response: httpx.Response):
     if response.status_code == 200:
-        response_200 = parse_obj_as(ProcessReportHistory, response.json())
+        if (
+            response.headers["content-type"]
+            == "application/json; charset=UTF-8"
+        ):
+            response_200 = response.json()
+        else:
+            response_200 = response.text
         return response_200
     else:
         response_error = parse_obj_as(Error, response.json())

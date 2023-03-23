@@ -6,9 +6,13 @@ Changelog
 Breaking changes:
 `v3_process_get_report` is now `v3_process_get_report_list`
 
+-   Add `v3_fs_delete_file_list` to delete multiple files
 -   Add `v3_fs_put` for storage operations (copy, move)
 -   Add `v3_process_get_report` to get reports by timestamp
--   Add `v3_report_get_process` to listen on process states
+-   Mod `` with new params (created_at, exited_at)
+-   Mod `v3_fs_get_file_list` with new params (size_min, size_max, lastmod_start, lastmod_end)
+-   Mod renames `name` to `storage` on any `fs` definition
+-   Mod `process_config` model (scheduler, runtime_duration_seconds)
 -   Mod `v3_process_get_report` is now `v3_report_get_process_list`
 -   Fix `v3_process_put_command` model
 

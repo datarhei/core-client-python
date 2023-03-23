@@ -180,24 +180,29 @@ asyncio.run(main())
     *Model: [FilesystemOperationOrder](https://github.com/datarhei/core-client-python/blob/main/core_client/base/models/v3/filesystem_operation_order.py)*
 
 
--   `GET` /api/v3/fs/{name}
+-   `GET` /api/v3/fs/{storage}
     ```python
-    v3_fs_get_file_list(name=str, glob: str = "", sort: str = "", order: str = "")
+    v3_fs_get_file_list(storage=str, glob: str = "", size_min: str = "", size_max: str = "", lastmod_start: str = "", lastmod_end: str = "", sort: str = "", order: str = "")
     ```
 
--   `GET` /api/v3/fs/{name}/{path}
+-   `GET` /api/v3/fs/{storage}/{path}
     ```python
-    v3_fs_get_file(name: str, path: str)
+    v3_fs_get_file(storage: str, path: str)
     ```
 
--   `PUT` /api/v3/fs/{name}/{path}
+-   `PUT` /api/v3/fs/{storage}/{path}
     ```python
-    v3_fs_put_file(name: str, path: str, data: bytes)
+    v3_fs_put_file(storage: str, path: str, data: bytes)
     ```
 
--   `DELETE` /api/v3/fs/{name}/{path}
+-   `DELETE` /api/v3/fs/{storage}
     ```python
-    v3_fs_delete_file(name: str, path: str)
+    v3_fs_delete_file(storage: str, glob: str = "", size_min: str = "", size_max: str = "", lastmod_start: str = "", lastmod_end: str = "", sort: str = "", order: str = "")
+    ```
+
+-   `DELETE` /api/v3/fs/{storage}/{path}
+    ```python
+    v3_fs_delete_file(storage: str, path: str)
     ```
 
 ### Log
@@ -296,12 +301,7 @@ asyncio.run(main())
 
 -   `GET` /api/v3/process/{id}/report
     ```python
-    v3_process_get_report_list(id: str)
-    ```
-
--   `GET` /api/v3/process/{id}/report/{at}
-    ```python
-    v3_process_get_report(id: str, exited_at: int)
+    v3_process_get_report_list(id: str, created_at: str = "", exited_at: str = "")
     ```
 
 -   `GET` /api/v3/process/{id}/state

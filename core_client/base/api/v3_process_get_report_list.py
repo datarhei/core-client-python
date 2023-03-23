@@ -10,6 +10,8 @@ from ..models.v3 import ProcessReport
 def _build_request(
     client: Client,
     id: str,
+    created_at: str = "",
+    exited_at: str = "",
     retries: int = None,
     timeout: float = None,
 ):
@@ -19,7 +21,8 @@ def _build_request(
         timeout = client.timeout
     return {
         "method": "get",
-        "url": f"{client.base_url}/api/v3/process/{id}/report",
+        "url": f"{client.base_url}/api/v3/process/{id}/report"
+        + f"?created_at={created_at}&exited_at={exited_at}",
         "headers": client.headers,
         "timeout": timeout,
         "data": None,
