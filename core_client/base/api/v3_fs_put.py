@@ -12,13 +12,15 @@ def _build_request(
     source: str,
     target: str,
     operation: FilesystemOperationOrder,
+    bandwidth_limit_kbit: int = None,
     retries: int = None,
     timeout: float = None,
 ):
     data = {
-        "from": source,
+        "source": source,
         "operation": operation,
-        "to": target,
+        "target": target,
+        "bandwidth_limit_kbit": bandwidth_limit_kbit,
     }
     if not retries:
         retries = client.retries

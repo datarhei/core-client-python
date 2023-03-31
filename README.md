@@ -175,7 +175,7 @@ asyncio.run(main())
 
 -   `PUT` /api/v3/fs
     ```python
-    v3_fs_put(source: str, target: str, operation: FilesystemOperationOrder)
+    v3_fs_put(source: str, target: str, operation: FilesystemOperationOrder, bandwidth_limit_kbit: int = None)
     ```
     *Model: [FilesystemOperationOrder](https://github.com/datarhei/core-client-python/blob/main/core_client/base/models/v3/filesystem_operation_order.py)*
 
