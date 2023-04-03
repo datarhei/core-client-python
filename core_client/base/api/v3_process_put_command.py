@@ -24,7 +24,7 @@ def _build_request(
         "headers": client.headers,
         "timeout": timeout,
         "data": None,
-        "json": {"command": f"{command}"},
+        "json": {"command": command},
     }, retries
 
 
