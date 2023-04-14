@@ -1,7 +1,7 @@
 from typing import Optional
 from pydantic import BaseModel, root_validator
 
-from . import ProcessStateProgressIOAvstream
+from . import ProcessStateProgressIOAvstream, ProcessStateProgressIOFramerate
 
 
 class ProcessStateProgressIO(BaseModel):
@@ -36,6 +36,14 @@ class ProcessStateProgressIO(BaseModel):
     }
     """
 
+    """new in vod branch
+    {
+        "keyframe": float,
+        "extradata_size_bytes": ProcessStateExec,
+        "framerate": ProcessStateProgressIOFramerate,
+    }
+    """
+
     address: str
     avstream: Optional[ProcessStateProgressIOAvstream]
     bitrate_kbit: float
@@ -45,6 +53,9 @@ class ProcessStateProgressIO(BaseModel):
     format: str
     fps: float
     frame: float
+    framerate: Optional[ProcessStateProgressIOFramerate]
+    keyframe: Optional[float]
+    extradata_size_bytes: Optional[float]
     height: Optional[int]
     id: str
     index: int

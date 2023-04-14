@@ -10,5 +10,12 @@ class ConfigFfmpegLog(BaseModel):
     }
     """
 
+    """new in vod branch
+    {
+        "max_minimal_history": int
+    }
+    """
+
     max_lines: Optional[int]
     max_history: Optional[int]
+    max_minimal_history: Optional[int]

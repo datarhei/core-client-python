@@ -74,6 +74,9 @@ from .process_state_progress_io_avstream_io import (
     ProcessStateProgressIOAvstreamIO,
 )
 from .process_state_progress_io_avstream import ProcessStateProgressIOAvstream
+from .process_state_progress_io_framerate import (
+    ProcessStateProgressIOFramerate,
+)
 from .process_state_progress_io import ProcessStateProgressIO
 from .process_state_progress import ProcessStateProgress
 from .process_state import ProcessState

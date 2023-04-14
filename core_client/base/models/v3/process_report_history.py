@@ -25,12 +25,14 @@ class ProcessReportHistory(BaseModel):
         "exited_at": int,
         "exit_state": ProcessStateExec,
         "progress": ProcessStateProgress
+        "matches": [str]
     }
     """
 
     created_at: int
     prelude: Optional[List[str]]
     log: Optional[List[List[str]]]
+    matches: Optional[List[str]]
     exited_at: Optional[int]
     exit_state: Optional[ProcessStateExec]
     progress: Optional[ProcessStateProgress]

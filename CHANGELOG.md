@@ -6,6 +6,9 @@ Changelog
 Breaking changes:
 `v3_process_get_report` is now `v3_process_get_report_list`
 
+-   Add `framerate`, `keyframe`, `extradata_size_bytes` to process progress
+-   Add `max_minimal_history` to core config
+-   Add `log_pattern` to process config and `matches` to process report
 -   Add `v3_fs_delete_file_list` to delete multiple files
 -   Add `v3_fs_put` for storage operations (copy, move)
 -   Add `v3_process_get_report` to get reports by timestamp

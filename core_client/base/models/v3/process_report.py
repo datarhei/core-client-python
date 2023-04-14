@@ -19,4 +19,11 @@ class ProcessReport(ProcessReportHistory):
     }
     """
 
+    """
+    v16.13.0
+    {
+        "matches": "[freezedetect @ 0x7fa240e1da00] lavfi.freezedetect.freeze_start: 106.480.997x"
+    }
+    """
+
     history: List[ProcessReportHistory]
