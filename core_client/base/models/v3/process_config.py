@@ -45,7 +45,7 @@ class ProcessConfig(BaseModel):
     stale_timeout_seconds: int = 10
     scheduler: Optional[str]
     runtime_duration_seconds: Optional[int]
-    log_pattern: Optional[List[str]]
+    log_patterns: Optional[List[str]]
     type: ProcessConfigType = ProcessConfigType.ffmpeg
 
     class Config:
