@@ -27,5 +27,6 @@ class ProcessStateProgressIOAvstream(BaseModel):
     drop: int
     enc: int
     looping: bool
+    looping_runtime: int
     duplicating: bool
     gop: str
