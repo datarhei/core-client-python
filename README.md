@@ -10,8 +10,13 @@ Requires Python 3.7+ and datarhei Core v16.10+.
 -   [API definitions](#api-definitions)
     -   [General](#general)
     -   [Cluster (experimental)](#cluster)
+    -   [Cluster Database (experimental)](#cluster-database)
+    -   [Cluster IAM (experimental)](#cluster-iam)
+    -   [Cluster Node (experimental)](#cluster-node)
+    -   [Cluster Process (experimental)](#cluster-process)
     -   [Config](#config)
     -   [Filesystem](#filesystem)
+    -   [IAM](#iam)
     -   [Log](#log)
     -   [Metadata](#metadata)
     -   [Metrics](#metrics)
@@ -200,7 +205,7 @@ asyncio.run(main())
     ```python
     v3_cluster_iam_put_user_policy_list(name: str, domain: str = "", config: IamUserPolicyList)
     ```
-    *Model: [IamUser](https://github.com/datarhei/core-client-python/blob/main/core_client/base/models/v3/iam_user_policy_list.py)*
+    *Model: [IamUserPolicyList](https://github.com/datarhei/core-client-python/blob/main/core_client/base/models/v3/iam_user_policy_list.py)*
 
 
 -   `DELETE` /api/v3/cluster/iam/user/{name}
