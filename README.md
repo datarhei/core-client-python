@@ -109,42 +109,198 @@ asyncio.run(main())
 ### Cluster
 
 ***Do not use in production!***
-*This is an upcoming feature. More here: [Core v16.10#cluster](https://github.com/datarhei/core/tree/cluster))*
+*This is an upcoming feature. More here: [Core v16.10#vod](https://github.com/datarhei/core/tree/vod))*
 
 
 -   `GET` /api/v3/cluster
 
     ```python
-    v3_cluster_get_list()
+    v3_cluster_get()
     ```
 
--   `POST` /api/v3/cluster/node/
+-   `PUT` /api/v3/cluster/leave
+
     ```python
-    v3_cluster_post_node(node: ClusterNodeAuth)
+    v3_cluster_put_leave()
     ```
-    *Model: [ClusterNodeAuth](https://github.com/datarhei/core-client-python/blob/main/core_client/base/models/v3/cluster_node_auth.py)*
+
+
+### Cluster Database
+
+***Do not use in production!***
+*This is an upcoming feature. More here: [Core v16.10#vod](https://github.com/datarhei/core/tree/vod))*
+
+
+-   `GET` /api/v3/cluster/db/locks
+
+    ```python
+    v3_cluster_db_get_lock_list()
+    ```
+
+-   `GET` /api/v3/cluster/db/policies
+
+    ```python
+    v3_cluster_db_get_policy_list()
+    ```
+
+-   `GET` /api/v3/cluster/db/process
+
+    ```python
+    v3_cluster_db_get_process_list()
+    ```
+
+-   `GET` /api/v3/cluster/db/user
+
+    ```python
+    v3_cluster_db_get_user_list()
+    ```
+
+-   `GET` /api/v3/cluster/db/user/{name}
+
+    ```python
+    v3_cluster_db_get_user(name: str)
+    ```
+
+### Cluster IAM
+
+***Do not use in production!***
+*This is an upcoming feature. More here: [Core v16.10#vod](https://github.com/datarhei/core/tree/vod))*
+
+
+-   `GET` /api/v3/cluster/iam/user
+
+    ```python
+    v3_cluster_iam_get_user_list()
+    ```
+
+-   `POST` /api/v3/cluster/iam/user
+
+    ```python
+    v3_cluster_iam_post_user(config: IamUser)
+    ```
+    *Model: [IamUser](https://github.com/datarhei/core-client-python/blob/main/core_client/base/models/v3/iam_user.py)*
+
+
+-   `GET` /api/v3/cluster/iam/user/{name}
+
+    ```python
+    v3_cluster_iam_get_user(name: str)
+    ```
+
+-   `PUT` /api/v3/cluster/iam/user/{name}
+
+    ```python
+    v3_cluster_iam_put_user(name: str, domain: str = "", config: IamUser)
+    ```
+    *Model: [IamUser](https://github.com/datarhei/core-client-python/blob/main/core_client/base/models/v3/iam_user.py)*
+
+
+-   `PUT` /api/v3/cluster/iam/user/{name}/policies
+
+    ```python
+    v3_cluster_iam_put_user_policy_list(name: str, domain: str = "", config: IamUserPolicyList)
+    ```
+    *Model: [IamUser](https://github.com/datarhei/core-client-python/blob/main/core_client/base/models/v3/iam_user_policy_list.py)*
+
+
+-   `DELETE` /api/v3/cluster/iam/user/{name}
+
+    ```python
+    v3_cluster_iam_delete_user(name: str)
+    ```
+
+-   `GET` /api/v3/cluster/iam/policies
+
+    ```python
+    v3_cluster_iam_get_policy_list()
+    ```
+
+-   `GET` /api/v3/cluster/iam/reload
+
+    ```python
+    v3_cluster_iam_get_reload()
+    ```
+
+### Cluster Node
+
+***Do not use in production!***
+*This is an upcoming feature. More here: [Core v16.10#vod](https://github.com/datarhei/core/tree/vod))*
+
+
+-   `GET` /api/v3/cluster/node
+
+    ```python
+    v3_cluster_node_get_list()
+    ```
 
 -   `GET` /api/v3/cluster/node/{id}
     ```python
-    v3_cluster_get_node(id: str)
+    v3_cluster_node_get(id: str)
     ```
 
--   `PUT` /api/v3/cluster/node/{id}
+-   `GET` /api/v3/cluster/node/{id}/files
     ```python
-    v3_cluster_put_node(id: str, node: ClusterNodeAuth)
+    v3_cluster_node_get_files(id: str)
     ```
-    *Model: [ClusterNodeAuth](https://github.com/datarhei/core-client-python/blob/main/core_client/base/models/v3/cluster_node_auth.py)*
 
-
--   `DELETE` /api/v3/cluster/node/{id}
+-   `GET` /api/v3/cluster/node/{id}/process
     ```python
-    v3_cluster_delete_node(id: str)
+    v3_cluster_node_get_process_list(id: str)
     ```
 
--   `GET` /api/v3/cluster/node/{id}/proxy
+-   `GET` /api/v3/cluster/node/{id}/version
     ```python
-    v3_cluster_get_node_proxy(id: str)
+    v3_cluster_node_get_version(id: str)
     ```
+
+### Cluster Process
+
+***Do not use in production!***
+*This is an upcoming feature. More here: [Core v16.10#vod](https://github.com/datarhei/core/tree/vod))*
+
+
+-   `GET` /api/v3/cluster/process
+
+    ```python
+    v3_cluster_process_get_list(domain: str = "", filter: str = "", reference: str = "", id: str = "", idpattern: str = "", refpattern: str = "", domainpattern: str = "")
+    ```
+
+-   `POST` /api/v3/cluster/process
+    ```python
+    v3_cluster_process_post(config: ProcessConfig)
+    ```
+    *Model: [ProcessConfig](https://github.com/datarhei/core-client-python/blob/main/core_client/base/models/v3/process_config.py)*
+
+
+-   `GET` /api/v3/cluster/process/{id}
+    ```python
+    v3_cluster_process_get(id: str, domain: str = "", filter: str = "")
+    ```
+
+-   `PUT` /api/v3/cluster/process/{id}
+    ```python
+    v3_cluster_process_put(id: str, config: ProcessConfig)
+    ```
+    *Model: [ProcessConfig](https://github.com/datarhei/core-client-python/blob/main/core_client/base/models/v3/process_config.py)*
+
+-   `DELETE` /api/v3/cluster/process/{id}
+    ```python
+    v3_cluster_process_delete(id: str)
+    ```
+
+-   `PUT` /api/v3/cluster/process/{id}/command
+    ```python
+    v3_cluster_process_put_command(id: str, command: ProcessCommandAction)
+    ```
+    *Model: [ProcessCommandAction](https://github.com/datarhei/core-client-python/blob/main/core_client/base/models/v3/process_command.py)*
+
+
+-   `PUT` /api/v3/cluster/process/{id}/metadata/{key}
+    ```python
+    v3_cluster_process_put_metadata(id: str, domain: str = "", key: str, data: Metadata)
+    ```
+    *Model: [Metadata](https://github.com/datarhei/core-client-python/blob/main/core_client/base/models/v3/metadata.py)*
+
 
 ### Config
 
@@ -159,6 +315,7 @@ asyncio.run(main())
     v3_config_put(config: Config)
     ```
     *Model: [Config](https://github.com/datarhei/core-client-python/blob/main/core_client/base/models/v3/config.py)*
+
 
 -   `GET` /api/v3/config/reload
     ```python
@@ -205,6 +362,48 @@ asyncio.run(main())
     v3_fs_delete_file(storage: str, path: str)
     ```
 
+### IAM
+
+-   `GET` /api/v3/iam/user
+
+    ```python
+    v3_iam_get_user_list()
+    ```
+
+-   `POST` /api/v3/iam/user
+
+    ```python
+    v3_iam_post_user(config: IamUser)
+    ```
+    *Model: [IamUser](https://github.com/datarhei/core-client-python/blob/main/core_client/base/models/v3/iam_user.py)*
+
+-   `GET` /api/v3/iam/user/{name}
+
+    ```python
+    v3_iam_get_user(name: str, domain: str = "")
+    ```
+
+-   `PUT` /api/v3/iam/user/{name}
+
+    ```python
+    v3_iam_put_user(name: str, domain: str = "", config: IamUser)
+    ```
+    *Model: [IamUser](https://github.com/datarhei/core-client-python/blob/main/core_client/base/models/v3/iam_user.py)*
+
+-   `PUT` /api/v3/iam/user/{name}/policies
+
+    ```python
+    v3_iam_put_user_policy_list(name: str, domain: str = "", config: IamUserPolicyList)
+    ```
+    *Model: [IamUser](https://github.com/datarhei/core-client-python/blob/main/core_client/base/models/v3/iam_user_policy_list.py)*
+
+
+-   `DELETE` /api/v3/iam/user/{name}
+
+    ```python
+    v3_iam_delete_user(name: str)
+    ```
+
 ### Log
 
 -   `GET` /api/v3/log
@@ -227,6 +426,7 @@ asyncio.run(main())
     ```
     *Model: [Metadata](https://github.com/datarhei/core-client-python/blob/main/core_client/base/models/v3/metadata.py)*
 
+
 ### Metrics
 
 -   `GET` /api/v3/metrics
@@ -247,7 +447,7 @@ asyncio.run(main())
 -   `GET` /api/v3/process
 
     ```python
-    v3_process_get_list(filter: str = "", reference: str = "", id: str = "", idpattern: str = "", refpattern: str = "")
+    v3_process_get_list(domain: str = "", filter: str = "", reference: str = "", id: str = "", idpattern: str = "", refpattern: str = "", domainpattern: str = "")
     ```
 
 -   `POST` /api/v3/process
@@ -258,55 +458,55 @@ asyncio.run(main())
 
 -   `GET` /api/v3/process/{id}
     ```python
-    v3_process_get(id: str, filter: str = "")
+    v3_process_get(id: str, domain: str = "", filter: str = "")
     ```
 
 -   `PUT` /api/v3/process/{id}
     ```python
-    v3_process_put(id: str, config: ProcessConfig)
+    v3_process_put(id: str, domain: str = "", config: ProcessConfig)
     ```
     *Model: [ProcessConfig](https://github.com/datarhei/core-client-python/blob/main/core_client/base/models/v3/process_config.py)*
 
 -   `DELETE` /api/v3/process/{id}
     ```python
-    v3_process_delete(id: str)
+    v3_process_delete(id: str, domain: str = "")
     ```
 
 -   `PUT` /api/v3/process/{id}/command
     ```python
-    v3_process_put_command(id: str, command: ProcessCommandAction)
+    v3_process_put_command(id: str, domain: str = "", command: ProcessCommandAction)
     ```
     *Model: [ProcessCommandAction](https://github.com/datarhei/core-client-python/blob/main/core_client/base/models/v3/process_command.py)*
 
 -   `GET` /api/v3/process/{id}/config
     ```python
-    v3_process_get_config(id: str)
+    v3_process_get_config(id: str, domain: str = "")
     ```
 
 -   `GET` /api/v3/process/{id}/metadata/{key}
     ```python
-    v3_process_get_metadata(id: str, key: str)
+    v3_process_get_metadata(id: str, domain: str = "", key: str)
     ```
 
 -   `PUT` /api/v3/process/{id}/metadata/{key}
     ```python
-    v3_process_put_metadata(id: str, key: str, data: Metadata)
+    v3_process_put_metadata(id: str, domain: str = "", key: str, data: Metadata)
     ```
     *Model: [Metadata](https://github.com/datarhei/core-client-python/blob/main/core_client/base/models/v3/metadata.py)*
 
 -   `GET` /api/v3/process/{id}/probe
     ```python
-    v3_process_get_probe(id: str)
+    v3_process_get_probe(id: str, domain: str = "")
     ```
 
 -   `GET` /api/v3/process/{id}/report
     ```python
-    v3_process_get_report_list(id: str, created_at: str = "", exited_at: str = "")
+    v3_process_get_report_list(id: str, domain: str = "", created_at: str = "", exited_at: str = "")
     ```
 
 -   `GET` /api/v3/process/{id}/state
     ```python
-    v3_process_get_state(id: str)
+    v3_process_get_state(id: str, domain: str = "")
     ```
 
 ### Process Playout (commercial extention)
@@ -370,6 +570,13 @@ asyncio.run(main())
     ```python
     v3_session_get_active(collectors: str)
     ```
+
+-   `PUT` /api/v3/session/token
+    ```python
+    v3_session_put_token(username: str, config: SessionToken)
+    ```
+    *Model: [SessionToken](https://github.com/datarhei/core-client-python/blob/main/core_client/base/models/v3/session_token.py)*
+
 
 ### Skills
 

@@ -3,35 +3,35 @@ from pydantic import parse_obj_as, validate_arguments
 
 from ...models import Client
 from ..models import Error
-from ..models.v3 import ClusterNodeAuth
+from ..models.v3 import ProcessConfig
 
 
 @validate_arguments()
 def _build_request(
     client: Client,
-    node: ClusterNodeAuth,
+    config: ProcessConfig,
     retries: int = None,
     timeout: float = None,
 ):
-    if not isinstance(node, dict):
-        node = node.dict()
+    if not isinstance(config, dict):
+        config = config.dict()
     if not retries:
         retries = client.retries
     if not timeout:
         timeout = client.timeout
     return {
         "method": "post",
-        "url": f"{client.base_url}/api/v3/cluster/node",
+        "url": f"{client.base_url}/api/v3/cluster/process",
         "headers": client.headers,
         "timeout": timeout,
         "data": None,
-        "json": node,
+        "json": config,
     }, retries
 
 
 def _build_response(response: httpx.Response):
     if response.status_code == 200:
-        response_200 = response.json()
+        response_200 = parse_obj_as(ProcessConfig, response.json())
         return response_200
     else:
         response_error = parse_obj_as(Error, response.json())

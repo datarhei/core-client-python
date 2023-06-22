@@ -12,6 +12,7 @@ def _build_request(
     id: str,
     created_at: str = "",
     exited_at: str = "",
+    domain: str = "",
     retries: int = None,
     timeout: float = None,
 ):
@@ -22,7 +23,7 @@ def _build_request(
     return {
         "method": "get",
         "url": f"{client.base_url}/api/v3/process/{id}/report"
-        + f"?created_at={created_at}&exited_at={exited_at}",
+        + f"?created_at={created_at}&exited_at={exited_at}&domain={domain}",
         "headers": client.headers,
         "timeout": timeout,
         "data": None,

@@ -11,6 +11,13 @@ class ConfigLog(BaseModel):
     }
     """
 
+    """
+    + {
+        "max_minimal_history": int,
+    }
+    """
+
     level: Optional[str]
     topics: Optional[List[str]]
     max_lines: Optional[int]
+    max_minimal_history: Optional[int]

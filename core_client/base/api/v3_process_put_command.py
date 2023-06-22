@@ -11,6 +11,7 @@ def _build_request(
     client: Client,
     id: str,
     command: ProcessCommandAction,
+    domain: str = "",
     retries: int = None,
     timeout: float = None,
 ):
@@ -20,7 +21,7 @@ def _build_request(
         timeout = client.timeout
     return {
         "method": "put",
-        "url": f"{client.base_url}/api/v3/process/{id}/command",
+        "url": f"{client.base_url}/api/v3/process/{id}/command?domain={domain}",
         "headers": client.headers,
         "timeout": timeout,
         "data": None,

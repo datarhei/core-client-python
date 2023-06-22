@@ -12,6 +12,7 @@ def _build_request(
     id: str,
     key: str,
     data: Metadata,
+    domain: str = "",
     retries: int = None,
     timeout: float = None,
 ):
@@ -23,7 +24,7 @@ def _build_request(
         timeout = client.timeout
     return {
         "method": "put",
-        "url": f"{client.base_url}/api/v3/process/{id}/metadata/{key}",
+        "url": f"{client.base_url}/api/v3/process/{id}/metadata/{key}?domain={domain}",
         "headers": client.headers,
         "timeout": timeout,
         "data": None,

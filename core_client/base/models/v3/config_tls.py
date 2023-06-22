@@ -8,8 +8,14 @@ class ConfigTls(BaseModel):
         "address": ":8181",
         "enable": False,
         "auto": False,
-        "cert_file": "",
-        "key_file": ""
+        "cert_file": "string",
+        "key_file": "string"
+    }
+    """
+
+    """
+    + {
+        "email": "string"
     }
     """
 
@@ -18,3 +24,4 @@ class ConfigTls(BaseModel):
     auto: Optional[bool]
     cert_file: Optional[str]
     key_file: Optional[str]
+    email: Optional[str]

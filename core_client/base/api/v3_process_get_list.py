@@ -9,21 +9,27 @@ from ..models.v3 import ProcessList
 @validate_arguments()
 def _build_request(
     client: Client,
+    domain: str = "",
     filter: str = "",
     reference: str = "",
     id: str = "",
     idpattern: str = "",
     refpattern: str = "",
+    ownerpattern: str = "",
+    domainpattern: str = "",
     retries: int = None,
     timeout: float = None,
 ):
     """_summary_
     Args:
+        domain: (str): domain to act on
         filter (str): config, state, report, metadata
         reference (str): reference value
         id (str): Comma separated of ids
         idpattern (str): Glob pattern for ids
         refpattern (str): Glob pattern for references
+        ownerpattern (str): Glob pattern for owners
+        domainpattern (str): Glob pattern for domains
     """
     if not retries:
         retries = client.retries
@@ -31,7 +37,7 @@ def _build_request(
         timeout = client.timeout
     return {
         "method": "get",
-        "url": f"{client.base_url}/api/v3/process?filter={filter}&reference={reference}&id={id}&idpattern={idpattern}&refpattern={refpattern}",
+        "url": f"{client.base_url}/api/v3/process?domain={domain}&filter={filter}&reference={reference}&id={id}&idpattern={idpattern}&refpattern={refpattern}&ownerpattern={ownerpattern}&domainpattern={domainpattern}",
         "headers": client.headers,
         "timeout": timeout,
         "data": None,

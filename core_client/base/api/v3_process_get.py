@@ -11,6 +11,7 @@ def _build_request(
     client: Client,
     id: str,
     filter: str = "",
+    domain: str = "",
     retries: int = None,
     timeout: float = None,
 ):
@@ -24,7 +25,7 @@ def _build_request(
         timeout = client.timeout
     return {
         "method": "get",
-        "url": f"{client.base_url}/api/v3/process/{id}?filter={filter}",
+        "url": f"{client.base_url}/api/v3/process/{id}?domain={domain}&filter={filter}",
         "headers": client.headers,
         "timeout": timeout,
         "data": None,

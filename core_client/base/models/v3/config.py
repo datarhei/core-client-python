@@ -3,6 +3,7 @@ from typing import Optional
 
 from . import (
     ConfigApi,
+    ConfigCluster,
     ConfigDb,
     ConfigDebug,
     ConfigFfmpeg,
@@ -10,6 +11,7 @@ from . import (
     ConfigLog,
     ConfigMetrics,
     ConfigPlayout,
+    ConfigResources,
     ConfigRouter,
     ConfigRtmp,
     ConfigService,
@@ -48,6 +50,13 @@ class Config(BaseModel):
     }
     """
 
+    """
+    + {
+        "resources": ConfigResources,
+        "cluster": ConfigCluster
+    }
+    """
+
     created_at: Optional[str]
     version: Optional[int]
     id: Optional[str]
@@ -63,8 +72,10 @@ class Config(BaseModel):
     storage: Optional[ConfigStorage]
     ffmpeg: Optional[ConfigFfmpeg]
     playout: Optional[ConfigPlayout]
+    resources: Optional[ConfigResources]
     debug: Optional[ConfigDebug]
     metrics: Optional[ConfigMetrics]
     sessions: Optional[ConfigSessions]
     service: Optional[ConfigService]
     router: Optional[ConfigRouter]
+    cluster: Optional[ConfigCluster]

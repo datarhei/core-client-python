@@ -10,6 +10,7 @@ from ..models.v3 import ProcessProbe
 def _build_request(
     client: Client,
     id: str,
+    domain: str = "",
     retries: int = None,
     timeout: float = None,
 ):
@@ -19,7 +20,7 @@ def _build_request(
         timeout = client.timeout
     return {
         "method": "get",
-        "url": f"{client.base_url}/api/v3/process/{id}/probe",
+        "url": f"{client.base_url}/api/v3/process/{id}/probe?domain={domain}",
         "headers": client.headers,
         "timeout": timeout,
         "data": None,

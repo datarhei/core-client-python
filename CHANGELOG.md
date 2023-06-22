@@ -3,21 +3,26 @@ Changelog
 
 ## 1.2.0 (open)
 
-Breaking changes:
-`v3_process_get_report` is now `v3_process_get_report_list`
-
+-   Add `iam`, `session_token` and `cluster` interfaces
 -   Add `framerate`, `keyframe`, `extradata_size_bytes` to process progress
 -   Add `max_minimal_history` to core config
 -   Add `log_pattern` to process config and `matches` to process report
 -   Add `v3_fs_delete_file_list` to delete multiple files
 -   Add `v3_fs_put` for storage operations (copy, move)
 -   Add `v3_process_get_report` to get reports by timestamp
+-   Mod adds `domain` as `process` param
+-   Mod extends `config` models
 -   Mod `v3_process_get_report` with new params (created_at, exited_at)
 -   Mod `v3_fs_get_file_list` with new params (size_min, size_max, lastmod_start, lastmod_end)
 -   Mod renames `name` to `storage` on any `fs` definition
 -   Mod `process_config` model (scheduler, runtime_duration_seconds)
 -   Mod `v3_process_get_report` is now `v3_report_get_process_list`
 -   Fix `v3_process_put_command` model
+
+Breaking changes:
+- `v3_process_get_report` is now `v3_process_get_report_list`
+- `name` to `storage` on any `fs` definition
+- new `cluster` interfaces
 
 ## 1.1.1
 

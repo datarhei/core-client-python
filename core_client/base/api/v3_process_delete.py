@@ -9,6 +9,7 @@ from ..models import Error
 def _build_request(
     client: Client,
     id: str,
+    domain: str = "",
     retries: int = None,
     timeout: float = None,
 ):
@@ -18,7 +19,7 @@ def _build_request(
         timeout = client.timeout
     return {
         "method": "delete",
-        "url": f"{client.base_url}/api/v3/process/{id}",
+        "url": f"{client.base_url}/api/v3/process/{id}?domain={domain}",
         "headers": client.headers,
         "timeout": timeout,
         "data": None,

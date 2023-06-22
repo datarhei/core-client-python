@@ -14,6 +14,7 @@ def _build_request(
     state: str = "",
     fromdate: int = "",
     todate: int = "",
+    domain: str = "",
     retries: int = None,
     timeout: float = None,
 ):
@@ -23,7 +24,7 @@ def _build_request(
         timeout = client.timeout
     return {
         "method": "get",
-        "url": f"{client.base_url}/api/v3/report/process?idpattern={idpattern}&refpattern={refpattern}&state={state}&from={fromdate}&to={todate}",
+        "url": f"{client.base_url}/api/v3/report/process?idpattern={idpattern}&refpattern={refpattern}&state={state}&from={fromdate}&to={todate}&domain={domain}",
         "headers": client.headers,
         "timeout": timeout,
         "data": None,
