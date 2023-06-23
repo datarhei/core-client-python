@@ -108,6 +108,11 @@ from .process_state_progress_io_framerate import (
 )
 from .process_state_progress_io import ProcessStateProgressIO
 from .process_state_progress import ProcessStateProgress
+from .process_state_resources_cpu_usage import ProcessStateResourcesCpuUsage
+from .process_state_resources_memory_bytes import (
+    ProcessStateResourcesMemoryBytes,
+)
+from .process_state_resources import ProcessStateResources
 from .process_state import ProcessState
 
 from .process_report_history import ProcessReportHistory

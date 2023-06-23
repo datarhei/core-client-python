@@ -18,6 +18,14 @@ class Process(BaseModel):
     }
     """
 
+    """
+    + {
+        "updated_at": "2022-07-27T12:00:49+00:00",
+        "domain": str,
+        "owner": str,
+    }
+    """
+
     config: Optional[ProcessConfig]
     created_at: int
     id: str
@@ -26,6 +34,9 @@ class Process(BaseModel):
     state: Optional[ProcessState]
     report: Optional[ProcessReport]
     type: ProcessConfigType
+    updated_at: Optional[int]
+    domain: Optional[str]
+    owner: Optional[str]
 
     class Config:
         use_enum_values = True

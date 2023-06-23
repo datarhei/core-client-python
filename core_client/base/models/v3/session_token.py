@@ -1,5 +1,5 @@
-from pydantic import BaseModel, Dict, List
-from typing import Optional
+from pydantic import BaseModel
+from typing import Optional, Dict, List
 
 
 class SessionToken(BaseModel):

@@ -15,6 +15,6 @@ class IamUser(BaseModel):
     """
 
     auth: Optional[IamUserAuth]
-    name: str
+    name: Optional[str]
     policies: Optional[List[IamUserPolicy]]
     superuser: bool = False

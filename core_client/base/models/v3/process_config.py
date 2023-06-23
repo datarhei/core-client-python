@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from typing import List, Optional
+from typing import Dict, List, Optional
 
 from . import ProcessConfigIO, ProcessConfigLimit, ProcessConfigType
 
@@ -32,6 +32,13 @@ class ProcessConfig(BaseModel):
         "log_pattern": [str]
     }
     """
+    """
+    + {
+        "domain": str,
+        "owner": str,
+        "metadata": {"key": {...}},
+    }
+    """
 
     autostart: bool = True
     id: str
@@ -47,6 +54,9 @@ class ProcessConfig(BaseModel):
     runtime_duration_seconds: Optional[int]
     log_patterns: Optional[List[str]]
     type: ProcessConfigType = ProcessConfigType.ffmpeg
+    domain: Optional[str]
+    owner: Optional[str]
+    metadata: Optional[Dict[str, Dict]]
 
     class Config:
         use_enum_values = True

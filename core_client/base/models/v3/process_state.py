@@ -1,7 +1,12 @@
-from typing import List
+from typing import List, Optional
 from pydantic import BaseModel
 
-from . import ProcessStateProgress, ProcessStateExec, ProcessStateOrder
+from . import (
+    ProcessStateProgress,
+    ProcessStateExec,
+    ProcessStateOrder,
+    ProcessStateResources,
+)
 
 
 class ProcessState(BaseModel):
@@ -25,9 +30,15 @@ class ProcessState(BaseModel):
         "last_logline": "      cpb: bitrate max/min/avg: 0/0/200000 buffer size: 0 vbv_delay: N/A",
         "memory_bytes": 0,
         "order": "start",
-        "progress": {ProcessStateProgress},
+        "progress": ProcessStateProgress,
         "reconnect_seconds": 11,
         "runtime_seconds": 48
+    }
+    """
+
+    """
+    + {
+        "resources": ProcessStateResources
     }
     """
 
@@ -40,6 +51,7 @@ class ProcessState(BaseModel):
     progress: ProcessStateProgress
     reconnect_seconds: int
     runtime_seconds: int
+    resources: Optional[ProcessStateResources]
 
     class Config:
         use_enum_values = True
