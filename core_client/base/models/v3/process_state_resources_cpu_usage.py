@@ -10,6 +10,7 @@ class ProcessStateResourcesCpuUsage(BaseModel):
         "limit": 0,
         "max": 0,
         "ncpu": 0
+        + "throttling": false
     }
     """
 
@@ -18,3 +19,4 @@ class ProcessStateResourcesCpuUsage(BaseModel):
     limit: Optional[float]
     max: Optional[float]
     ncpu: Optional[float]
+    throttling: Optional[bool]

@@ -23,6 +23,7 @@ class Process(BaseModel):
         "updated_at": "2022-07-27T12:00:49+00:00",
         "domain": str,
         "owner": str,
+        "core_id": str,
     }
     """
 
@@ -37,6 +38,7 @@ class Process(BaseModel):
     updated_at: Optional[int]
     domain: Optional[str]
     owner: Optional[str]
+    core_id: Optional[str]
 
     class Config:
         use_enum_values = True

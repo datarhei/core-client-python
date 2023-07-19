@@ -6,24 +6,24 @@ from . import ClusterNodeList, ClusterRaft
 class Cluster(BaseModel):
     """
     {
-        "address": "string",
-        "cluster_api_address": "string",
-        "core_api_address": "string",
-        "degraded": true,
-        "degraded_error": "string",
-        "id": "string",
+        "id": "cluster-node-1",
+        "name": "lucky-lab-7523",
+        "leader": False,
+        "address": "10.0.0.1:8001",
         "nodes": [ClusterNode],
         "raft": ClusterRaft,
-        "version": "string"
+        "version": "1.0.2",
+        "degraded": False,
+        "degraded_error": ""
     }
     """
 
+    id: str
+    name: str
+    leader: bool
     address: str
-    cluster_api_address: str
-    core_api_address: str
+    raft: ClusterRaft
+    nodes: ClusterNodeList
+    version: str
     degraded: bool
     degraded_error: str
-    id: str
-    nodes: ClusterNodeList
-    raft: ClusterRaft
-    version: str
