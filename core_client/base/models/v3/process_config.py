@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from typing import Dict, List, Optional
+from typing import List, Optional, Union
 
 from . import ProcessConfigIO, ProcessConfigLimit, ProcessConfigType
 
@@ -56,7 +56,7 @@ class ProcessConfig(BaseModel):
     type: ProcessConfigType = ProcessConfigType.ffmpeg
     domain: Optional[str]
     owner: Optional[str]
-    metadata: Optional[Dict[str, Dict]]
+    metadata: Optional[dict[str, Union[str, dict, list, int, float, bool]]]
 
     class Config:
         use_enum_values = True

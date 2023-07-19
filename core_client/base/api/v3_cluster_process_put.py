@@ -23,7 +23,7 @@ def _build_request(
         timeout = client.timeout
     return {
         "method": "put",
-        "url": f"{client.base_url}/api/v3/process/{id}?domain={domain}",
+        "url": f"{client.base_url}/api/v3/cluster/process/{id}?domain={domain}",
         "headers": client.headers,
         "timeout": timeout,
         "data": None,

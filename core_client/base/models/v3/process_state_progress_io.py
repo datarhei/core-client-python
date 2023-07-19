@@ -63,7 +63,7 @@ class ProcessStateProgressIO(BaseModel):
     packet: float
     pix_fmt: Optional[str]
     pps: float
-    q: float
+    q: Optional[float]
     sampling_hz: Optional[float]
     size_kb: float
     stream: int
