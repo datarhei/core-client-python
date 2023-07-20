@@ -48,7 +48,7 @@ class ProcessState(BaseModel):
     last_logline: str
     memory_bytes: float
     order: ProcessStateOrder
-    progress: ProcessStateProgress
+    progress: Optional[ProcessStateProgress]
     reconnect_seconds: int
     runtime_seconds: int
     resources: Optional[ProcessStateResources]
