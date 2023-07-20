@@ -1,3 +1,4 @@
 httpx[http2]>=0.23.0
 pydantic>=1.10.2
 pydantic-collections>=0.3.0
+PyJWT>=1.7.1

@@ -2,8 +2,7 @@ import httpx
 import functools
 import importlib
 import pkgutil
-import base64
-import json
+import jwt
 from datetime import datetime
 from httpx import InvalidURL as HttpInvalidURL, HTTPError
 from pydantic import (
@@ -43,6 +42,7 @@ class Client:
         self.access_token = access_token
         self.refresh_token = refresh_token
         self.access_token_expires_at = None
+        self.refresh_token_expires_at = None
         self.auth0_token = auth0_token
         self.retries = retries
         self.timeout = timeout
@@ -82,6 +82,7 @@ class Client:
                 response = Token(**r_login.json())
                 self._set_access_token_expires_at(response)
                 self.refresh_token = response.refresh_token
+                self._set_refresh_token_expires_at(response)
                 return response
             except PydanticValidationError:
                 return Token()
@@ -91,10 +92,8 @@ class Client:
     def _set_access_token_expires_at(self, response: Token = None):
         if response:
             try:
-                self.access_token_expires_at = json.loads(
-                    (
-                        base64.b64decode(response.access_token.split(".")[1])
-                    ).decode("utf-8")
+                self.access_token_expires_at = jwt.decode(
+                    response.access_token, options={"verify_signature": False}
                 )["exp"]
             except (AttributeError, IndexError):
                 raise HTTPError("Authorization failed")
@@ -108,6 +107,29 @@ class Client:
             )
         if (
             datetime.fromtimestamp(self.access_token_expires_at)
+            > datetime.now()
+        ):
+            return False
+        return True
+
+    def _set_refresh_token_expires_at(self, response: Token = None):
+        if response:
+            try:
+                self.refresh_token_expires_at = jwt.decode(
+                    response.refresh_token, options={"verify_signature": False}
+                )["exp"]
+            except (AttributeError, IndexError):
+                raise HTTPError("Authorization failed")
+            self.refresh_token = response.refresh_token
+            return self.refresh_token_expires_at
+
+    def _refresh_token_is_expired(self):
+        if not self.refresh_token_expires_at:
+            self._set_refresh_token_expires_at(
+                Token(refresh_token=self.refresh_token)
+            )
+        if (
+            datetime.fromtimestamp(self.refresh_token_expires_at)
             > datetime.now()
         ):
             return False
@@ -134,8 +156,14 @@ class Client:
 
     def _get_headers(self):
         _headers = self.headers
-        if self.refresh_token and self._access_token_is_expired():
+        if (
+            self.refresh_token
+            and self._refresh_token_is_expired() is False
+            and self._access_token_is_expired() is True
+        ):
             self._refresh_access_token()
+        elif self.refresh_token and self._refresh_token_is_expired() is True:
+            self.login()
         _headers["authorization"] = f"Bearer {self.access_token}"
         return _headers
 
