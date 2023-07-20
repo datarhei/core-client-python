@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from typing import Optional
 
 from . import ProcessStateProgressIOAvstreamIO
 
@@ -16,6 +17,7 @@ class ProcessStateProgressIOAvstream(BaseModel):
         "looping": false,
         "duplicating": false,
         "gop": "none"
+        + "time": 0,
     }
     """
 
@@ -30,3 +32,4 @@ class ProcessStateProgressIOAvstream(BaseModel):
     looping_runtime: int
     duplicating: bool
     gop: str
+    time: Optional[int]
