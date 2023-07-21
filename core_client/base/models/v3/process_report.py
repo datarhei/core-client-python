@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 
 from . import ProcessReportHistory
 
@@ -26,4 +26,4 @@ class ProcessReport(ProcessReportHistory):
     }
     """
 
-    history: List[ProcessReportHistory]
+    history: Optional[List[ProcessReportHistory]]
