@@ -9,6 +9,7 @@ class IamUserPolicyTypes(str, Enum):
     fs = "fs"
     srt = "srt"
     rtmp = "rtmp"
+    process = "process"
 
     class Config:
         use_enum_values = True

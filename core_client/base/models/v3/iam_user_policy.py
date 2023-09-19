@@ -22,4 +22,7 @@ class IamUserPolicy(BaseModel):
     domain: Optional[str]
     name: Optional[str]
     resource: Optional[str]
-    type: Optional[List[IamUserPolicyTypes]]
+    types: Optional[List[IamUserPolicyTypes]]
+
+    class Config:
+        use_enum_values = True
