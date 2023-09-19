@@ -59,7 +59,7 @@ from .iam_user_auth_api_auth0 import IamUserAuthApiAuth0
 from .iam_user_auth_api import IamUserAuthApi
 from .iam_user_auth_services import IamUserAuthServices
 from .iam_user_auth import IamUserAuth
-from .iam_user_policy_type import IamUserPolicyType
+from .iam_user_policy_types import IamUserPolicyTypes
 from .iam_user_policy import IamUserPolicy
 from .iam_user_policy_list import IamUserPolicyList
 from .iam_user import IamUser

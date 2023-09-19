@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 from typing import List, Optional
 
-from . import IamUserPolicyType
+from . import IamUserPolicyTypes
 
 class IamUserPolicy(BaseModel):
     """
@@ -22,4 +22,4 @@ class IamUserPolicy(BaseModel):
     domain: Optional[str]
     name: Optional[str]
     resource: Optional[str]
-    type: Optional[List[IamUserPolicyType]]
+    type: Optional[List[IamUserPolicyTypes]]

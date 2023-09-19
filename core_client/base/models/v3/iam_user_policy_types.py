@@ -1,7 +1,7 @@
 from enum import Enum
 
 
-class IamUserPolicyType(str, Enum):
+class IamUserPolicyTypes(str, Enum):
     """
     "type": ["fs", "srt", "rtmp"]
     """
