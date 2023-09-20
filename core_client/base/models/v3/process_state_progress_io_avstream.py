@@ -15,7 +15,9 @@ class ProcessStateProgressIOAvstream(BaseModel):
         "drop": 0,
         "enc": 154,
         "looping": false,
+        + "looping_runtime": 0,
         "duplicating": false,
+        + "mode": "live",
         "gop": "none"
         + "time": 0,
     }
@@ -31,5 +33,6 @@ class ProcessStateProgressIOAvstream(BaseModel):
     looping: bool
     looping_runtime: int
     duplicating: bool
+    mode: Optional[str]
     gop: str
     time: Optional[int]

@@ -43,6 +43,7 @@ from .config_storage_cors import ConfigStorageCors
 from .config_storage_disk_cache_types import ConfigStorageDiskCacheTypes
 from .config_storage_disk_cache import ConfigStorageDiskCache
 from .config_storage_disk import ConfigStorageDisk
+from .config_storage_memory_backup import ConfigStorageMemoryBackup
 from .config_storage_memory_auth import ConfigStorageMemoryAuth
 from .config_storage_memory import ConfigStorageMemory
 from .config_storage_s3_auth import ConfigStorageS3Auth
