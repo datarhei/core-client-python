@@ -16,7 +16,7 @@ class ConfigDebug(BaseModel):
     }
     """
 
-    profiling: Optional[bool]
-    force_gc: Optional[int]
-    memory_limit_mbytes: Optional[int]
-    auto_max_procs: Optional[bool]
+    profiling: Optional[bool] = None
+    force_gc: Optional[int] = None
+    memory_limit_mbytes: Optional[int] = None
+    auto_max_procs: Optional[bool] = None

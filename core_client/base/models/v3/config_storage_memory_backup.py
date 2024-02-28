@@ -10,5 +10,5 @@ class ConfigStorageMemoryBackup(BaseModel):
     }
     """
 
-    dir: Optional[str]
-    patterns: Optional[list[str]]
+    dir: Optional[str] = None
+    patterns: Optional[list[str]] = None

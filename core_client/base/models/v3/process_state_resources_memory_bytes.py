@@ -12,7 +12,7 @@ class ProcessStateResourcesMemoryBytes(BaseModel):
     }
     """
 
-    avg: Optional[float]
-    cur: Optional[float]
-    limit: Optional[float]
-    max: Optional[float]
+    avg: Optional[float] = None
+    cur: Optional[float] = None
+    limit: Optional[float] = None
+    max: Optional[float] = None

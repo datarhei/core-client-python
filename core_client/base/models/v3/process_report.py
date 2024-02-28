@@ -26,4 +26,4 @@ class ProcessReport(ProcessReportHistory):
     }
     """
 
-    history: Optional[List[ProcessReportHistory]]
+    history: Optional[List[ProcessReportHistory]] = None

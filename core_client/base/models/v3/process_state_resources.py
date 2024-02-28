@@ -12,5 +12,5 @@ class ProcessStateResources(BaseModel):
     }
     """
 
-    cpu_usage: Optional[ProcessStateResourcesCpuUsage]
-    memory_bytes: Optional[ProcessStateResourcesMemoryBytes]
+    cpu_usage: Optional[ProcessStateResourcesCpuUsage] = None
+    memory_bytes: Optional[ProcessStateResourcesMemoryBytes] = None

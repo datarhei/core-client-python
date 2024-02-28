@@ -73,27 +73,27 @@ def test_prepare():
 
 
 def test_v3_fs_get_file_list():
-    res = client.v3_fs_get_file_list(name="unknown")
+    res = client.v3_fs_get_file_list(storage="unknown")
     assert type(res) is Error
 
 
 def test_v3_fs_put_file():
-    res = client.v3_fs_put_file(name="unknown", path="test.txt", data=b"test")
+    res = client.v3_fs_put_file(storage="unknown", path="test.txt", data=b"test")
     assert type(res) is Error
 
 
 def test_v3_fs_get_file():
-    res = client.v3_fs_get_file(name="unknown", path="test.txt")
+    res = client.v3_fs_get_file(storage="unknown", path="test.txt")
     assert type(res) is Error
 
 
 def test_v3_fs_get_file_2():
-    res = client.v3_fs_get_file(name="mem", path="test.txt")
+    res = client.v3_fs_get_file(storage="mem", path="test.txt")
     assert type(res) is Error
 
 
 def test_v3_fs_delete_file():
-    res = client.v3_fs_delete_file(name="unknown", path="test.txt")
+    res = client.v3_fs_delete_file(storage="unknown", path="test.txt")
     assert type(res) is Error
 
 

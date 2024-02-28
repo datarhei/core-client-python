@@ -1,11 +1,11 @@
 import httpx
-from pydantic import parse_obj_as, validate_arguments
+from pydantic import TypeAdapter, validate_call
 
 from ...models import Client
 from ..models import Error
 
 
-@validate_arguments()
+@validate_call()
 def _build_request(
     client: Client,
     storage: str,
@@ -35,7 +35,7 @@ def _build_response(response: httpx.Response):
         response_301 = response.content
         return response_301
     else:
-        response_error = parse_obj_as(Error, response.json())
+        response_error = TypeAdapter(Error).validate_python(response.json())
         return response_error
 
 

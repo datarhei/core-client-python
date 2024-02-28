@@ -1,5 +1,5 @@
 from typing import Optional
-from pydantic import BaseModel, root_validator
+from pydantic import BaseModel, model_validator
 
 from . import ProcessStateProgressIOAvstream, ProcessStateProgressIOFramerate
 
@@ -45,32 +45,32 @@ class ProcessStateProgressIO(BaseModel):
     """
 
     address: str
-    avstream: Optional[ProcessStateProgressIOAvstream]
+    avstream: Optional[ProcessStateProgressIOAvstream] = None
     bitrate_kbit: float
-    channels: Optional[int]
+    channels: Optional[int] = None
     codec: str
     coder: str
     format: str
     fps: float
     frame: float
-    framerate: Optional[ProcessStateProgressIOFramerate]
-    keyframe: Optional[float]
-    extradata_size_bytes: Optional[float]
-    height: Optional[int]
+    framerate: Optional[ProcessStateProgressIOFramerate] = None
+    keyframe: Optional[float] = None
+    extradata_size_bytes: Optional[float] = None
+    height: Optional[int] = None
     id: str
     index: int
-    layout: Optional[str]
+    layout: Optional[str] = None
     packet: float
-    pix_fmt: Optional[str]
+    pix_fmt: Optional[str] = None
     pps: float
-    q: Optional[float]
-    sampling_hz: Optional[float]
+    q: Optional[float] = None
+    sampling_hz: Optional[float] = None
     size_kb: float
     stream: int
     type: str
-    width: Optional[int]
+    width: Optional[int] = None
 
-    @root_validator(pre=True)
+    @model_validator(mode="before")
     def remove_empty(cls, values):
         fields = list(values.keys())
         for field in fields:

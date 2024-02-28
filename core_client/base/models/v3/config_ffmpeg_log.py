@@ -16,6 +16,6 @@ class ConfigFfmpegLog(BaseModel):
     }
     """
 
-    max_lines: Optional[int]
-    max_history: Optional[int]
-    max_minimal_history: Optional[int]
+    max_lines: Optional[int] = None
+    max_history: Optional[int] = None
+    max_minimal_history: Optional[int] = None

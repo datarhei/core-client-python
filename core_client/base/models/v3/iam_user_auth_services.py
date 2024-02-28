@@ -17,6 +17,6 @@ class IamUserAuthServices(BaseModel):
     }
     """
 
-    basic: Optional[List[str]]
-    session: Optional[List[str]]
-    token: Optional[List[str]]
+    basic: Optional[List[str]] = None
+    session: Optional[List[str]] = None
+    token: Optional[List[str]] = None

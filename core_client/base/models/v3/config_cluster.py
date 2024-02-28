@@ -18,9 +18,9 @@ class ConfigCluster(BaseModel):
     """
 
     address: str
-    debug: Optional[bool]
-    emergency_leader_timeout_sec: Optional[int]
-    enable: Optional[bool]
-    node_recover_timeout_sec: Optional[int]
-    peers: Optional[list[str]]
-    sync_interval_sec: Optional[int]
+    debug: Optional[bool] = None
+    emergency_leader_timeout_sec: Optional[int] = None
+    enable: Optional[bool] = None
+    node_recover_timeout_sec: Optional[int] = None
+    peers: Optional[list[str]] = None
+    sync_interval_sec: Optional[int] = None

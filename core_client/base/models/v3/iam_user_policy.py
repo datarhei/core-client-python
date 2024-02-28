@@ -18,11 +18,11 @@ class IamUserPolicy(BaseModel):
     }
     """
 
-    actions: Optional[List[str]]
-    domain: Optional[str]
-    name: Optional[str]
-    resource: Optional[str]
-    types: Optional[List[IamUserPolicyTypes]]
+    actions: Optional[List[str]] = None
+    domain: Optional[str] = None
+    name: Optional[str] = None
+    resource: Optional[str] = None
+    types: Optional[List[IamUserPolicyTypes]] = None
 
-    class Config:
+    class ConfigDict:
         use_enum_values = True

@@ -1,7 +1,7 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, RootModel
 
 from . import MetricsCollection
 
 
 class MetricsCollectionList(BaseModel):
-    __root__: list[MetricsCollection]
+    RootModel: list[MetricsCollection]

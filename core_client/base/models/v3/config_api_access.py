@@ -12,5 +12,5 @@ class ConfigApiAccess(BaseModel):
     }
     """
 
-    http: Optional[ConfigApiAccessRules]
-    https: Optional[ConfigApiAccessRules]
+    http: Optional[ConfigApiAccessRules] = None
+    https: Optional[ConfigApiAccessRules] = None

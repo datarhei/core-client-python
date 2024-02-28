@@ -16,7 +16,7 @@ class SessionToken(BaseModel):
     }
     """
 
-    extras: Optional[Dict[str, Dict]]
-    match: Optional[str]
-    remote: Optional[List[str]]
-    token: Optional[str]
+    extras: Optional[Dict[str, Dict]] = None
+    match: Optional[str] = None
+    remote: Optional[List[str]] = None
+    token: Optional[str] = None

@@ -16,9 +16,9 @@ class ConfigApiAuth(BaseModel):
     }
     """
 
-    enable: Optional[bool]
-    disable_localhost: Optional[bool]
-    username: Optional[str]
-    password: Optional[str]
-    jwt: Optional[ConfigApiAuthJwt]
-    auth0: Optional[ConfigApiAuthAuth0]
+    enable: Optional[bool] = None
+    disable_localhost: Optional[bool] = None
+    username: Optional[str] = None
+    password: Optional[str] = None
+    jwt: Optional[ConfigApiAuthJwt] = None
+    auth0: Optional[ConfigApiAuthAuth0] = None

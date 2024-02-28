@@ -19,7 +19,7 @@ class MetricsMonitor(BaseModel):
 
     labels: Union[None, Dict[str, str]]
     name: MetricsMonitorName
-    values: Optional[List[List[Union[int, float]]]]
+    values: Optional[List[List[Union[int, float]]]] = None
 
-    class Config:
+    class ConfigDict:
         use_enum_values = True

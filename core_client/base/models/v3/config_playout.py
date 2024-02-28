@@ -11,6 +11,6 @@ class ConfigPlayout(BaseModel):
     }
     """
 
-    enable: Optional[bool]
-    min_port: Optional[int]
-    max_port: Optional[int]
+    enable: Optional[bool] = None
+    min_port: Optional[int] = None
+    max_port: Optional[int] = None

@@ -11,6 +11,6 @@ class ConfigStorageMemoryAuth(BaseModel):
     }
     """
 
-    enable: Optional[bool]
-    username: Optional[str]
-    password: Optional[str]
+    enable: Optional[bool] = None
+    username: Optional[str] = None
+    password: Optional[str] = None

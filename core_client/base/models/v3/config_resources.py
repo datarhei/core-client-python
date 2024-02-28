@@ -10,5 +10,5 @@ class ConfigResources(BaseModel):
     }
     """
 
-    max_cpu_usage: Optional[float]
-    max_memory_usage: Optional[float]
+    max_cpu_usage: Optional[float] = None
+    max_memory_usage: Optional[float] = None

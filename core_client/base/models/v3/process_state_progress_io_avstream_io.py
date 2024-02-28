@@ -18,5 +18,5 @@ class ProcessStateProgressIOAvstreamIO(BaseModel):
     state: ProcessStateProgressIOAvstreamIOState
     time: int
 
-    class Config:
+    class ConfigDict:
         use_enum_values = True

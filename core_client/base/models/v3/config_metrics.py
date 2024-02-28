@@ -12,7 +12,7 @@ class ConfigMetrics(BaseModel):
     }
     """
 
-    enable: Optional[bool]
-    enable_prometheus: Optional[bool]
-    range_sec: Optional[int]
-    interval_sec: Optional[int]
+    enable: Optional[bool] = None
+    enable_prometheus: Optional[bool] = None
+    range_sec: Optional[int] = None
+    interval_sec: Optional[int] = None

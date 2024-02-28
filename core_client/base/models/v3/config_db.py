@@ -9,4 +9,4 @@ class ConfigDb(BaseModel):
     }
     """
 
-    dir: Optional[str]
+    dir: Optional[str] = None

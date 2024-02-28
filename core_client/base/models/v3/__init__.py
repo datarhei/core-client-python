@@ -108,6 +108,10 @@ from .process_state_progress_io_framerate import (
     ProcessStateProgressIOFramerate,
 )
 from .process_state_progress_io import ProcessStateProgressIO
+from .process_state_progress_mapping_graph import ProcessStateProgressMappingGraph
+from .process_state_progress_mapping_map import ProcessStateProgressMappingMap
+from .process_state_progress_mapping import ProcessStateProgressMapping
+
 from .process_state_progress import ProcessStateProgress
 from .process_state_resources_cpu_usage import ProcessStateResourcesCpuUsage
 from .process_state_resources_memory_bytes import (

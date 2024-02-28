@@ -8,6 +8,3 @@ class FilesystemOperationOrder(str, Enum):
 
     copy = "copy"
     move = "move"
-
-    class Config:
-        use_enum_values = True

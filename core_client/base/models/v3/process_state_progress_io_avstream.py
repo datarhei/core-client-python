@@ -33,6 +33,6 @@ class ProcessStateProgressIOAvstream(BaseModel):
     looping: bool
     looping_runtime: int
     duplicating: bool
-    mode: Optional[str]
+    mode: Optional[str] = None
     gop: str
-    time: Optional[int]
+    time: Optional[int] = None

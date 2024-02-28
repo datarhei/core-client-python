@@ -1,4 +1,4 @@
-from pydantic import BaseModel, root_validator
+from pydantic import BaseModel, model_validator
 from typing import Optional
 
 
@@ -85,11 +85,11 @@ class SrtConnectionStats(BaseModel):
     recv_undecrypt_pkt: int
     sent_bytes: int
     recv_bytes: int
-    sent_unique__bytes: Optional[int]
-    sent_unique_bytes: Optional[int]
+    sent_unique__bytes: Optional[int] = None
+    sent_unique_bytes: Optional[int] = None
     recv_unique_bytes: int
-    recv_loss__bytes: Optional[int]
-    recv_loss_bytes: Optional[int]
+    recv_loss__bytes: Optional[int] = None
+    recv_loss_bytes: Optional[int] = None
     sent_retrans_bytes: int
     send_drop_bytes: int
     recv_drop_bytes: int
@@ -114,7 +114,7 @@ class SrtConnectionStats(BaseModel):
     reorder_tolerance_pkt: int
     pkt_recv_avg_belated_time_ms: int
 
-    @root_validator(pre=False)
+    @model_validator(mode="before")
     def remove_empty(cls, values):
         if values["sent_unique__bytes"] is None:
             values.pop("sent_unique__bytes")

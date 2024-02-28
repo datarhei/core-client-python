@@ -13,6 +13,6 @@ class ConfigApi(BaseModel):
     }
     """
 
-    read_only: Optional[bool]
-    access: Optional[ConfigApiAccess]
-    auth: Optional[ConfigApiAuth]
+    read_only: Optional[bool] = None
+    access: Optional[ConfigApiAccess] = None
+    auth: Optional[ConfigApiAuth] = None

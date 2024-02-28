@@ -48,10 +48,10 @@ class ProcessState(BaseModel):
     last_logline: str
     memory_bytes: float
     order: ProcessStateOrder
-    progress: Optional[ProcessStateProgress]
+    progress: Optional[ProcessStateProgress] = None
     reconnect_seconds: int
     runtime_seconds: int
-    resources: Optional[ProcessStateResources]
+    resources: Optional[ProcessStateResources] = None
 
-    class Config:
+    class ConfigDict:
         use_enum_values = True

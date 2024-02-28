@@ -19,9 +19,9 @@ class ConfigTls(BaseModel):
     }
     """
 
-    address: Optional[str]
-    enable: Optional[bool]
-    auto: Optional[bool]
-    cert_file: Optional[str]
-    key_file: Optional[str]
-    email: Optional[str]
+    address: Optional[str] = None
+    enable: Optional[bool] = None
+    auto: Optional[bool] = None
+    cert_file: Optional[str] = None
+    key_file: Optional[str] = None
+    email: Optional[str] = None

@@ -14,9 +14,9 @@ class ConfigRtmp(BaseModel):
     }
     """
 
-    enable: Optional[bool]
-    enable_tls: Optional[bool]
-    address: Optional[str]
-    address_tls: Optional[str]
-    app: Optional[str]
-    token: Optional[str]
+    enable: Optional[bool] = None
+    enable_tls: Optional[bool] = None
+    address: Optional[str] = None
+    address_tls: Optional[str] = None
+    app: Optional[str] = None
+    token: Optional[str] = None

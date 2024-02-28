@@ -16,9 +16,9 @@ class SessionActive(BaseModel):
     }
     """
 
-    ffmpeg: Optional[List[SessionCollectorActiveSession]]
-    hls: Optional[List[SessionCollectorActiveSession]]
-    hlsingress: Optional[List[SessionCollectorActiveSession]]
-    http: Optional[List[SessionCollectorActiveSession]]
-    rtmp: Optional[List[SessionCollectorActiveSession]]
-    srt: Optional[List[SessionCollectorActiveSession]]
+    ffmpeg: Optional[List[SessionCollectorActiveSession]] = None
+    hls: Optional[List[SessionCollectorActiveSession]] = None
+    hlsingress: Optional[List[SessionCollectorActiveSession]] = None
+    http: Optional[List[SessionCollectorActiveSession]] = None
+    rtmp: Optional[List[SessionCollectorActiveSession]] = None
+    srt: Optional[List[SessionCollectorActiveSession]] = None

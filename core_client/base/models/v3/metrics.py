@@ -13,6 +13,6 @@ class Metrics(BaseModel):
     }
     """
 
-    interval_sec: Optional[int]
+    interval_sec: Optional[int] = None
     metrics: List[MetricsMonitor]
-    timerange_sec: Optional[int]
+    timerange_sec: Optional[int] = None

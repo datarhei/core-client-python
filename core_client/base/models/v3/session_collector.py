@@ -13,4 +13,4 @@ class SessionCollector(BaseModel):
     """
 
     active: SessionCollectorActive
-    summary: Optional[SessionCollectorSummary]
+    summary: Optional[SessionCollectorSummary] = None

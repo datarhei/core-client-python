@@ -57,25 +57,25 @@ class Config(BaseModel):
     }
     """
 
-    created_at: Optional[str]
-    version: Optional[int]
-    id: Optional[str]
-    name: Optional[str]
-    address: Optional[str]
-    log: Optional[ConfigLog]
-    db: Optional[ConfigDb]
-    host: Optional[ConfigHost]
-    api: Optional[ConfigApi]
-    tls: Optional[ConfigTls]
-    rtmp: Optional[ConfigRtmp]
-    srt: Optional[ConfigSrt]
-    storage: Optional[ConfigStorage]
-    ffmpeg: Optional[ConfigFfmpeg]
-    playout: Optional[ConfigPlayout]
-    resources: Optional[ConfigResources]
-    debug: Optional[ConfigDebug]
-    metrics: Optional[ConfigMetrics]
-    sessions: Optional[ConfigSessions]
-    service: Optional[ConfigService]
-    router: Optional[ConfigRouter]
-    cluster: Optional[ConfigCluster]
+    created_at: Optional[str] = None
+    version: Optional[int] = None
+    id: Optional[str] = None
+    name: Optional[str] = None
+    address: Optional[str] = None
+    log: Optional[ConfigLog] = None
+    db: Optional[ConfigDb] = None
+    host: Optional[ConfigHost] = None
+    api: Optional[ConfigApi] = None
+    tls: Optional[ConfigTls] = None
+    rtmp: Optional[ConfigRtmp] = None
+    srt: Optional[ConfigSrt] = None
+    storage: Optional[ConfigStorage] = None
+    ffmpeg: Optional[ConfigFfmpeg] = None
+    playout: Optional[ConfigPlayout] = None
+    resources: Optional[ConfigResources] = None
+    debug: Optional[ConfigDebug] = None
+    metrics: Optional[ConfigMetrics] = None
+    sessions: Optional[ConfigSessions] = None
+    service: Optional[ConfigService] = None
+    router: Optional[ConfigRouter] = None
+    cluster: Optional[ConfigCluster] = None

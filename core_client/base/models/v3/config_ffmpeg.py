@@ -14,7 +14,7 @@ class ConfigFfmpeg(BaseModel):
     }
     """
 
-    binary: Optional[str]
-    max_processes: Optional[int]
-    access: Optional[ConfigFfmpegAccess]
-    log: Optional[ConfigFfmpegLog]
+    binary: Optional[str] = None
+    max_processes: Optional[int] = None
+    access: Optional[ConfigFfmpegAccess] = None
+    log: Optional[ConfigFfmpegLog] = None

@@ -1,6 +1,6 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, RootModel
 from typing import List, Union
 
 
 class Log(BaseModel):
-    __root__: List[Union[str, dict]]
+    RootModel: List[Union[str, dict]]

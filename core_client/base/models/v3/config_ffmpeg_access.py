@@ -12,5 +12,5 @@ class ConfigFfmpegAccess(BaseModel):
     }
     """
 
-    input: Optional[ConfigFfmpegAccessRules]
-    output: Optional[ConfigFfmpegAccessRules]
+    input: Optional[ConfigFfmpegAccessRules] = None
+    output: Optional[ConfigFfmpegAccessRules] = None

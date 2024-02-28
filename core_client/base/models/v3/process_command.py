@@ -12,5 +12,5 @@ class ProcessCommandAction(str, Enum):
 class ProcessCommand(BaseModel):
     command: ProcessCommandAction
 
-    class Config:
+    class ConfigDict:
         use_enum_values = True

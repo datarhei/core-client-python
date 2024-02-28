@@ -1,12 +1,12 @@
 import httpx
-from pydantic import parse_obj_as, validate_arguments
+from pydantic import TypeAdapter, validate_call
 
 from ...models import Client
 from ..models import Error
 from ..models.v3 import ClusterNodeList
 
 
-@validate_arguments()
+@validate_call()
 def _build_request(
     client: Client,
     retries: int = None,
@@ -28,10 +28,10 @@ def _build_request(
 
 def _build_response(response: httpx.Response):
     if response.status_code == 200:
-        response_200 = parse_obj_as(ClusterNodeList, response.json())
+        response_200 = TypeAdapter(ClusterNodeList).validate_python(response.json())
         return response_200
     else:
-        response_error = parse_obj_as(Error, response.json())
+        response_error = TypeAdapter(Error).validate_python(response.json())
         return response_error
 
 

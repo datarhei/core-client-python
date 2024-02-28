@@ -1,6 +1,6 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, RootModel
 from typing import Union
 
 
 class Metadata(BaseModel):
-    __root__: Union[int, float, str, dict, list]
+    RootModel: Union[int, float, str, dict, list]

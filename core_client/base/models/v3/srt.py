@@ -1,4 +1,4 @@
-from pydantic import BaseModel, root_validator
+from pydantic import BaseModel, model_validator
 from typing import Dict, Union, List, Optional
 
 from . import SrtConnection
@@ -31,14 +31,14 @@ class Srt(BaseModel):
     }
     """
 
-    name: Optional[str]
-    socketid: Optional[str]
-    publisher: Optional[Dict[str, int]]
+    name: Optional[str] = None
+    socketid: Optional[str] = None
+    publisher: Optional[Dict[str, int]] = None
     subscriber: Union[Dict[str, List[int]], List[int]]
     connections: Dict[str, SrtConnection]
     log: Union[None, Dict[str, str]]
 
-    @root_validator(pre=False)
+    @model_validator(mode="before")
     def remove_empty(cls, values):
         if values["name"] is None:
             values.pop("name")

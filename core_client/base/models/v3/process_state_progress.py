@@ -1,7 +1,7 @@
-from typing import List
+from typing import List, Optional
 from pydantic import BaseModel
 
-from . import ProcessStateProgressIO
+from . import ProcessStateProgressIO, ProcessStateProgressMapping
 
 
 class ProcessStateProgress(BaseModel):
@@ -29,8 +29,9 @@ class ProcessStateProgress(BaseModel):
     frame: int
     inputs: List[ProcessStateProgressIO]
     outputs: List[ProcessStateProgressIO]
+    mapping: Optional[ProcessStateProgressMapping] = None
     packet: int
     q: float
     size_kb: int
     speed: float
-    time: int
+    time: float

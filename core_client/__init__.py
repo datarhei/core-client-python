@@ -8,16 +8,17 @@ from httpx import InvalidURL as HttpInvalidURL, HTTPError
 from pydantic import (
     HttpUrl,
     ValidationError as PydanticValidationError,
-    validate_arguments,
+    validate_call,
+    TypeAdapter
 )
 
 from . import base
 from .models import Client as ClientModel
-from .base.models import Token, AccessToken, About
+from .base.models import Token, AccessToken, About, Error
 
 
 class Client:
-    @validate_arguments()
+    @validate_call()
     def __init__(
         self,
         base_url: HttpUrl,
@@ -33,8 +34,8 @@ class Client:
             "accept": "application/json",
             "content-type": "application/json",
         }
-        if base_url.endswith("/"):
-            self.base_url = base_url[:-1]
+        if str(base_url).endswith("/"):
+            self.base_url = str(base_url)[:-1]
         else:
             self.base_url = base_url
         self.username = username
@@ -157,14 +158,17 @@ class Client:
     def _get_headers(self):
         _headers = self.headers
         if (
-            self.refresh_token
-            and self._refresh_token_is_expired() is False
-            and self._access_token_is_expired() is True
-        ):
-            self._refresh_access_token()
-        elif self.refresh_token and self._refresh_token_is_expired() is True:
-            self.login()
-        _headers["authorization"] = f"Bearer {self.access_token}"
+            self.username and self.password
+        ) or self.access_token or self.refresh_token or self.auth0_token:
+            if (
+                self.refresh_token
+                and self._refresh_token_is_expired() is False
+                and self._access_token_is_expired() is True
+            ):
+                self._refresh_access_token()
+            elif self.refresh_token and self._refresh_token_is_expired() is True:
+                self.login()
+            _headers["authorization"] = f"Bearer {self.access_token}"
         return _headers
 
     def token(self):

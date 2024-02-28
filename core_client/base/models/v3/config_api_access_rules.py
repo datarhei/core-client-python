@@ -10,5 +10,5 @@ class ConfigApiAccessRules(BaseModel):
     }
     """
 
-    allow: Optional[List[str]]
-    block: Optional[List[str]]
+    allow: Optional[List[str]] = None
+    block: Optional[List[str]] = None
