@@ -15,7 +15,7 @@ def _build_request(
     timeout: float = None,
 ):
     if not isinstance(config, dict):
-        config = config.dict()
+        config = config.model_dump()
     if not retries:
         retries = client.retries
     if not timeout:

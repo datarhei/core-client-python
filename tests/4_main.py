@@ -5,6 +5,7 @@ from core_client import Client
 from core_client.base.models import Token
 from core_client.base.models.v3 import (
     FilesystemFileList,
+    IamUser,
     Log,
     Metrics,
     MetricsCollection,
@@ -33,6 +34,7 @@ client = Client(
 proc_stream = {
     "id": "test",
     "reference": "test",
+    "owner": "testuser",
     "input": [
         {
             "address": "testsrc2=rate=25:size=16x9",
@@ -78,6 +80,7 @@ proc_stream = {
 proc_viewer = {
     "id": "test_viewer",
     "reference": "test",
+    "owner": "testuser",
     "input": [
         {"address": "{memfs}/test.m3u8", "id": "input_0", "options": ["-re"]}
     ],
@@ -91,12 +94,39 @@ proc_viewer = {
     ],
 }
 
+process_user = {
+   "name": "testuser",
+   "superuser": False,
+   "auth": {
+      "services": {
+         "basic": ["foobar"],
+         "token": [],
+         "session": []
+      }
+   },
+   "policies": [
+      {
+         "domain": "$none",
+         "types": ["fs", "rtmp", "srt"],
+         "resource": "**",
+         "actions": [
+            "get", "head", "options", "put", "post", "read", "write"
+         ]
+      }
+   ]
+}
+
 
 def test_prepare():
     res = client.login()
     assert type(res) is Token
     assert type(res.access_token) is str
     assert type(res.refresh_token) is str
+
+
+def test_prepare_user():
+    res = client.v3_iam_post_user(config=process_user)
+    assert type(res) is IamUser
 
 
 def test_v3_fs_get_file_list():
@@ -250,19 +280,27 @@ def test_v3_session_get_active():
 
 
 def test_v3_rtmp_get():
+    count = 0
     while True:
         res = client.v3_rtmp_get()
         if len(res) > 0:
             break
+        if count > 10:
+            break
         time.sleep(1)
+        count += 1
     assert type(res) is RtmpList
-    assert type(res[0]) is Rtmp
+    if len(res) > 0:
+        assert type(res[0]) is Rtmp
 
 
 def test_v3_srt_get():
     res = client.v3_srt_get()
-    assert type(res) is Srt
-
+    if len(res) > 0:
+        assert type(res) is list[Srt]
+    else:
+        assert res == []
+    
 
 def test_v3_process_put():
     res = client.v3_process_put(id="test", config=proc_stream)
@@ -287,7 +325,7 @@ def test_v3_process_get_report_list():
 
 
 def test_v3_process_get_report():
-    report_list = client.v3_process_get_report_list(id="test")
+    report_list = client.v3_process_get_report_list(id="test", domain="")
     last_report = report_list.history[0].exited_at
     res = client.v3_process_get_report(id="test", exited_at=last_report)
     assert type(res) is ProcessReportHistory

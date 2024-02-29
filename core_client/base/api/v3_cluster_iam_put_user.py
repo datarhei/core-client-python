@@ -20,7 +20,7 @@ def _build_request(
         domain (str): Domain of the acting user
     """
     if not isinstance(config, dict):
-        config = config.dict(exclude_none=True)
+        config = config.model_dump(exclude_none=True)
     if not retries:
         retries = client.retries
     if not timeout:

@@ -209,6 +209,12 @@ class Client:
                         return response
                     except (PydanticValidationError, TypeError):
                         return Token()
+                elif (
+                    not self.access_token
+                    and not self.refresh_token
+                    and not (self.username and self.password)
+                ):
+                    return Token()
                 else:
                     raise HTTPError("Authorization failed")
             return Token()

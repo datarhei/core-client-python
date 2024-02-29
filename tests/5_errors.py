@@ -17,6 +17,7 @@ client = Client(
 proc_stream = {
     "autostart": True,
     "id": "test",
+    "owner": "testuser",
     "input": [
         {
             "address": "testsrc2=rate=25:size=16x9",
@@ -156,14 +157,13 @@ def test_v3_process_get_report_list():
 
 
 def test_v3_process_get_report():
-    res = client.v3_process_get_report(id="unknown", created_at=123)
+    res = client.v3_process_get_report(id="unknown", created_at=123, domain="")
     assert type(res) is Error
 
 
 def test_v3_process_get_probe():
-    res = client.v3_process_get_probe(id="unknown")
-    assert type(res) is ProcessProbe
-    assert res.log[0] == "Unknown process ID (unknown)"
+    res = client.v3_process_get_probe(id="unknown", domain="")
+    assert type(res) is Error
 
 
 def test_v3_process_get_config():

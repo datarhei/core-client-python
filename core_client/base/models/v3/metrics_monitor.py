@@ -17,7 +17,7 @@ class MetricsMonitor(BaseModel):
     }
     """
 
-    labels: Union[None, Dict[str, str]]
+    labels: Optional[Union[None, Dict[str, str]]] = None
     name: MetricsMonitorName
     values: Optional[List[List[Union[int, float]]]] = None
 

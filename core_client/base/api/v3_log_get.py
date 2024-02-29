@@ -4,7 +4,7 @@ from pydantic import TypeAdapter, validate_call
 from ...models import Client
 from ..models import Error
 from ..models.v3 import Log
-
+from typing import List
 
 @validate_call()
 def _build_request(

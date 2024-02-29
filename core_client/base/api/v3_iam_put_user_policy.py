@@ -23,7 +23,7 @@ def _build_request(
     payload = []
     for policy in config:
         if not isinstance(policy, dict):
-            payload.append(policy.dict())
+            payload.append(policy.model_dump())
         else:
             payload.append(policy)
     if not retries:

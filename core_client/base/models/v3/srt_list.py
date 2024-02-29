@@ -1,7 +1,7 @@
-from pydantic_collections import BaseCollectionModel
+from pydantic import RootModel
+from typing import List
 
 from . import Srt
 
 
-class SrtList(BaseCollectionModel[Srt]):
-    pass
+SrtList = RootModel[List[Srt]]

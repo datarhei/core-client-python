@@ -1,6 +1,8 @@
 from pydantic import BaseModel
 from typing import Optional
 
+from . import ConfigClusterDebug
+
 
 class ConfigCluster(BaseModel):
     """
@@ -18,7 +20,7 @@ class ConfigCluster(BaseModel):
     """
 
     address: str
-    debug: Optional[bool] = None
+    debug: ConfigClusterDebug
     emergency_leader_timeout_sec: Optional[int] = None
     enable: Optional[bool] = None
     node_recover_timeout_sec: Optional[int] = None

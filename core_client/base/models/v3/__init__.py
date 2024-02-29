@@ -51,6 +51,7 @@ from .config_storage_s3 import ConfigStorageS3
 from .config_storage_s3_list import ConfigStorageS3List
 from .config_storage import ConfigStorage
 from .config_tls import ConfigTls
+from .config_cluster_debug import ConfigClusterDebug
 from .config_cluster import ConfigCluster
 from .config import Config
 from .config_saved import ConfigSaved

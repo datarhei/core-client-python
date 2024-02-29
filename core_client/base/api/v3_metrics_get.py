@@ -30,8 +30,8 @@ def _build_response(response: httpx.Response):
     if response.status_code == 200:
         response_200 = TypeAdapter(MetricsCollectionList).validate_python(
             response.json()
-        ).__root__
-        return response_200
+        )
+        return response_200.root
     else:
         response_error = TypeAdapter(Error).validate_python(response.json())
         return response_error

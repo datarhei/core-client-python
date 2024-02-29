@@ -17,7 +17,7 @@ def _build_request(
     timeout: float = None,
 ):
     if not isinstance(data, dict):
-        data = data.dict()["__root__"]
+        data = data.model_dump()
     if not retries:
         retries = client.retries
     if not timeout:
@@ -34,8 +34,8 @@ def _build_request(
 
 def _build_response(response: httpx.Response):
     if response.status_code == 200:
-        response_200 = TypeAdapter(Metadata).validate_python(response.json()).__root__
-        return response_200
+        response_200 = TypeAdapter(Metadata).validate_python(response.json())
+        return response_200.root
     else:
         response_error = TypeAdapter(Error).validate_python(response.json())
         return response_error

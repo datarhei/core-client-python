@@ -29,9 +29,9 @@ def _build_request(
 
 def _build_response(response: httpx.Response):
     if response.status_code == 200:
-        # List[Srt] will be rebased to SrtList
-        response_200 = TypeAdapter(Union[Srt, SrtList]).validate_python(response.json())
-        return response_200
+        print(response.json())
+        response_200 = TypeAdapter(SrtList).validate_python(response.json())
+        return response_200.root
     else:
         response_error = TypeAdapter(Error).validate_python(response.json())
         return response_error
