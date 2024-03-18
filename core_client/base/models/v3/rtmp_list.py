@@ -1,7 +1,7 @@
-from pydantic_collections import BaseCollectionModel
+from pydantic import BaseModel, RootModel
 
 from . import Rtmp
 
 
-class RtmpList(BaseCollectionModel[Rtmp]):
-    pass
+class RtmpList(BaseModel):
+    RootModel: list[Rtmp]

@@ -1,7 +1,7 @@
-from pydantic_collections import BaseCollectionModel
+from pydantic import BaseModel, RootModel
 
 from . import Process
 
 
-class ProcessList(BaseCollectionModel[Process]):
-    pass
+class ProcessList(BaseModel):
+    RootModel: Process

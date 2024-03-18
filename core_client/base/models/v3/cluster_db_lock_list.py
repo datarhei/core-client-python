@@ -1,7 +1,7 @@
-from pydantic_collections import BaseCollectionModel
+from pydantic import BaseModel, RootModel
 
 from . import ClusterDbLock
 
 
-class ClusterDbLockList(BaseCollectionModel[ClusterDbLock]):
-    pass
+class ClusterDbLockList(BaseModel):
+    RootModel: ClusterDbLock

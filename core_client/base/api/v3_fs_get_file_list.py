@@ -3,7 +3,7 @@ from pydantic import TypeAdapter, validate_call
 
 from ...models import Client
 from ..models import Error
-from ..models.v3 import FilesystemFileList
+from ..models.v3 import FilesystemFile
 
 
 @validate_call()
@@ -45,7 +45,7 @@ def _build_request(
 
 def _build_response(response: httpx.Response):
     if response.status_code == 200:
-        response_200 = TypeAdapter(FilesystemFileList).validate_python(response.json())
+        response_200 = TypeAdapter(list[FilesystemFile]).validate_python(response.json())
         return response_200
     else:
         response_error = TypeAdapter(Error).validate_python(response.json())

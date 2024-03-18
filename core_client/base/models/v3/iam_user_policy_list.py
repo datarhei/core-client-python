@@ -1,11 +1,11 @@
-from pydantic_collections import BaseCollectionModel
+from pydantic import BaseModel, RootModel
 
 from . import IamUserPolicy
 
 
-class IamUserPolicyList(BaseCollectionModel[IamUserPolicy]):
+class IamUserPolicyList(BaseModel):
     """
     [IamUserPolicy]
     """
 
-    pass
+    RootModel: IamUserPolicy

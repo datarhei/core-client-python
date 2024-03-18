@@ -1,9 +1,9 @@
-from pydantic_collections import BaseCollectionModel
+from pydantic import BaseModel, RootModel
 
 from . import ReportProcess
 
 
-class ReportProcessList(BaseCollectionModel[ReportProcess]):
+class ReportProcessList(BaseModel):
     """
     [{
         "created_at": 0,
@@ -13,4 +13,4 @@ class ReportProcessList(BaseCollectionModel[ReportProcess]):
     }]
     """
 
-    pass
+    RootModel: ReportProcess

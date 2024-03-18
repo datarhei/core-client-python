@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 
-from . import ClusterNodeList, ClusterRaft
+from . import ClusterNode, ClusterRaft
 
 
 class Cluster(BaseModel):
@@ -23,7 +23,7 @@ class Cluster(BaseModel):
     leader: bool
     address: str
     raft: ClusterRaft
-    nodes: ClusterNodeList
+    nodes: list[ClusterNode]
     version: str
     degraded: bool
     degraded_error: str

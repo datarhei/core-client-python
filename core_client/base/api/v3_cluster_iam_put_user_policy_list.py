@@ -3,14 +3,14 @@ from pydantic import TypeAdapter, validate_call
 
 from ...models import Client
 from ..models import Error
-from ..models.v3 import IamUserPolicyList
+from ..models.v3 import IamUserPolicy
 
 
 @validate_call()
 def _build_request(
     client: Client,
     name: str,
-    config: IamUserPolicyList,
+    config: list[IamUserPolicy],
     domain: str = "",
     retries: int = None,
     timeout: float = None,
@@ -41,7 +41,7 @@ def _build_request(
 
 def _build_response(response: httpx.Response):
     if response.status_code == 200:
-        response_200 = TypeAdapter(IamUserPolicyList).validate_python(response.json())
+        response_200 = TypeAdapter(list[IamUserPolicy]).validate_python(response.json())
         return response_200
     else:
         response_error = TypeAdapter(Error).validate_python(response.json())

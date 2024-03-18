@@ -1,7 +1,7 @@
-from pydantic_collections import BaseCollectionModel
+from pydantic import BaseModel, RootModel
 
 from . import Filesystem
 
 
-class FilesystemList(BaseCollectionModel[Filesystem]):
-    pass
+class FilesystemList(BaseModel):
+    RootModel: Filesystem

@@ -5,7 +5,7 @@ from . import (
     ConfigStorageDisk,
     ConfigStorageMemory,
     ConfigStorageCors,
-    ConfigStorageS3List,
+    ConfigStorageS3,
 )
 
 
@@ -21,7 +21,7 @@ class ConfigStorage(BaseModel):
 
     """
     + {
-        "s3": [ConfigStorageS3List]
+        "s3": [ConfigStorageS3]
     }
     """
 
@@ -29,4 +29,4 @@ class ConfigStorage(BaseModel):
     memory: Optional[ConfigStorageMemory] = None
     cors: Optional[ConfigStorageCors] = None
     mimetypes_file: Optional[str] = None
-    s3: Optional[ConfigStorageS3List] = None
+    s3: Optional[list[ConfigStorageS3]] = None

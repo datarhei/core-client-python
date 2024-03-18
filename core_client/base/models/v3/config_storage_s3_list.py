@@ -1,11 +1,11 @@
-from pydantic_collections import BaseCollectionModel
+from pydantic import BaseModel, RootModel
 
 from . import ConfigStorageS3
 
 
-class ConfigStorageS3List(BaseCollectionModel[ConfigStorageS3]):
+class ConfigStorageS3List(BaseModel):
     """
     [ConfigStorageS3]
     """
 
-    pass
+    RootModel: ConfigStorageS3

@@ -1,11 +1,11 @@
-from pydantic_collections import BaseCollectionModel
+from pydantic import BaseModel, RootModel
 
 from . import IamUser
 
 
-class IamUserList(BaseCollectionModel[IamUser]):
+class IamUserList(BaseModel):
     """
     [IamUser]
     """
 
-    pass
+    RootModel: IamUser
