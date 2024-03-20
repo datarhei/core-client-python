@@ -13,7 +13,7 @@ class ClusterNodeResources(BaseModel):
     }
     """
 
-    cpu_limit: str
+    cpu_limit: float
     cpu_used: float
     is_throttling: bool
     memory_limit_bytes: int
