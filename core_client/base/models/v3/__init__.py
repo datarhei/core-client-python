@@ -120,6 +120,7 @@ from .process_report import ProcessReport
 from .process import Process
 
 from .report_process import ReportProcess
+from .report_process_list import ReportProcessList
 
 from .rtmp import Rtmp
 
