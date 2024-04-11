@@ -1,6 +1,7 @@
 from pydantic import BaseModel
+from typing import Union, Optional, List
 
-from . import ClusterNode, ClusterRaft
+from . import ClusterNode, ClusterRaft, ClusterLeader
 
 
 class Cluster(BaseModel):
@@ -16,14 +17,21 @@ class Cluster(BaseModel):
         "degraded": False,
         "degraded_error": ""
     }
+    423e0453: {
+        "leader": ClusterLeader,
+        "public_domains": ["cluster.hardbruecke.ch"],
+        "status": "online",
+    }
     """
 
     id: str
-    name: str
-    leader: bool
-    address: str
+    name: Optional[str] = None
+    leader: Union[bool, ClusterLeader]
+    public_domains: Optional[List[str]] = None
+    address: Optional[str] = None
     raft: ClusterRaft
     nodes: list[ClusterNode]
     version: str
     degraded: bool
     degraded_error: str
+    

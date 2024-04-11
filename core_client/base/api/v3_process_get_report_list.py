@@ -1,5 +1,6 @@
 import httpx
 from pydantic import TypeAdapter, validate_call
+from typing import Union
 
 from ...models import Client
 from ..models import Error
@@ -10,8 +11,8 @@ from ..models.v3 import ProcessReport
 def _build_request(
     client: Client,
     id: str,
-    created_at: str = "",
-    exited_at: str = "",
+    created_at: Union[str, int] = "",
+    exited_at: Union[str, int] = "",
     domain: str = "",
     retries: int = None,
     timeout: float = None,

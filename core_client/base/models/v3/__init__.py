@@ -11,6 +11,8 @@ from .cluster_node_files import ClusterNodeFiles
 
 from .cluster_db_lock import ClusterDbLock
 
+from .cluster_leader import ClusterLeader
+
 from .cluster import Cluster
 
 from .config_api_access_rules import ConfigApiAccessRules
