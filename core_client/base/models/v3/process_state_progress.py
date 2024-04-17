@@ -20,6 +20,9 @@ class ProcessStateProgress(BaseModel):
         "speed": 1,
         "time": 90082
     }
+    + {
+        "started": true,
+    }
     """
 
     bitrate_kbit: float
@@ -35,3 +38,4 @@ class ProcessStateProgress(BaseModel):
     size_kb: int
     speed: float
     time: float
+    started: Optional[bool] = False
