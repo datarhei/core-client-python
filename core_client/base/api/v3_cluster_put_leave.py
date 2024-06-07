@@ -8,9 +8,13 @@ from ..models import Error
 @validate_call()
 def _build_request(
     client: Client,
+    id: str,
     retries: int = None,
     timeout: float = None,
 ):
+    payload = {
+        "id": id,
+    }
     if not retries:
         retries = client.retries
     if not timeout:
@@ -21,7 +25,7 @@ def _build_request(
         "headers": client.headers,
         "timeout": timeout,
         "data": None,
-        "json": None,
+        "json": payload,
     }, retries
 
 
