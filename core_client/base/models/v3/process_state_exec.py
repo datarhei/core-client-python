@@ -12,3 +12,4 @@ class ProcessStateExec(str, Enum):
     finishing = "finishing"
     failed = "failed"
     killed = "killed"
+    deploying = "deploying"
