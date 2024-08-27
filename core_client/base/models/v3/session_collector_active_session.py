@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from typing import Union
 
 
 class SessionCollectorActiveSession(BaseModel):
@@ -22,7 +23,7 @@ class SessionCollectorActiveSession(BaseModel):
     created_at: int
     local: str
     remote: str
-    extra: str
+    extra: Union[str, dict]
     bytes_rx: int
     bytes_tx: int
     bandwidth_rx_kbit: float
