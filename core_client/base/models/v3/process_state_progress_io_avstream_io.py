@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-
+from typing import Union
 from . import ProcessStateProgressIOAvstreamIOState
 
 
@@ -15,7 +15,7 @@ class ProcessStateProgressIOAvstreamIO(BaseModel):
 
     packet: float
     size_kb: float
-    state: ProcessStateProgressIOAvstreamIOState
+    state: str
     time: int
 
     class ConfigDict:

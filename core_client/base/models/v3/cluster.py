@@ -34,4 +34,5 @@ class Cluster(BaseModel):
     version: str
     degraded: bool
     degraded_error: str
+    status: str
     
