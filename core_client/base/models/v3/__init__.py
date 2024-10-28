@@ -119,6 +119,11 @@ from .process_state_resources_cpu_usage import ProcessStateResourcesCpuUsage
 from .process_state_resources_memory_bytes import (
     ProcessStateResourcesMemoryBytes,
 )
+from .process_state_resources_gpu_usage import ProcessStateResourcesGpuUsage
+from .process_state_resources_gpu_memory_bytes import ProcessStateResourcesGpuMemoryBytes
+from .process_state_resources_gpu_encoder import ProcessStateResourcesGpuEncoder
+from .process_state_resources_gpu_decoder import ProcessStateResourcesGpuDecoder
+from .process_state_resources_gpu import ProcessStateResourcesGpu
 from .process_state_resources import ProcessStateResources
 from .process_state import ProcessState
 

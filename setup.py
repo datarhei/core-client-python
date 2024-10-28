@@ -2,8 +2,7 @@ from setuptools import find_packages, setup
 
 install_requirements = [
     "httpx[http2]>=0.23.0",
-    "pydantic>=1.10.2",
-    "pydantic-collections>=0.3.0",
+    "pydantic>=2"
 ]
 tests_requirements = [
     "coverage",
@@ -15,7 +14,7 @@ tests_requirements = [
 
 setup(
     name="core_client",
-    version="1.2.0",
+    version="2.0.0",
     url="https://github.com/datarhei/core-client-python",
     description="datarhei Core PyClient",
     author="FOSS GmbH",
@@ -26,6 +25,7 @@ setup(
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
         "Programming Language :: Python :: 3.11",
+        "Programming Language :: Python :: 3.12",
         "Topic :: datarhei Core Development :: Libraries",
     ],
     keywords="datarhei core rest client http httpx asyncio pydantic",

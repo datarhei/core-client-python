@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 from typing import Optional
 
-from . import ProcessStateResourcesCpuUsage, ProcessStateResourcesMemoryBytes
+from . import ProcessStateResourcesCpuUsage, ProcessStateResourcesMemoryBytes, ProcessStateResourcesGpu
 
 
 class ProcessStateResources(BaseModel):
@@ -14,3 +14,4 @@ class ProcessStateResources(BaseModel):
 
     cpu_usage: Optional[ProcessStateResourcesCpuUsage] = None
     memory_bytes: Optional[ProcessStateResourcesMemoryBytes] = None
+    gpu: Optional[ProcessStateResourcesGpu] = None
