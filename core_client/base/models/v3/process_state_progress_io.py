@@ -69,6 +69,8 @@ class ProcessStateProgressIO(BaseModel):
     stream: int
     type: str
     width: Optional[int] = None
+    gop: Optional[float] = None
+    drop: Optional[int] = None
 
     @model_validator(mode="before")
     def remove_empty(cls, values):
