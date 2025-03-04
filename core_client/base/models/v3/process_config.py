@@ -38,6 +38,9 @@ class ProcessConfig(BaseModel):
         "owner": str,
         "metadata": {"key": {...}},
     }
+    + {
+        "binary": str,
+    }
     """
 
     autostart: bool = True
@@ -54,6 +57,7 @@ class ProcessConfig(BaseModel):
     runtime_duration_seconds: Optional[int] = None
     log_patterns: Optional[List[str]] = None
     type: ProcessConfigType = ProcessConfigType.ffmpeg
+    binary: Optional[str] = None
     domain: Optional[str] = None
     owner: Optional[str] = None
     metadata: Optional[dict[str, Union[str, dict, list, int, float, bool]]] = None
