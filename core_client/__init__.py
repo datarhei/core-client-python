@@ -63,6 +63,7 @@ class Client:
                 response = Token(**r_login.json())
                 self._set_access_token_expires_at(response)
                 self.refresh_token = response.refresh_token
+                self._set_refresh_token_expires_at(response)
                 return response
             except PydanticValidationError:
                 return Token()
