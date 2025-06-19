@@ -1,7 +1,7 @@
 from typing import Optional
 from pydantic import BaseModel, model_validator
 
-from . import ProcessStateProgressIOAvstream, ProcessStateProgressIOFramerate
+from . import ProcessStateProgressIOAvstream, ProcessStateProgressIOFramerate, ProcessStateProgressIOTeeIO
 
 
 class ProcessStateProgressIO(BaseModel):
@@ -43,6 +43,12 @@ class ProcessStateProgressIO(BaseModel):
         "framerate": ProcessStateProgressIOFramerate,
     }
     """
+    
+    """new in vod branch
+    {
+        "tee_outputs": float,
+    }
+    """
 
     address: str
     avstream: Optional[ProcessStateProgressIOAvstream] = None
@@ -71,6 +77,7 @@ class ProcessStateProgressIO(BaseModel):
     width: Optional[int] = None
     gop: Optional[float] = None
     drop: Optional[int] = None
+    tee_outputs: Optional[list[ProcessStateProgressIOTeeIO]] = None
 
     @model_validator(mode="before")
     def remove_empty(cls, values):
