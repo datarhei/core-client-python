@@ -18,7 +18,7 @@ class ProcessStateProgressIOTee(BaseModel):
 
     id: Optional[str] = None
     address: str
-    format = str
+    format: str
     state: ProcessStateProgressIOTeeState = ProcessStateProgressIOTeeState.running
     fifo_enabled: bool = False
     fifo_state: Optional[ProcessStateProgressIOTeeState] = None

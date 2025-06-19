@@ -1,7 +1,7 @@
 from typing import Optional
 from pydantic import BaseModel, model_validator
 
-from . import ProcessStateProgressIOAvstream, ProcessStateProgressIOFramerate, ProcessStateProgressIOTeeIO
+from . import ProcessStateProgressIOAvstream, ProcessStateProgressIOFramerate, ProcessStateProgressIOTee
 
 
 class ProcessStateProgressIO(BaseModel):
@@ -77,7 +77,7 @@ class ProcessStateProgressIO(BaseModel):
     width: Optional[int] = None
     gop: Optional[float] = None
     drop: Optional[int] = None
-    tee_outputs: Optional[list[ProcessStateProgressIOTeeIO]] = None
+    tee_outputs: Optional[list[ProcessStateProgressIOTee]] = None
 
     @model_validator(mode="before")
     def remove_empty(cls, values):
