@@ -77,7 +77,7 @@ class ProcessStateProgressIO(BaseModel):
     width: Optional[int] = None
     gop: Optional[float] = None
     drop: Optional[int] = None
-    tee_outputs: Optional[list[ProcessStateProgressIOTee]] = None
+    tee: Optional[list[ProcessStateProgressIOTee]] = None
 
     @model_validator(mode="before")
     def remove_empty(cls, values):
