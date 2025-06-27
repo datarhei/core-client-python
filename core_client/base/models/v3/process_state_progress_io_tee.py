@@ -19,9 +19,9 @@ class ProcessStateProgressIOTee(BaseModel):
     id: Optional[str] = None
     address: str
     format: str
-    state: ProcessStateProgressIOTeeState = ProcessStateProgressIOTeeState.running
+    state: Optional[str] = None  # e.g., "running", "stopped", "error"
     fifo_enabled: bool = False
-    fifo_state: Optional[ProcessStateProgressIOTeeState] = None
+    fifo_state: Optional[str] = None  # e.g., "running", "stopped", "error"
     fifo_recovery_attempts_total: Optional[int] = None
 
     class ConfigDict:
