@@ -51,8 +51,9 @@ class Client:
         self.timeout = timeout
 
     def _basic_login(self):
+        domain_param = '?domain={self.domain}' if self.domain else ''
         r_login = httpx.post(
-            url=f"{self.base_url}/api/login?domain={self.domain}",
+            url=f"{self.base_url}/api/login{domain_param}",
             json={
                 "username": f"{self.username}",
                 "password": f"{self.password}",
@@ -160,9 +161,8 @@ class Client:
 
     def _get_headers(self):
         _headers = self.headers
-        if (
-            self.username and self.password
-        ) or self.access_token or self.refresh_token or self.auth0_token:
+        if (self.username and self.password) or \
+            self.access_token or self.refresh_token or self.auth0_token:
             if (
                 self.refresh_token
                 and self._refresh_token_is_expired() is False
