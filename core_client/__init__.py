@@ -24,6 +24,7 @@ class Client:
         base_url: HttpUrl,
         username: str = None,
         password: str = None,
+        domain: str = None,
         access_token: str = None,
         refresh_token: str = None,
         auth0_token: str = None,
@@ -40,6 +41,7 @@ class Client:
             self.base_url = base_url
         self.username = username
         self.password = password
+        self.domain = domain
         self.access_token = access_token
         self.refresh_token = refresh_token
         self.access_token_expires_at = None
@@ -50,7 +52,7 @@ class Client:
 
     def _basic_login(self):
         r_login = httpx.post(
-            url=f"{self.base_url}/api/login",
+            url=f"{self.base_url}/api/login?domain={self.domain}",
             json={
                 "username": f"{self.username}",
                 "password": f"{self.password}",
