@@ -12,6 +12,7 @@ def _build_request(
     id: str,
     config: ProcessConfig,
     domain: str = "",
+    force: str = None,
     retries: int = None,
     timeout: float = None,
 ):
@@ -23,7 +24,7 @@ def _build_request(
         timeout = client.timeout
     return {
         "method": "put",
-        "url": f"{client.base_url}/api/v3/cluster/process/{id}?domain={domain}",
+        "url": f"{client.base_url}/api/v3/cluster/process/{id}?domain={domain}&force={force}",
         "headers": client.headers,
         "timeout": timeout,
         "data": None,
