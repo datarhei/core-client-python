@@ -10,12 +10,13 @@ from ..models.v3 import SessionToken
 def _build_request(
     client: Client,
     username: str,
-    config: SessionToken,
+    config: list[SessionToken],
     retries: int = None,
     timeout: float = None,
 ):
-    if not isinstance(config, dict):
-        config = config.model_dump()
+    if not isinstance(config, list) or not all(isinstance(data, SessionToken) for data in config):
+        raise TypeError("Must be a list of SessionToken")
+    config = [data.model_dump() if isinstance(data, SessionToken) else data for data in config]
     if not retries:
         retries = client.retries
     if not timeout:
@@ -32,7 +33,7 @@ def _build_request(
 
 def _build_response(response: httpx.Response):
     if response.status_code == 200:
-        response_200 = TypeAdapter(SessionToken).validate_python(response.json())
+        response_200 = TypeAdapter(list[SessionToken]).validate_python(response.json())
         return response_200
     else:
         response_error = TypeAdapter(Error).validate_python(response.json())
