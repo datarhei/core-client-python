@@ -16,7 +16,8 @@ class SessionToken(BaseModel):
     }
     """
 
+    match: str = "/**"
+    ttl_sec: int = 3600
     extras: Optional[Dict[str, Dict]] = None
-    match: Optional[str] = None
     remote: Optional[List[str]] = None
     token: Optional[str] = None
