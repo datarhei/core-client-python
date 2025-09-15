@@ -260,15 +260,23 @@ class AsyncClient(Client):
         return proxy_method
 
 
-for module_info in pkgutil.walk_packages(base.__path__):
-    module_name = f"{base.__name__}.{module_info.name}"
-    module = importlib.import_module(module_name)
-    for submodule_info in pkgutil.walk_packages(module.__path__):
-        submodule_name = f"{module_name}.{submodule_info.name}"
-        submodule = importlib.import_module(submodule_name)
-        if hasattr(submodule, "asyncio"):
-            AsyncClient._add_proxy_method(
-                submodule_info.name, submodule.asyncio
-            )
-        if hasattr(submodule, "sync"):
-            Client._add_proxy_method(submodule_info.name, submodule.sync)
+for module_info in pkgutil.walk_packages(path=base.__path__, prefix=f"{base.__name__}."):
+    try:
+        if not module_info.ispkg:
+            continue
+
+        module = importlib.import_module(module_info.name)
+        sub_prefix = f"{module.__name__}."
+        for submodule_info in pkgutil.walk_packages(path=module.__path__, prefix=sub_prefix):
+            submodule = importlib.import_module(submodule_info.name)
+            if hasattr(submodule, "asyncio"):
+                method_name = submodule_info.name.split('.')[-1]
+                AsyncClient._add_proxy_method(
+                    method_name, submodule.asyncio
+                )
+            if hasattr(submodule, "sync"):
+                method_name = submodule_info.name.split('.')[-1]
+                Client._add_proxy_method(method_name, submodule.sync)
+
+    except Exception as e:
+        print(f"  ERROR processing {module_info.name}: {e}")
