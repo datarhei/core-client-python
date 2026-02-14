@@ -18,6 +18,8 @@ Changelog
 -   Mod `process_config` model (scheduler, runtime_duration_seconds)
 -   Mod `v3_process_get_report` is now `v3_report_get_process_list`
 -   Fix `v3_process_put_command` model
+-   Drop Python `3.7`-`3.10` support, require Python `3.11+` (tested up to `3.13`)
+-   Add Ruff lint integration and replace Flake8 in pre-commit
 
 Breaking changes:
 - `v3_process_get_report` is now `v3_process_get_report_list`

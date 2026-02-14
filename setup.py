@@ -15,20 +15,18 @@ tests_requirements = [
 
 setup(
     name="datarhei-mediacore-client",
-    version="2.0.0",
+    version="16.20.0",
     url="https://github.com/datarhei/core-client-python",
     description="datarhei MediaCore Python client",
     author="FOSS GmbH",
     author_email="support@datarhei.com",
     classifiers=[
-        "Programming Language :: Python :: 3.7",
-        "Programming Language :: Python :: 3.8",
-        "Programming Language :: Python :: 3.9",
-        "Programming Language :: Python :: 3.10",
         "Programming Language :: Python :: 3.11",
         "Programming Language :: Python :: 3.12",
+        "Programming Language :: Python :: 3.13",
         "Topic :: datarhei Core Development :: Libraries",
     ],
+    python_requires=">=3.11",
     keywords="datarhei mediacore core rest client http httpx asyncio pydantic",
     packages=find_packages(exclude=["tests*"]),
     setup_requires=["pytest-runner"],

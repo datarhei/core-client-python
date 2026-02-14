@@ -28,4 +28,5 @@ release: dist
 	twine upload dist/*
 
 lint:
+	ruff check .
 	SKIP=no-commit-to-branch pre-commit run -a -v

@@ -1,6 +1,6 @@
 # datarhei MediaCore Python Client
 For rapid development of Python applications around [datarhei Core](https://github.com/datarhei/core) / MediaCore.
-Requires Python 3.7+ and datarhei Core v16.10+.
+Requires Python 3.11+ and datarhei Core v16.10+.
 
 ---
 
@@ -830,7 +830,7 @@ $ CORE_URL=http://127.0.0.1:8080 \
 
 #### Docker
 ```sh
-$ docker build --build-arg PYTHON_VERSION=3.7 \
+$ docker build --build-arg PYTHON_VERSION=3.11 \
     -f tests/Dockerfile -t core_test .
 
 $ docker run -it --rm \
@@ -841,9 +841,10 @@ $ docker run -it --rm \
 ### Code checks
 
 ```sh
+$ ruff check .
 $ pre-commit run --all-files
 ```
-*Requires `pip install pre-commit`.*
+*Requires `pip install -r requirements-dev.txt`.*
 
 ## Changelog
 

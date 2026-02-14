@@ -1,6 +1,6 @@
 [tool.black]
 line-length = 110
-target-version = ['py310']
+target-version = ['py311']
 
 [tool.isort]
 profile = 'black'
@@ -8,3 +8,12 @@ line_length = 110
 force_alphabetical_sort_within_sections = true
 sections = ["FUTURE", "STDLIB", "THIRDPARTY", "FIRSTPARTY", "LOCALFOLDER"]
 default_section = "THIRDPARTY"
+
+[tool.ruff]
+line-length = 110
+target-version = "py311"
+exclude = [".git", "__pycache__", ".mypy_cache", ".pytest_cache"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W"]
+ignore = ["E203", "E501", "F401", "F811", "W292", "W293"]
