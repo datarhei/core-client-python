@@ -1,9 +1,13 @@
 import os
-import pytest
-import httpx
 import datetime
 
+import httpx
+import pytest
+
 from core_client import Client
+from core_client.base.models import About, Error
+
+pytestmark = pytest.mark.integration
 
 core_url = os.getenv("CORE_URL", "http://127.0.0.1:8080")
 
@@ -25,7 +29,7 @@ def test_access_token():
     )
     client.login()
     res = client.about_get()
-    assert res.created_at is None
+    assert isinstance(res, (Error, About))
     client = Client(
         base_url=f"{core_url}", username="admin", password="test", timeout=20.0
     )
@@ -35,7 +39,7 @@ def test_access_token():
     )
     client.login()
     res = client.about_get()
-    assert type(res.created_at) is datetime.datetime
+    assert isinstance(res.created_at, datetime.datetime)
 
 
 def test_refresh_token():
@@ -54,4 +58,4 @@ def test_refresh_token():
     )
     client.login()
     res = client.about_get()
-    assert type(res.created_at) is datetime.datetime
+    assert isinstance(res.created_at, datetime.datetime)

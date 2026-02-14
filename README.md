@@ -1,5 +1,5 @@
-# datarhei Core PyClient
-For rapid development of Python applications around the [datarhei Core](https://github.com/datarhei/core).
+# datarhei MediaCore Python Client
+For rapid development of Python applications around [datarhei Core](https://github.com/datarhei/core) / MediaCore.
 Requires Python 3.7+ and datarhei Core v16.10+.
 
 ---
@@ -63,6 +63,14 @@ pip install https://github.com/datarhei/core-client-python/archive/refs/tags/{re
 
 ## Usage
 
+### Preferred import path
+
+```python
+from datarhei.mediacore import MediaCoreClient, AsyncMediaCoreClient
+```
+
+`core_client` is still supported as a backward-compatible alias during migration.
+
 #### Init arguments
 
 -   `base_url: str`
@@ -76,9 +84,9 @@ pip install https://github.com/datarhei/core-client-python/archive/refs/tags/{re
 #### Sync
 
 ```python
-from core_client import Client
+from datarhei.mediacore import MediaCoreClient
 
-client = Client(base_url="http://127.0.0.1:8080", username="admin", password="datarhei")
+client = MediaCoreClient(base_url="http://127.0.0.1:8080", username="admin", password="datarhei")
 client.login()
 
 about = client.about_get()
@@ -89,9 +97,9 @@ print(about)
 
 ```python
 import asyncio
-from core_client import AsyncClient
+from datarhei.mediacore import AsyncMediaCoreClient
 
-client = AsyncClient(base_url="http://127.0.0.1:8080", username="admin", password="datarhei")
+client = AsyncMediaCoreClient(base_url="http://127.0.0.1:8080", username="admin", password="datarhei")
 client.login()
 
 async def main():

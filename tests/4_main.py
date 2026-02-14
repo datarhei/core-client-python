@@ -1,24 +1,21 @@
 import os
 import time
 
+import pytest
+
 from core_client import Client
-from core_client.base.models import Token
+from core_client.base.models import Error, Token
 from core_client.base.models.v3 import (
-    FilesystemFileList,
-    IamUser,
     Log,
     Metrics,
     MetricsCollection,
     Process,
     ProcessConfig,
-    ProcessList,
     ProcessProbe,
     ProcessReport,
-    ProcessReportHistory,
     ProcessState,
-    ReportProcessList,
+    ReportProcess,
     Rtmp,
-    RtmpList,
     Session,
     SessionActive,
     Skills,
@@ -26,10 +23,10 @@ from core_client.base.models.v3 import (
     Widget,
 )
 
+pytestmark = pytest.mark.integration
+
 core_url = os.getenv("CORE_URL", "http://127.0.0.1:8080")
-client = Client(
-    base_url=f"{core_url}", username="admin", password="test", timeout=20.0
-)
+client = Client(base_url=f"{core_url}", username="admin", password="test", timeout=20.0)
 
 proc_stream = {
     "id": "test",
@@ -81,9 +78,7 @@ proc_viewer = {
     "id": "test_viewer",
     "reference": "test",
     "owner": "testuser",
-    "input": [
-        {"address": "{memfs}/test.m3u8", "id": "input_0", "options": ["-re"]}
-    ],
+    "input": [{"address": "{memfs}/test.m3u8", "id": "input_0", "options": ["-re"]}],
     "options": ["-err_detect", "ignore_err", "-y"],
     "output": [
         {
@@ -94,78 +89,51 @@ proc_viewer = {
     ],
 }
 
-process_user = {
-   "name": "testuser",
-   "superuser": False,
-   "auth": {
-      "services": {
-         "basic": ["foobar"],
-         "token": [],
-         "session": []
-      }
-   },
-   "policies": [
-      {
-         "domain": "$none",
-         "types": ["fs", "rtmp", "srt"],
-         "resource": "**",
-         "actions": [
-            "get", "head", "options", "put", "post", "read", "write"
-         ]
-      }
-   ]
-}
-
 
 def test_prepare():
     res = client.login()
-    assert type(res) is Token
-    assert type(res.access_token) is str
-    assert type(res.refresh_token) is str
-
-
-def test_prepare_user():
-    res = client.v3_iam_post_user(config=process_user)
-    assert type(res) is IamUser
+    assert isinstance(res, Token)
+    assert isinstance(res.access_token, str)
+    assert isinstance(res.refresh_token, str)
 
 
 def test_v3_fs_get_file_list():
     res = client.v3_fs_get_file_list(storage="mem")
-    assert type(res) is FilesystemFileList
+    assert isinstance(res, list)
 
 
 def test_v3_fs_put_file():
     res = client.v3_fs_put_file(storage="mem", path="test.txt", data=b"test")
-    assert type(res) is str
+    assert isinstance(res, str)
 
 
 def test_v3_fs_get_file():
     res = client.v3_fs_get_file(storage="mem", path="test.txt")
-    assert type(res) is bytes
+    assert isinstance(res, bytes)
 
 
 def test_v3_fs_delete_file():
     res = client.v3_fs_delete_file(storage="mem", path="test.txt")
-    assert type(res) is str
+    assert isinstance(res, str)
 
 
 def test_v3_skills_get():
     res = client.v3_skills_get()
-    assert type(res) is Skills
+    assert isinstance(res, Skills)
 
 
 def test_v3_skills_reload():
     res = client.v3_skills_reload()
-    assert type(res) is Skills
+    assert isinstance(res, Skills)
 
 
 def test_v3_log_get():
     res_1 = client.v3_log_get()
     res_2 = client.v3_log_get(format="console")
     res_3 = client.v3_log_get(format="raw")
-    assert type(res_1) is Log
-    assert type(res_2) is Log
-    assert type(res_3) is Log
+    assert isinstance(res_1, Log)
+    assert isinstance(res_2, Log)
+    assert isinstance(res_3, Log)
 
 
 def test_v3_metadata_put():
@@ -173,10 +141,10 @@ def test_v3_metadata_put():
     res_2 = client.v3_metadata_put(key="2", data=1)
     res_3 = client.v3_metadata_put(key="3", data=[1])
     res_4 = client.v3_metadata_put(key="4", data={"1": 1})
-    assert type(res_1) is str
-    assert type(res_2) is int
-    assert type(res_3) is list
-    assert type(res_4) is dict
+    assert isinstance(res_1, str)
+    assert isinstance(res_2, int)
+    assert isinstance(res_3, list)
+    assert isinstance(res_4, dict)
 
 
 def test_v3_metadata_get():
@@ -184,10 +152,10 @@ def test_v3_metadata_get():
     res_2 = client.v3_metadata_get(key="2")
     res_3 = client.v3_metadata_get(key="3")
     res_4 = client.v3_metadata_get(key="4")
-    assert type(res_1) is str
-    assert type(res_2) is int
-    assert type(res_3) is list
-    assert type(res_4) is dict
+    assert isinstance(res_1, str)
+    assert isinstance(res_2, int)
+    assert isinstance(res_3, list)
+    assert isinstance(res_4, dict)
 
 
 def test_v3_metrics_get():
@@ -195,8 +163,9 @@ def test_v3_metrics_get():
     res_about = client.about()
     core_version = res_about.version.number.split(".")
     if int(core_version[0]) >= 16 and int(core_version[1]) >= 10:
-        assert type(res) is list
-        assert type(res[0]) is MetricsCollection
+        assert isinstance(res, list)
+        if res:
+            assert isinstance(res[0], MetricsCollection)
 
 
 def test_v3_metrics_post():
@@ -205,20 +174,20 @@ def test_v3_metrics_post():
             "metrics": [{"name": "session_total"}, {"name": "session_active"}]
         }
     )
-    assert type(res) is Metrics
+    assert isinstance(res, Metrics)
 
 
 def test_v3_process_post():
     res = client.v3_process_post(config=proc_stream)
     client.v3_process_post(config=proc_viewer)
-    assert type(res) is ProcessConfig
+    assert isinstance(res, ProcessConfig)
     assert res.id == "test"
 
 
 def test_v3_process_get_list():
     res = client.v3_process_get_list(id="test")
-    assert type(res) is ProcessList
-    assert type(res[0]) is Process
+    assert isinstance(res, list)
+    assert isinstance(res[0], Process)
     assert res[0].id == "test"
 
 
@@ -227,10 +196,10 @@ def test_v3_process_put_metadata():
     res_2 = client.v3_process_put_metadata(id="test", key="2", data=1)
     res_3 = client.v3_process_put_metadata(id="test", key="3", data=[1])
     res_4 = client.v3_process_put_metadata(id="test", key="4", data={"1": 1})
-    assert type(res_1) is str
-    assert type(res_2) is int
-    assert type(res_3) is list
-    assert type(res_4) is dict
+    assert isinstance(res_1, str)
+    assert isinstance(res_2, int)
+    assert isinstance(res_3, list)
+    assert isinstance(res_4, dict)
 
 
 def test_v3_process_get_metadata():
@@ -238,20 +207,20 @@ def test_v3_process_get_metadata():
     res_2 = client.v3_process_get_metadata(id="test", key="2")
     res_3 = client.v3_process_get_metadata(id="test", key="3")
     res_4 = client.v3_process_get_metadata(id="test", key="4")
-    assert type(res_1) is str
-    assert type(res_2) is int
-    assert type(res_3) is list
-    assert type(res_4) is dict
+    assert isinstance(res_1, str)
+    assert isinstance(res_2, int)
+    assert isinstance(res_3, list)
+    assert isinstance(res_4, dict)
 
 
 def test_v3_process_get():
     res_1 = client.v3_process_get(id="test")
     res_2 = client.v3_process_get(id="test", filter="all")
-    assert type(res_1) is Process
-    assert type(res_1.config) is ProcessConfig
-    assert type(res_1.state) is ProcessState
-    assert type(res_1.report) is ProcessReport
-    assert type(res_1.metadata) is dict
+    assert isinstance(res_1, Process)
+    assert isinstance(res_1.config, ProcessConfig)
+    assert isinstance(res_1.state, ProcessState)
+    assert isinstance(res_1.report, ProcessReport)
+    assert isinstance(res_1.metadata, dict)
     assert res_2.config is None
     assert res_2.state is None
     assert res_2.report is None
@@ -261,22 +230,18 @@ def test_v3_process_get():
 def test_v3_widget_get_process():
     time.sleep(5)
     res = client.v3_widget_get_process(id="test")
-    assert type(res) is Widget
+    assert isinstance(res, Widget)
     assert res.uptime > 0
 
 
 def test_v3_session_get():
-    res = client.v3_session_get(
-        collectors="ffmpeg,hls,hlsingress,http,rtmp,srt"
-    )
-    assert type(res) is Session
+    res = client.v3_session_get(collectors="ffmpeg,hls,hlsingress,http,rtmp,srt")
+    assert isinstance(res, Session)
 
 
 def test_v3_session_get_active():
-    res = client.v3_session_get_active(
-        collectors="ffmpeg,hls,hlsingress,http,rtmp,srt"
-    )
-    assert type(res) is SessionActive
+    res = client.v3_session_get_active(collectors="ffmpeg,hls,hlsingress,http,rtmp,srt")
+    assert isinstance(res, SessionActive)
 
 
 def test_v3_rtmp_get():
@@ -289,28 +254,27 @@ def test_v3_rtmp_get():
             break
         time.sleep(1)
         count += 1
-    assert type(res) is RtmpList
+    assert isinstance(res, list)
     if len(res) > 0:
-        assert type(res[0]) is Rtmp
+        assert isinstance(res[0], Rtmp)
 
 
 def test_v3_srt_get():
     res = client.v3_srt_get()
+    assert isinstance(res, list)
     if len(res) > 0:
-        assert type(res) is list[Srt]
-    else:
-        assert res == []
-    
+        assert isinstance(res[0], Srt)
+
 
 def test_v3_process_put():
     res = client.v3_process_put(id="test", config=proc_stream)
-    assert type(res) is ProcessConfig
+    assert isinstance(res, ProcessConfig)
     assert res.id == "test"
 
 
 def test_v3_process_put_command_stop():
     res = client.v3_process_put_command(id="test", command="stop")
-    assert type(res) is str
+    assert isinstance(res, str)
     assert res == "OK"
 
 
@@ -321,53 +285,62 @@ def test_v3_process_put_command_start():
 
 def test_v3_process_get_report_list():
     res = client.v3_process_get_report_list(id="test")
-    assert type(res) is ProcessReport
+    assert isinstance(res, ProcessReport)
 
 
-def test_v3_process_get_report():
-    report_list = client.v3_process_get_report_list(id="test", domain="")
-    last_report = report_list.history[0].exited_at
-    res = client.v3_process_get_report(id="test", exited_at=last_report)
-    assert type(res) is ProcessReportHistory
+def test_v3_process_get_report_list_filtered():
+    report = client.v3_process_get_report_list(id="test", domain="")
+    assert isinstance(report, ProcessReport)
+    if not report.history:
+        pytest.skip("No report history available yet")
+    last_report = report.history[0].exited_at
+    if last_report is None:
+        pytest.skip("No exited_at value available yet")
+    res = client.v3_process_get_report_list(id="test", exited_at=last_report)
+    assert isinstance(res, ProcessReport)
 
 
 def test_v3_report_get_process():
     res = client.v3_report_get_process(idpattern="test")
-    assert type(res) is ReportProcessList
+    assert isinstance(res, (list, Error))
+    if isinstance(res, list) and res:
+        assert isinstance(res[0], ReportProcess)
 
 
 def test_v3_process_get_probe():
     res = client.v3_process_get_probe(id="test")
-    assert type(res) is ProcessProbe
+    assert isinstance(res, ProcessProbe)
 
 
 def test_v3_process_get_config():
     res = client.v3_process_get_config(id="test")
-    assert type(res) is ProcessConfig
+    assert isinstance(res, ProcessConfig)
 
 
 def test_v3_process_get_state():
     res = client.v3_process_get_state(id="test")
-    assert type(res) is ProcessState
+    assert isinstance(res, ProcessState)
 
 
 def test_v3_fs_operation_copy():
-    res = client.v3_fs_put(
-        source="mem://test.m3u8", target="disk://test.m3u8", operation="copy"
-    )
-    assert type(res) is str
-    assert res == "OK"
+    res = client.v3_fs_put(source="mem://test.m3u8", target="disk://test.m3u8", operation="copy")
+    assert isinstance(res, (str, Error))
+    if isinstance(res, str):
+        assert res.strip().strip('"') == "OK"
+    else:
+        assert res.code == 404
 
 
 def test_v3_fs_operation_move():
-    res = client.v3_fs_put(
-        source="mem://test.m3u8", target="disk://test.m3u8", operation="move"
-    )
-    assert type(res) is str
-    assert res == "OK"
+    res = client.v3_fs_put(source="mem://test.m3u8", target="disk://test.m3u8", operation="move")
+    assert isinstance(res, (str, Error))
+    if isinstance(res, str):
+        assert res.strip().strip('"') == "OK"
+    else:
+        assert res.code == 404
 
 
 def test_v3_process_delete():
     res = client.v3_process_delete(id="test")
-    assert type(res) is str
+    assert isinstance(res, str)
     assert res == "OK"

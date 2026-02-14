@@ -40,9 +40,12 @@ class Srt(BaseModel):
 
     @model_validator(mode="before")
     def remove_empty(cls, values):
-        if values["name"] is None:
-            values.pop("name")
-            values.pop("socketid")
+        if not isinstance(values, dict):
+            return values
+
+        if values.get("name") is None:
+            values.pop("name", None)
+            values.pop("socketid", None)
         else:
-            values.pop("publisher")
+            values.pop("publisher", None)
         return values
