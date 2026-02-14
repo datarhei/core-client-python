@@ -1,7 +1,9 @@
 Changelog
 ---------
 
-## 1.2.0 (open)
+## 2.3.0
+
+Ccompatibility: Core v16.20.0 (or older)
 
 -   Add `iam`, `session_token` and `cluster` interfaces
 -   Add `framerate`, `keyframe`, `extradata_size_bytes` to process progress

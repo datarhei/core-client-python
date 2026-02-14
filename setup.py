@@ -15,10 +15,10 @@ tests_requirements = [
 
 setup(
     name="datarhei-mediacore-client",
-    version="16.20.0",
+    version="2.3.0",
     url="https://github.com/datarhei/core-client-python",
     description="datarhei MediaCore Python client",
-    author="FOSS GmbH",
+    author="livespotting GmbH",
     author_email="support@datarhei.com",
     classifiers=[
         "Programming Language :: Python :: 3.11",
