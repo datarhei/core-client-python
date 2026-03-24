@@ -9,11 +9,9 @@ from ..models import Error
 def _build_request(
     client: Client,
     storage: str,
-    glob: str = "",
-    size_min: str = "",
-    size_max: str = "",
-    lastmod_start: str = "",
-    lastmod_end: str = "",
+    path: str,
+    data: bytes,
+    core_id: str = None,
     retries: int = None,
     timeout: float = None,
 ):
@@ -22,14 +20,13 @@ def _build_request(
     if not timeout:
         timeout = client.timeout
     return {
-        "method": "delete",
-        "url": f"{client.base_url}/api/v3/fs/{storage}"
-        + f"?glob={glob}&size_min={size_min}&size_max={size_max}"
-        + f"&lastmod_start={lastmod_start}&lastmod_end={lastmod_end}",
+        "method": "put",
+        "url": f"{client.base_url}/api/v3/cluster/fs/{storage}/{path}",
         "headers": client.headers,
         "timeout": timeout,
-        "data": None,
+        "content": data,
         "json": None,
+        "params": {"core_id": core_id},
     }, retries
 
 
@@ -44,6 +41,26 @@ def _build_response(response: httpx.Response):
         else:
             response_200 = response.text
         return response_200
+    elif response.status_code == 201:
+        if (
+            "content-type" in response.headers
+            and response.headers["content-type"]
+            == "application/json; charset=UTF-8"
+        ):
+            response_201 = response.json()
+        else:
+            response_201 = response.text
+        return response_201
+    elif response.status_code == 204:
+        if (
+            "content-type" in response.headers
+            and response.headers["content-type"]
+            == "application/json; charset=UTF-8"
+        ):
+            response_204 = response.json()
+        else:
+            response_204 = response.text
+        return response_204
     else:
         response_error = TypeAdapter(Error).validate_python(response.json())
         return response_error

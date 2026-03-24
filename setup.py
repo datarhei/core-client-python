@@ -15,7 +15,7 @@ tests_requirements = [
 
 setup(
     name="datarhei-mediacore-client",
-    version="2.3.0",
+    version="2.4.0",
     url="https://github.com/datarhei/core-client-python",
     description="datarhei MediaCore Python client",
     author="livespotting GmbH",
