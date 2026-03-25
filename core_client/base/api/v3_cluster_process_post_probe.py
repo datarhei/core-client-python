@@ -10,7 +10,6 @@ from ..models.v3 import ProcessConfig, ProcessProbe
 def _build_request(
     client: Client,
     config: ProcessConfig,
-    core_id: str = None,
     retries: int = None,
     timeout: float = None,
 ):
@@ -27,7 +26,6 @@ def _build_request(
         "timeout": timeout,
         "data": None,
         "json": config,
-        "params": {"core_id": core_id} if core_id else None,
     }, retries
 
 

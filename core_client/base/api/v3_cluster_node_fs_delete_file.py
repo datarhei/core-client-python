@@ -8,9 +8,9 @@ from ..models import Error
 @validate_call()
 def _build_request(
     client: Client,
+    id: str,
     storage: str,
     path: str,
-    core_id: str = None,
     retries: int = None,
     timeout: float = None,
 ):
@@ -19,23 +19,25 @@ def _build_request(
     if not timeout:
         timeout = client.timeout
     return {
-        "method": "get",
-        "url": f"{client.base_url}/api/v3/cluster/fs/{storage}/{path}",
+        "method": "delete",
+        "url": f"{client.base_url}/api/v3/cluster/node/{id}/fs/{storage}/{path}",
         "headers": client.headers,
         "timeout": timeout,
         "data": None,
         "json": None,
-        "params": {"core_id": core_id},
     }, retries
 
 
 def _build_response(response: httpx.Response):
     if response.status_code == 200:
-        response_200 = response.content
+        if (
+            response.headers["content-type"]
+            == "application/json; charset=UTF-8"
+        ):
+            response_200 = response.json()
+        else:
+            response_200 = response.text
         return response_200
-    elif response.status_code == 301:
-        response_301 = response.content
-        return response_301
     else:
         response_error = TypeAdapter(Error).validate_python(response.json())
         return response_error

@@ -8,7 +8,10 @@ from ..models.v3 import ClusterNodeFiles
 
 @validate_call()
 def _build_request(
-    client: Client, id: str, retries: int = None, timeout: float = None
+    client: Client,
+    id: str,
+    retries: int = None,
+    timeout: float = None,
 ):
     if not retries:
         retries = client.retries

@@ -8,10 +8,9 @@ from ..models import Error
 @validate_call()
 def _build_request(
     client: Client,
+    id: str,
     storage: str,
     path: str,
-    link: str,
-    core_id: str = None,
     retries: int = None,
     timeout: float = None,
 ):
@@ -20,35 +19,22 @@ def _build_request(
     if not timeout:
         timeout = client.timeout
     return {
-        "method": "patch",
-        "url": f"{client.base_url}/api/v3/cluster/fs/{storage}/{path}",
+        "method": "get",
+        "url": f"{client.base_url}/api/v3/cluster/node/{id}/fs/{storage}/{path}",
         "headers": client.headers,
         "timeout": timeout,
-        "content": None,
-        "json": link,
-        "params": {"core_id": core_id},
+        "data": None,
+        "json": None,
     }, retries
 
 
 def _build_response(response: httpx.Response):
-    if response.status_code == 201:
-        if (
-            response.headers["content-type"]
-            == "application/json; charset=UTF-8"
-        ):
-            response_201 = response.json()
-        else:
-            response_201 = response.text
-        return response_201
-    elif response.status_code == 204:
-        if (
-            response.headers["content-type"]
-            == "application/json; charset=UTF-8"
-        ):
-            response_204 = response.json()
-        else:
-            response_204 = response.text
-        return response_204
+    if response.status_code == 200:
+        response_200 = response.content
+        return response_200
+    elif response.status_code == 301:
+        response_301 = response.content
+        return response_301
     else:
         response_error = TypeAdapter(Error).validate_python(response.json())
         return response_error
