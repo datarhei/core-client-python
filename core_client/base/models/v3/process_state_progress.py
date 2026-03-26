@@ -30,12 +30,12 @@ class ProcessStateProgress(BaseModel):
     dup: int
     fps: float
     frame: int
-    inputs: List[ProcessStateProgressIO]
-    outputs: List[ProcessStateProgressIO]
-    mapping: Optional[ProcessStateProgressMapping] = None
+    inputs: list[ProcessStateProgressIO]
+    outputs: list[ProcessStateProgressIO]
+    mapping: ProcessStateProgressMapping | None = None
     packet: int
     q: float
     size_kb: int
     speed: float
     time: float
-    started: Optional[bool] = False
+    started: bool | None = False

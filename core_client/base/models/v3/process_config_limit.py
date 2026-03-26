@@ -9,7 +9,7 @@ class ProcessConfigLimit(BaseModel):
         "memory_mbytes": 0,
         "waitfor_seconds": 0
     }
-    
+
     + {
         "gpu_usage": 100,
         "gpu_encoder": 100,
@@ -18,10 +18,10 @@ class ProcessConfigLimit(BaseModel):
     }
     """
 
-    cpu_usage: Optional[float] = 0
-    memory_mbytes: Optional[int] = 0
-    gpu_usage: Optional[float] = 0
-    gpu_encoder: Optional[float] = 0
-    gpu_decoder: Optional[float] = 0
-    gpu_memory_mbytes: Optional[int] = 0
-    waitfor_seconds: Optional[int] = 0
+    cpu_usage: float | None = 0
+    memory_mbytes: int | None = 0
+    gpu_usage: float | None = 0
+    gpu_encoder: float | None = 0
+    gpu_decoder: float | None = 0
+    gpu_memory_mbytes: int | None = 0
+    waitfor_seconds: int | None = 0

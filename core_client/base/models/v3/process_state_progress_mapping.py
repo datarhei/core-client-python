@@ -12,5 +12,5 @@ class ProcessStateProgressMapping(BaseModel):
     }
     """
 
-    graphs: List[dict]
-    mapping: List[dict]
+    graphs: list[dict]
+    mapping: list[dict]

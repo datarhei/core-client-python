@@ -25,8 +25,8 @@ class ConfigStorageDiskCache(BaseModel):
     }
     """
 
-    enable: Optional[bool] = None
-    max_size_mbytes: Optional[int] = None
-    ttl_seconds: Optional[int] = None
-    max_file_size_mbytes: Optional[int] = None
-    types: Optional[Union[List[str], ConfigStorageDiskCacheTypes]] = None
+    enable: bool | None = None
+    max_size_mbytes: int | None = None
+    ttl_seconds: int | None = None
+    max_file_size_mbytes: int | None = None
+    types: list[str] | ConfigStorageDiskCacheTypes | None = None

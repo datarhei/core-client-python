@@ -25,8 +25,8 @@ class ConfigStorage(BaseModel):
     }
     """
 
-    disk: Optional[ConfigStorageDisk] = None
-    memory: Optional[ConfigStorageMemory] = None
-    cors: Optional[ConfigStorageCors] = None
-    mimetypes_file: Optional[str] = None
-    s3: Optional[list[ConfigStorageS3]] = None
+    disk: ConfigStorageDisk | None = None
+    memory: ConfigStorageMemory | None = None
+    cors: ConfigStorageCors | None = None
+    mimetypes_file: str | None = None
+    s3: list[ConfigStorageS3] | None = None

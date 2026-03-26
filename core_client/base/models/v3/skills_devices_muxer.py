@@ -13,6 +13,6 @@ class SkillsDevicesMuxer(BaseModel):
     }
     """
 
-    devices: List[SkillsDevicesMuxerDevice]
+    devices: list[SkillsDevicesMuxerDevice]
     id: str
     name: str

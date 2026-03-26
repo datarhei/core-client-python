@@ -23,13 +23,13 @@ class ConfigSessions(BaseModel):
     }
     """
 
-    enable: Optional[bool] = None
-    ip_ignorelist: Optional[List[str]] = None
-    max_bitrate_mbit: Optional[float] = None
-    max_sessions: Optional[int] = None
-    persist: Optional[bool] = None
-    persist_interval_sec: Optional[int] = None
-    session_timeout_sec: Optional[int] = None
-    session_log_buffer_sec: Optional[int] = None
-    session_log_path_pattern: Optional[str] = None
-    session_timeout_sec: Optional[int] = None
+    enable: bool | None = None
+    ip_ignorelist: list[str] | None = None
+    max_bitrate_mbit: float | None = None
+    max_sessions: int | None = None
+    persist: bool | None = None
+    persist_interval_sec: int | None = None
+    session_timeout_sec: int | None = None
+    session_log_buffer_sec: int | None = None
+    session_log_path_pattern: str | None = None
+    session_timeout_sec: int | None = None

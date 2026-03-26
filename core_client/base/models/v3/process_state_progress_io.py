@@ -43,7 +43,7 @@ class ProcessStateProgressIO(BaseModel):
         "framerate": ProcessStateProgressIOFramerate,
     }
     """
-    
+
     """new in vod branch
     {
         "tee_outputs": float,
@@ -51,33 +51,33 @@ class ProcessStateProgressIO(BaseModel):
     """
 
     address: str
-    avstream: Optional[ProcessStateProgressIOAvstream] = None
+    avstream: ProcessStateProgressIOAvstream | None = None
     bitrate_kbit: float
-    channels: Optional[int] = None
+    channels: int | None = None
     codec: str
     coder: str
     format: str
     fps: float
     frame: float
-    framerate: Optional[ProcessStateProgressIOFramerate] = None
-    keyframe: Optional[float] = None
-    extradata_size_bytes: Optional[float] = None
-    height: Optional[int] = None
+    framerate: ProcessStateProgressIOFramerate | None = None
+    keyframe: float | None = None
+    extradata_size_bytes: float | None = None
+    height: int | None = None
     id: str
     index: int
-    layout: Optional[str] = None
+    layout: str | None = None
     packet: float
-    pix_fmt: Optional[str] = None
+    pix_fmt: str | None = None
     pps: float
-    q: Optional[float] = None
-    sampling_hz: Optional[float] = None
+    q: float | None = None
+    sampling_hz: float | None = None
     size_kb: float
     stream: int
     type: str
-    width: Optional[int] = None
-    gop: Optional[float] = None
-    drop: Optional[int] = None
-    tee: Optional[list[ProcessStateProgressIOTee]] = None
+    width: int | None = None
+    gop: float | None = None
+    drop: int | None = None
+    tee: list[ProcessStateProgressIOTee] | None = None
 
     @model_validator(mode="before")
     def remove_empty(cls, values):

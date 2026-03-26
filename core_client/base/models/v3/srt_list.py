@@ -4,4 +4,4 @@ from typing import List
 from . import Srt
 
 
-SrtList = RootModel[List[Srt]]
+SrtList = RootModel[list[Srt]]

@@ -45,22 +45,22 @@ class ProcessConfig(BaseModel):
 
     autostart: bool = True
     id: str
-    input: List[ProcessConfigIO]
-    limits: Optional[ProcessConfigLimit] = None
-    options: List[str]
-    output: List[ProcessConfigIO]
+    input: list[ProcessConfigIO]
+    limits: ProcessConfigLimit | None = None
+    options: list[str]
+    output: list[ProcessConfigIO]
     reconnect: bool = True
     reconnect_delay_seconds: int = 60
     reference: str
     stale_timeout_seconds: int = 10
-    scheduler: Optional[str] = None
-    runtime_duration_seconds: Optional[int] = None
-    log_patterns: Optional[List[str]] = None
+    scheduler: str | None = None
+    runtime_duration_seconds: int | None = None
+    log_patterns: list[str] | None = None
     type: ProcessConfigType = ProcessConfigType.ffmpeg
-    binary: Optional[str] = None
-    domain: Optional[str] = None
-    owner: Optional[str] = None
-    metadata: Optional[dict[str, Union[str, dict, list, int, float, bool]]] = None
+    binary: str | None = None
+    domain: str | None = None
+    owner: str | None = None
+    metadata: dict[str, str | dict | list | int | float | bool] | None = None
 
     class ConfigDict:
         use_enum_values = True

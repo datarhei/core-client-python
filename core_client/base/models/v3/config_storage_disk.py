@@ -13,6 +13,6 @@ class ConfigStorageDisk(BaseModel):
     }
     """
 
-    dir: Optional[str] = None
-    max_size_mbytes: Optional[int] = None
-    cache: Optional[ConfigStorageDiskCache] = None
+    dir: str | None = None
+    max_size_mbytes: int | None = None
+    cache: ConfigStorageDiskCache | None = None

@@ -23,7 +23,7 @@ class SessionCollectorActiveSession(BaseModel):
     created_at: int
     local: str
     remote: str
-    extra: Union[str, dict]
+    extra: str | dict
     bytes_rx: int
     bytes_tx: int
     bandwidth_rx_kbit: float

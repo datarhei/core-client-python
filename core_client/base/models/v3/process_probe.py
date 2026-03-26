@@ -14,5 +14,5 @@ class ProcessProbe(BaseModel):
     }
     """
 
-    log: List[str]
-    streams: List[ProcessProbeStream]
+    log: list[str]
+    streams: list[ProcessProbeStream]

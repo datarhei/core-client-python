@@ -85,11 +85,11 @@ class SrtConnectionStats(BaseModel):
     recv_undecrypt_pkt: int
     sent_bytes: int
     recv_bytes: int
-    sent_unique__bytes: Optional[int] = None
-    sent_unique_bytes: Optional[int] = None
+    sent_unique__bytes: int | None = None
+    sent_unique_bytes: int | None = None
     recv_unique_bytes: int
-    recv_loss__bytes: Optional[int] = None
-    recv_loss_bytes: Optional[int] = None
+    recv_loss__bytes: int | None = None
+    recv_loss_bytes: int | None = None
     sent_retrans_bytes: int
     send_drop_bytes: int
     recv_drop_bytes: int

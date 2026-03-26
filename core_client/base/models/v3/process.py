@@ -27,18 +27,18 @@ class Process(BaseModel):
     }
     """
 
-    config: Optional[ProcessConfig] = None
+    config: ProcessConfig | None = None
     created_at: int
     id: str
-    metadata: Optional[Dict] = None
+    metadata: dict | None = None
     reference: str
-    state: Optional[ProcessState] = None
-    report: Optional[ProcessReport] = None
+    state: ProcessState | None = None
+    report: ProcessReport | None = None
     type: ProcessConfigType
-    updated_at: Optional[int] = None
-    domain: Optional[str] = None
-    owner: Optional[str] = None
-    core_id: Optional[str] = None
+    updated_at: int | None = None
+    domain: str | None = None
+    owner: str | None = None
+    core_id: str | None = None
 
     class ConfigDict:
         use_enum_values = True

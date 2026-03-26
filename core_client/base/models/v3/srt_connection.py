@@ -12,5 +12,5 @@ class SrtConnection(BaseModel):
     }
     """
 
-    log: Dict[str, str]
+    log: dict[str, str]
     stats: SrtConnectionStats

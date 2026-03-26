@@ -1,40 +1,45 @@
 import httpx
 from pydantic import TypeAdapter, validate_call
-from typing import Union
 
 from ...models import Client
 from ..models import Error
-from ..models.v3 import ProcessReport
+from ..models.v3 import FilesystemOperationOrder
 
 
 @validate_call()
 def _build_request(
     client: Client,
     id: str,
-    created_at: str | int = "",
-    exited_at: str | int = "",
-    domain: str = "",
+    source: str,
+    target: str,
+    operation: FilesystemOperationOrder,
+    bandwidth_limit_kbit: int = None,
     retries: int = None,
     timeout: float = None,
 ):
+    data = {
+        "source": source,
+        "operation": operation,
+        "target": target,
+        "bandwidth_limit_kbit": bandwidth_limit_kbit,
+    }
     if not retries:
         retries = client.retries
     if not timeout:
         timeout = client.timeout
     return {
-        "method": "get",
-        "url": f"{client.base_url}/api/v3/process/{id}/report"
-        + f"?created_at={created_at}&exited_at={exited_at}&domain={domain}",
+        "method": "put",
+        "url": f"{client.base_url}/api/v3/cluster/node/{id}/fs",
         "headers": client.headers,
         "timeout": timeout,
-        "data": None,
-        "json": None,
+        "content": None,
+        "json": data,
     }, retries
 
 
 def _build_response(response: httpx.Response):
     if response.status_code == 200:
-        response_200 = TypeAdapter(ProcessReport).validate_python(response.json())
+        response_200 = response.json()
         return response_200
     else:
         response_error = TypeAdapter(Error).validate_python(response.json())

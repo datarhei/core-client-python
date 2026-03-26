@@ -3,9 +3,9 @@ from typing import Optional
 
 
 class Token(BaseModel):
-    access_token: Optional[str] = None
-    refresh_token: Optional[str] = None
-    expires_at: Optional[int] = None
+    access_token: str | None = None
+    refresh_token: str | None = None
+    expires_at: int | None = None
 
 
 class AccessToken(BaseModel):

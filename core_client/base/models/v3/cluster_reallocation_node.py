@@ -17,5 +17,5 @@ class ClusterReallocationNode(BaseModel):
     ]
     """
 
-    target_node_id: Optional[str] = ""
+    target_node_id: str | None = ""
     process_ids: list[ClusterReallocationNodeProcess]

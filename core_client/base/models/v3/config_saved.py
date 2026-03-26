@@ -17,8 +17,8 @@ class ConfigSaved(BaseModel):
     }
     """
 
-    created_at: Optional[str] = None
-    loaded_at: Optional[str] = None
-    updated_at: Optional[str] = None
-    config: Optional[Config] = None
-    overrides: Optional[List[str]] = None
+    created_at: str | None = None
+    loaded_at: str | None = None
+    updated_at: str | None = None
+    config: Config | None = None
+    overrides: list[str] | None = None

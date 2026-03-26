@@ -14,9 +14,9 @@ class ProcessStateResourcesCpuUsage(BaseModel):
     }
     """
 
-    avg: Optional[float] = None
-    cur: Optional[float] = None
-    limit: Optional[float] = None
-    max: Optional[float] = None
-    ncpu: Optional[float] = None
-    throttling: Optional[bool] = None
+    avg: float | None = None
+    cur: float | None = None
+    limit: float | None = None
+    max: float | None = None
+    ncpu: float | None = None
+    throttling: bool | None = None

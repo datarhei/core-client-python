@@ -17,4 +17,3 @@ def test_new_namespace_points_to_client_classes():
 
 def test_new_namespace_exposes_base_models():
     assert NamespaceToken is CoreToken
-

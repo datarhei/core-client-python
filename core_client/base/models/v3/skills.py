@@ -28,7 +28,7 @@ class Skills(BaseModel):
     codecs: SkillsCodecs
     devices: SkillsDevices
     ffmpeg: SkillsFfmpeg
-    filter: List[SkillsFilter]
+    filter: list[SkillsFilter]
     formats: SkillsFormat
-    hwaccels: List[SkillsHwaccels]
+    hwaccels: list[SkillsHwaccels]
     protocols: SkillsProtocol

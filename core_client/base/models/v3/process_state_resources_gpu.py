@@ -14,8 +14,8 @@ class ProcessStateResourcesGpu(BaseModel):
     }
     """
 
-    decoder: Optional[ProcessStateResourcesGpuDecoder] = None
-    encoder: Optional[ProcessStateResourcesGpuEncoder] = None
-    index: Optional[int] = None
-    memory_bytes: Optional[ProcessStateResourcesGpuMemoryBytes] = None
-    usage: Optional[ProcessStateResourcesGpuUsage] = None
+    decoder: ProcessStateResourcesGpuDecoder | None = None
+    encoder: ProcessStateResourcesGpuEncoder | None = None
+    index: int | None = None
+    memory_bytes: ProcessStateResourcesGpuMemoryBytes | None = None
+    usage: ProcessStateResourcesGpuUsage | None = None

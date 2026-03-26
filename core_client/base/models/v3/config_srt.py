@@ -15,8 +15,8 @@ class ConfigSrt(BaseModel):
     }
     """
 
-    enable: Optional[bool] = None
-    address: Optional[str] = None
-    passphrase: Optional[str] = None
-    token: Optional[str] = None
-    log: Optional[ConfigSrtLog] = None
+    enable: bool | None = None
+    address: str | None = None
+    passphrase: str | None = None
+    token: str | None = None
+    log: ConfigSrtLog | None = None

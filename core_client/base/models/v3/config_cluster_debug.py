@@ -9,4 +9,4 @@ class ConfigClusterDebug(BaseModel):
     }
     """
 
-    disable_ffmpeg_check: Optional[bool] = None
+    disable_ffmpeg_check: bool | None = None

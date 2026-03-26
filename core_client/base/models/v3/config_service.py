@@ -11,6 +11,6 @@ class ConfigService(BaseModel):
     }
     """
 
-    enable: Optional[bool] = None
-    token: Optional[str] = None
-    url: Optional[str] = None
+    enable: bool | None = None
+    token: str | None = None
+    url: str | None = None

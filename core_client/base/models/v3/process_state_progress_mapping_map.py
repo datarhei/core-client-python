@@ -17,7 +17,7 @@ class ProcessStateProgressMappingMap(BaseModel):
     index: int
     name: str
     alias_copy: bool = Field(alias="copy")
-    
+
     class ConfigDict:
         populate_by_name = False
     @property
