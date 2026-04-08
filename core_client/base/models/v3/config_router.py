@@ -11,6 +11,6 @@ class ConfigRouter(BaseModel):
     }
     """
 
-    blocked_prefixes: Optional[List[str]] = None
-    routes: Optional[dict] = None
-    ui_path: Optional[str] = None
+    blocked_prefixes: list[str] | None = None
+    routes: dict | None = None
+    ui_path: str | None = None

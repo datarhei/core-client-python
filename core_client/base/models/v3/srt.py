@@ -31,18 +31,21 @@ class Srt(BaseModel):
     }
     """
 
-    name: Optional[str] = None
-    socketid: Optional[str] = None
-    publisher: Optional[Dict[str, int]] = None
-    subscriber: Union[Dict[str, List[int]], List[int]]
-    connections: Dict[str, SrtConnection]
-    log: Union[None, Dict[str, str]]
+    name: str | None = None
+    socketid: str | None = None
+    publisher: dict[str, int] | None = None
+    subscriber: dict[str, list[int]] | list[int]
+    connections: dict[str, SrtConnection]
+    log: None | dict[str, str]
 
     @model_validator(mode="before")
     def remove_empty(cls, values):
-        if values["name"] is None:
-            values.pop("name")
-            values.pop("socketid")
+        if not isinstance(values, dict):
+            return values
+
+        if values.get("name") is None:
+            values.pop("name", None)
+            values.pop("socketid", None)
         else:
-            values.pop("publisher")
+            values.pop("publisher", None)
         return values

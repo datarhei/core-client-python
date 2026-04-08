@@ -17,7 +17,7 @@ class SessionCollectorActive(BaseModel):
     }
     """
 
-    list: List[SessionCollectorActiveSession]
+    list: list[SessionCollectorActiveSession]
     sessions: int
     bandwidth_rx_mbit: float
     bandwidth_tx_mbit: float

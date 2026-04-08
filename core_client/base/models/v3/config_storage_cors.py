@@ -9,4 +9,4 @@ class ConfigStorageCors(BaseModel):
     }
     """
 
-    origins: Optional[List[str]] = None
+    origins: list[str] | None = None

@@ -42,16 +42,16 @@ class ProcessState(BaseModel):
     }
     """
 
-    command: List[str]
+    command: list[str]
     cpu_usage: float
     exec: ProcessStateExec
     last_logline: str
     memory_bytes: float
     order: ProcessStateOrder
-    progress: Optional[ProcessStateProgress] = None
+    progress: ProcessStateProgress | None = None
     reconnect_seconds: int
     runtime_seconds: int
-    resources: Optional[ProcessStateResources] = None
+    resources: ProcessStateResources | None = None
 
     class ConfigDict:
         use_enum_values = True

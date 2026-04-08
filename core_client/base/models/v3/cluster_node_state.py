@@ -4,7 +4,6 @@ from enum import Enum
 from . import ClusterNodeStateValue
 
 
-
 class ClusterNodeState(BaseModel):
     """
     {

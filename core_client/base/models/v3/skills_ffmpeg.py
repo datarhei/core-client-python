@@ -16,5 +16,5 @@ class SkillsFfmpeg(BaseModel):
 
     compiler: str
     configuration: str
-    libraries: List[SkillsFfmpegLibrarie]
+    libraries: list[SkillsFfmpegLibrarie]
     version: str

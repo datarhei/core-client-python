@@ -13,6 +13,6 @@ class SkillsCodecs(BaseModel):
     }
     """
 
-    audio: List[SkillsCodecsType]
-    subtitle: List[SkillsCodecsType]
-    video: List[SkillsCodecsType]
+    audio: list[SkillsCodecsType]
+    subtitle: list[SkillsCodecsType]
+    video: list[SkillsCodecsType]

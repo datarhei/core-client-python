@@ -12,5 +12,5 @@ class SkillsDevices(BaseModel):
     }
     """
 
-    demuxers: List[SkillsDevicesMuxer]
-    muxers: List[SkillsDevicesMuxer]
+    demuxers: list[SkillsDevicesMuxer]
+    muxers: list[SkillsDevicesMuxer]

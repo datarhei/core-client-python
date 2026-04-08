@@ -12,5 +12,5 @@ class SkillsProtocol(BaseModel):
     }
     """
 
-    input: List[SkillsProtocolIO]
-    output: List[SkillsProtocolIO]
+    input: list[SkillsProtocolIO]
+    output: list[SkillsProtocolIO]

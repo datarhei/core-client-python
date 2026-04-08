@@ -11,8 +11,8 @@ from ..models.v3 import ProcessReport
 def _build_request(
     client: Client,
     id: str,
-    created_at: Union[str, int] = "",
-    exited_at: Union[str, int] = "",
+    created_at: str | int = "",
+    exited_at: str | int = "",
     domain: str = "",
     retries: int = None,
     timeout: float = None,

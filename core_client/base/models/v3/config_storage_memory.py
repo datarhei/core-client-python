@@ -14,7 +14,7 @@ class ConfigStorageMemory(BaseModel):
     }
     """
 
-    auth: Optional[ConfigStorageMemoryAuth] = None
-    backup: Optional[ConfigStorageMemoryBackup] = None
-    max_size_mbytes: Optional[int] = None
-    purge: Optional[bool] = None
+    auth: ConfigStorageMemoryAuth | None = None
+    backup: ConfigStorageMemoryBackup | None = None
+    max_size_mbytes: int | None = None
+    purge: bool | None = None

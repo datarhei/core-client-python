@@ -57,25 +57,25 @@ class Config(BaseModel):
     }
     """
 
-    created_at: Optional[str] = None
-    version: Optional[int] = None
-    id: Optional[str] = None
-    name: Optional[str] = None
-    address: Optional[str] = None
-    log: Optional[ConfigLog] = None
-    db: Optional[ConfigDb] = None
-    host: Optional[ConfigHost] = None
-    api: Optional[ConfigApi] = None
-    tls: Optional[ConfigTls] = None
-    rtmp: Optional[ConfigRtmp] = None
-    srt: Optional[ConfigSrt] = None
-    storage: Optional[ConfigStorage] = None
-    ffmpeg: Optional[ConfigFfmpeg] = None
-    playout: Optional[ConfigPlayout] = None
-    resources: Optional[ConfigResources] = None
-    debug: Optional[ConfigDebug] = None
-    metrics: Optional[ConfigMetrics] = None
-    sessions: Optional[ConfigSessions] = None
-    service: Optional[ConfigService] = None
-    router: Optional[ConfigRouter] = None
-    cluster: Optional[ConfigCluster] = None
+    created_at: str | None = None
+    version: int | None = None
+    id: str | None = None
+    name: str | None = None
+    address: str | None = None
+    log: ConfigLog | None = None
+    db: ConfigDb | None = None
+    host: ConfigHost | None = None
+    api: ConfigApi | None = None
+    tls: ConfigTls | None = None
+    rtmp: ConfigRtmp | None = None
+    srt: ConfigSrt | None = None
+    storage: ConfigStorage | None = None
+    ffmpeg: ConfigFfmpeg | None = None
+    playout: ConfigPlayout | None = None
+    resources: ConfigResources | None = None
+    debug: ConfigDebug | None = None
+    metrics: ConfigMetrics | None = None
+    sessions: ConfigSessions | None = None
+    service: ConfigService | None = None
+    router: ConfigRouter | None = None
+    cluster: ConfigCluster | None = None

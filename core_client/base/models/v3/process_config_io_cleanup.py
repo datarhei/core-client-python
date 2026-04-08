@@ -12,7 +12,7 @@ class ProcessConfigIOCleanup(BaseModel):
     }
     """
 
-    max_file_age_seconds: Optional[int] = 0
-    max_files: Optional[int] = 0
+    max_file_age_seconds: int | None = 0
+    max_files: int | None = 0
     pattern: str
     purge_on_delete: bool = True

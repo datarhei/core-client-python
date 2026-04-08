@@ -10,5 +10,5 @@ class ConfigStorageDiskCacheTypes(BaseModel):
     }
     """
 
-    allow: Optional[List[str]] = None
-    block: Optional[List[str]] = None
+    allow: list[str] | None = None
+    block: list[str] | None = None

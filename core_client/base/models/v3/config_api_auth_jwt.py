@@ -9,4 +9,4 @@ class ConfigApiAuthJwt(BaseModel):
     }
     """
 
-    secret: Optional[str] = None
+    secret: str | None = None

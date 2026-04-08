@@ -11,6 +11,6 @@ class ConfigStorageS3Auth(BaseModel):
     }
     """
 
-    enable: Optional[bool] = None
-    username: Optional[str] = None
-    password: Optional[str] = None
+    enable: bool | None = None
+    username: str | None = None
+    password: str | None = None

@@ -22,5 +22,5 @@ class IamUserAuth(BaseModel):
     }
     """
 
-    api: Optional[IamUserAuthApi] = None
-    services: Optional[IamUserAuthServices] = None
+    api: IamUserAuthApi | None = None
+    services: IamUserAuthServices | None = None

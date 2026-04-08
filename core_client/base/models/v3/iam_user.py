@@ -19,10 +19,10 @@ class IamUser(BaseModel):
     }
     """
 
-    auth: Optional[IamUserAuth] = None
-    name: Optional[str] = None
-    alias: Optional[str] = None
-    policies: Optional[List[IamUserPolicy]] = None
+    auth: IamUserAuth | None = None
+    name: str | None = None
+    alias: str | None = None
+    policies: list[IamUserPolicy] | None = None
     superuser: bool = False
-    created_at: Optional[int] = None
-    updated_at: Optional[int] = None
+    created_at: int | None = None
+    updated_at: int | None = None

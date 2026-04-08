@@ -20,5 +20,5 @@ class ClusterNodeFiles(BaseModel):
     }
     """
 
-    files: Dict[str, List[str]]
+    files: dict[str, list[str]]
     last_update: int

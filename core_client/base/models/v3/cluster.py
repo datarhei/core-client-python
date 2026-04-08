@@ -25,14 +25,13 @@ class Cluster(BaseModel):
     """
 
     id: str
-    name: Optional[str] = None
-    leader: Union[bool, ClusterLeader]
-    public_domains: Optional[List[str]] = None
-    address: Optional[str] = None
+    name: str | None = None
+    leader: bool | ClusterLeader
+    public_domains: list[str] | None = None
+    address: str | None = None
     raft: ClusterRaft
     nodes: list[ClusterNode]
     version: str
     degraded: bool
     degraded_error: str
     status: str
-    

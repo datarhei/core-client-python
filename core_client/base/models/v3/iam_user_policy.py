@@ -3,6 +3,7 @@ from typing import List, Optional
 
 from . import IamUserPolicyTypes
 
+
 class IamUserPolicy(BaseModel):
     """
     {
@@ -18,11 +19,11 @@ class IamUserPolicy(BaseModel):
     }
     """
 
-    actions: Optional[List[str]] = None
-    domain: Optional[str] = None
-    name: Optional[str] = None
-    resource: Optional[str] = None
-    types: Optional[List[IamUserPolicyTypes]] = None
+    actions: list[str] | None = None
+    domain: str | None = None
+    name: str | None = None
+    resource: str | None = None
+    types: list[IamUserPolicyTypes] | None = None
 
     class ConfigDict:
         use_enum_values = True

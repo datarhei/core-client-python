@@ -12,5 +12,5 @@ class IamUserAuthApi(BaseModel):
     }
     """
 
-    auth0: Optional[IamUserAuthApiAuth0] = None
-    userpass: Optional[str] = None
+    auth0: IamUserAuthApiAuth0 | None = None
+    userpass: str | None = None

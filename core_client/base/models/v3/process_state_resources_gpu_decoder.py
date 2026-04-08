@@ -12,7 +12,7 @@ class ProcessStateResourcesGpuDecoder(BaseModel):
     }
     """
 
-    avg: Optional[float] = None
-    cur: Optional[float] = None
-    limit: Optional[float] = None
-    max: Optional[float] = None
+    avg: float | None = None
+    cur: float | None = None
+    limit: float | None = None
+    max: float | None = None

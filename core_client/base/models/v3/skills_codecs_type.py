@@ -16,7 +16,7 @@ class SkillsCodecsType(BaseModel):
     }
     """
 
-    decoders: Union[None, List[str]]
-    encoders: Union[None, List[str]]
+    decoders: None | list[str]
+    encoders: None | list[str]
     id: str
     name: str

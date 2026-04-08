@@ -7,9 +7,7 @@ from ..models.v3 import ClusterNodeVersion
 
 
 @validate_call()
-def _build_request(
-    client: Client, id: str, retries: int = None, timeout: float = None
-):
+def _build_request(client: Client, id: str, retries: int = None, timeout: float = None):
     if not retries:
         retries = client.retries
     if not timeout:

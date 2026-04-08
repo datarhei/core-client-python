@@ -1,6 +1,5 @@
 import httpx
 from pydantic import TypeAdapter, validate_call
-from typing import Union
 
 from ...models import Client
 from ..models import Error
@@ -29,9 +28,15 @@ def _build_request(
 
 def _build_response(response: httpx.Response):
     if response.status_code == 200:
-        print(response.json())
-        response_200 = TypeAdapter(SrtList).validate_python(response.json())
-        return response_200.root
+        payload = response.json()
+        if isinstance(payload, list):
+            response_200 = TypeAdapter(SrtList).validate_python(payload)
+            return response_200.root
+
+        # Core versions >=16.10 may return a single aggregate SRT object
+        # instead of a list. Keep the public return type stable as list[Srt].
+        response_200 = TypeAdapter(Srt).validate_python(payload)
+        return [response_200]
     else:
         response_error = TypeAdapter(Error).validate_python(response.json())
         return response_error

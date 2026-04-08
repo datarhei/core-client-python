@@ -16,13 +16,13 @@ class ProcessStateProgressIOTee(BaseModel):
     }
     """
 
-    id: Optional[str] = None
+    id: str | None = None
     address: str
     format: str
-    state: Optional[str] = None  # e.g., "running", "stopped", "error"
+    state: str | None = None  # e.g., "running", "stopped", "error"
     fifo_enabled: bool = False
-    fifo_state: Optional[str] = None  # e.g., "running", "stopped", "error"
-    fifo_recovery_attempts_total: Optional[int] = None
+    fifo_state: str | None = None  # e.g., "running", "stopped", "error"
+    fifo_recovery_attempts_total: int | None = None
 
     class ConfigDict:
         use_enum_values = True

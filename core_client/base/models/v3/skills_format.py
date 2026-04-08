@@ -12,5 +12,5 @@ class SkillsFormat(BaseModel):
     }
     """
 
-    demuxers: List[SkillsFormatMuxer]
-    muxers: List[SkillsFormatMuxer]
+    demuxers: list[SkillsFormatMuxer]
+    muxers: list[SkillsFormatMuxer]
