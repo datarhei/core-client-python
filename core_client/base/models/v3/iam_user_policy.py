@@ -3,6 +3,7 @@ from typing import List, Optional
 
 from . import IamUserPolicyTypes
 
+
 class IamUserPolicy(BaseModel):
     """
     {

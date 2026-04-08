@@ -1,6 +1,7 @@
 import os
 from pathlib import Path
 
+
 def _is_truthy(value: str) -> bool:
     return str(value).strip().lower() in {"1", "true", "yes", "on"}
 

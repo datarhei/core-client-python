@@ -16,6 +16,10 @@ class ProcessConfigLimit(BaseModel):
         "gpu_decoder": 100,
         "gpu_memory_mbytes": 2048
     }
+
+    + {
+        "log_event_rate": 100
+    }
     """
 
     cpu_usage: float | None = 0
@@ -25,3 +29,4 @@ class ProcessConfigLimit(BaseModel):
     gpu_decoder: float | None = 0
     gpu_memory_mbytes: int | None = 0
     waitfor_seconds: int | None = 0
+    log_event_rate: float | None = 0

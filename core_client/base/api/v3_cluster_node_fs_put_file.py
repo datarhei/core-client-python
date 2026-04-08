@@ -33,8 +33,7 @@ def _build_response(response: httpx.Response):
     if response.status_code == 200:
         if (
             "content-type" in response.headers
-            and response.headers["content-type"]
-            == "application/json; charset=UTF-8"
+            and response.headers["content-type"] == "application/json; charset=UTF-8"
         ):
             response_200 = response.json()
         else:
@@ -43,8 +42,7 @@ def _build_response(response: httpx.Response):
     elif response.status_code == 201:
         if (
             "content-type" in response.headers
-            and response.headers["content-type"]
-            == "application/json; charset=UTF-8"
+            and response.headers["content-type"] == "application/json; charset=UTF-8"
         ):
             response_201 = response.json()
         else:
@@ -53,8 +51,7 @@ def _build_response(response: httpx.Response):
     elif response.status_code == 204:
         if (
             "content-type" in response.headers
-            and response.headers["content-type"]
-            == "application/json; charset=UTF-8"
+            and response.headers["content-type"] == "application/json; charset=UTF-8"
         ):
             response_204 = response.json()
         else:

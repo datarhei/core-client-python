@@ -1,7 +1,14 @@
 from pydantic import BaseModel
 from typing import Optional
 
-from . import ProcessStateResourcesGpuEncoder, ProcessStateResourcesGpuDecoder, ProcessStateResourcesGpuUsage, ProcessStateResourcesGpuMemoryBytes, ProcessStateResourcesGpuUsage
+from . import (
+    ProcessStateResourcesGpuEncoder,
+    ProcessStateResourcesGpuDecoder,
+    ProcessStateResourcesGpuUsage,
+    ProcessStateResourcesGpuMemoryBytes,
+    ProcessStateResourcesGpuUsage,
+)
+
 
 class ProcessStateResourcesGpu(BaseModel):
     """

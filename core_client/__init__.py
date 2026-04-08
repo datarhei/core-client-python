@@ -5,11 +5,7 @@ import pkgutil
 import jwt
 from datetime import datetime
 from httpx import InvalidURL as HttpInvalidURL, HTTPError
-from pydantic import (
-    HttpUrl,
-    ValidationError as PydanticValidationError,
-    validate_call
-)
+from pydantic import HttpUrl, ValidationError as PydanticValidationError, validate_call
 
 from . import base
 from .models import Client as ClientModel
@@ -115,15 +111,10 @@ class Client:
             return True
         if not self.access_token_expires_at:
             try:
-                self._set_access_token_expires_at(
-                    Token(access_token=self.access_token)
-                )
+                self._set_access_token_expires_at(Token(access_token=self.access_token))
             except (PydanticValidationError, TypeError, HTTPError):
                 return True
-        if (
-            datetime.fromtimestamp(self.access_token_expires_at)
-            > datetime.now()
-        ):
+        if datetime.fromtimestamp(self.access_token_expires_at) > datetime.now():
             return False
         return True
 
@@ -149,15 +140,10 @@ class Client:
             return True
         if not self.refresh_token_expires_at:
             try:
-                self._set_refresh_token_expires_at(
-                    Token(refresh_token=self.refresh_token)
-                )
+                self._set_refresh_token_expires_at(Token(refresh_token=self.refresh_token))
             except (PydanticValidationError, TypeError, HTTPError):
                 return True
-        if (
-            datetime.fromtimestamp(self.refresh_token_expires_at)
-            > datetime.now()
-        ):
+        if datetime.fromtimestamp(self.refresh_token_expires_at) > datetime.now():
             return False
         return True
 
@@ -182,8 +168,7 @@ class Client:
 
     def _get_headers(self):
         _headers = self.headers.copy()
-        if (self.username and self.password) or \
-            self.access_token or self.refresh_token or self.auth0_token:
+        if (self.username and self.password) or self.access_token or self.refresh_token or self.auth0_token:
             if (
                 self.refresh_token
                 and self._refresh_token_is_expired() is False
@@ -226,11 +211,7 @@ class Client:
                 elif self.username and self.password:
                     self._basic_login()
                     return self.token()
-                elif (
-                    self.access_token
-                    and not self.refresh_token
-                    and not (self.username and self.password)
-                ):
+                elif self.access_token and not self.refresh_token and not (self.username and self.password):
                     try:
                         response = Token(access_token=self.access_token)
                         self._set_access_token_expires_at(response)
@@ -238,9 +219,7 @@ class Client:
                     except (PydanticValidationError, TypeError):
                         return Token()
                 elif (
-                    not self.access_token
-                    and not self.refresh_token
-                    and not (self.username and self.password)
+                    not self.access_token and not self.refresh_token and not (self.username and self.password)
                 ):
                     return Token()
                 else:
@@ -295,12 +274,10 @@ for module_info in pkgutil.walk_packages(path=base.__path__, prefix=f"{base.__na
         for submodule_info in pkgutil.walk_packages(path=module.__path__, prefix=sub_prefix):
             submodule = importlib.import_module(submodule_info.name)
             if hasattr(submodule, "asyncio"):
-                method_name = submodule_info.name.split('.')[-1]
-                AsyncClient._add_proxy_method(
-                    method_name, submodule.asyncio
-                )
+                method_name = submodule_info.name.split(".")[-1]
+                AsyncClient._add_proxy_method(method_name, submodule.asyncio)
             if hasattr(submodule, "sync"):
-                method_name = submodule_info.name.split('.')[-1]
+                method_name = submodule_info.name.split(".")[-1]
                 Client._add_proxy_method(method_name, submodule.sync)
 
     except Exception as e:

@@ -33,10 +33,7 @@ def _build_request(
 
 def _build_response(response: httpx.Response):
     if response.status_code == 200:
-        if (
-            response.headers["content-type"]
-            == "application/json; charset=UTF-8"
-        ):
+        if response.headers["content-type"] == "application/json; charset=UTF-8":
             response_200 = response.json()
         else:
             response_200 = response.text

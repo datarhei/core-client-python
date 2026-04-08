@@ -21,10 +21,14 @@ class ClusterNode(BaseModel):
         "core": ClusterNodeCore,
         "resources": ClusterNodeResources
     }
+    + {
+        "public_domains": ["cluster.hardbruecke.ch"],
+    }
     """
 
     id: str
     name: str
+    public_domains: list[str] | None = []
     version: str
     status: str
     error: str

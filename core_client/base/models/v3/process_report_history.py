@@ -27,11 +27,15 @@ class ProcessReportHistory(BaseModel):
         "progress": ProcessStateProgress
         "matches": [str]
     }
+    + {
+        "lines": { "error": 5, "info": 48484834, "warning": 1 }
+    }
     """
 
     created_at: int
     prelude: list[str] | None = []
     log: list[list[str]] | None = []
+    lines: dict[str, int] | None = {}
     matches: list[str] | None = []
     exited_at: int | None = None
     exit_state: ProcessStateExec | None = None

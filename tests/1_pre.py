@@ -29,7 +29,6 @@ def test_about():
     assert int(core_version[1]) > 9
 
 
-
 def test_token_():
     res = client.login()
     assert isinstance(res, Token)

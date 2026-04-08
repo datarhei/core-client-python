@@ -169,11 +169,7 @@ def test_v3_metrics_get():
 
 
 def test_v3_metrics_post():
-    res = client.v3_metrics_post(
-        config={
-            "metrics": [{"name": "session_total"}, {"name": "session_active"}]
-        }
-    )
+    res = client.v3_metrics_post(config={"metrics": [{"name": "session_total"}, {"name": "session_active"}]})
     assert isinstance(res, Metrics)
 
 

@@ -15,47 +15,33 @@ fake_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleGkiOjYwMCwiZXhwIjoxNjczN
 
 
 def test_basic():
-    client = Client(
-        base_url=f"{core_url}", username="abc", password="abc", timeout=20.0
-    )
+    client = Client(base_url=f"{core_url}", username="abc", password="abc", timeout=20.0)
     with pytest.raises(httpx.HTTPError) as exc_info:
         client.login()
     assert str(exc_info.value) == "Authorization failed"
 
 
 def test_access_token():
-    client = Client(
-        base_url=f"{core_url}", access_token=fake_token, timeout=20.0
-    )
+    client = Client(base_url=f"{core_url}", access_token=fake_token, timeout=20.0)
     client.login()
     res = client.about_get()
     assert isinstance(res, (Error, About))
-    client = Client(
-        base_url=f"{core_url}", username="admin", password="test", timeout=20.0
-    )
+    client = Client(base_url=f"{core_url}", username="admin", password="test", timeout=20.0)
     token = client.login()
-    client = Client(
-        base_url=f"{core_url}", access_token=token.access_token, timeout=20.0
-    )
+    client = Client(base_url=f"{core_url}", access_token=token.access_token, timeout=20.0)
     client.login()
     res = client.about_get()
     assert isinstance(res.created_at, datetime.datetime)
 
 
 def test_refresh_token():
-    client = Client(
-        base_url=f"{core_url}", refresh_token=fake_token, timeout=20.0
-    )
+    client = Client(base_url=f"{core_url}", refresh_token=fake_token, timeout=20.0)
     with pytest.raises(httpx.HTTPError) as exc_info:
         client.login()
     assert str(exc_info.value) == "Authorization failed"
-    client = Client(
-        base_url=f"{core_url}", username="admin", password="test", timeout=20.0
-    )
+    client = Client(base_url=f"{core_url}", username="admin", password="test", timeout=20.0)
     token = client.login()
-    client = Client(
-        base_url=f"{core_url}", refresh_token=token.refresh_token, timeout=20.0
-    )
+    client = Client(base_url=f"{core_url}", refresh_token=token.refresh_token, timeout=20.0)
     client.login()
     res = client.about_get()
     assert isinstance(res.created_at, datetime.datetime)
