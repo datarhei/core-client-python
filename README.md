@@ -816,16 +816,34 @@ $ cd core-client-python && \
 
 ### Testing
 
+#### Quick start with Docker (recommended)
+```sh
+$ make test              # unit tests only
+$ make test-integration  # starts a fresh Core in Docker, runs integration tests, tears it down
+$ make test-all          # both of the above
+```
+*`make test-integration` uses container `core-client-test` on port `8088` by default;
+override with e.g. `make test-integration CORE_PORT=8080 CORE_IMAGE=datarhei/core:latest`.*
+
+#### Unit tests (no backend required)
+```sh
+$ pytest
+```
+*Only `tests/unit` is collected by default.*
+
 #### Start a [Core](https://github.com/datarhei/core) backend:
 ```sh
 $ docker run -d --name core -p 8080:8080 datarhei/core:latest
 ```
 
-#### Local
+#### Integration tests (require a running Core)
 ```sh
-$ CORE_URL=http://127.0.0.1:8080 \
-    pytest tests/*.py
+$ RUN_INTEGRATION_TESTS=1 CORE_URL=http://127.0.0.1:8080 \
+    pytest tests/integration
 ```
+Cluster integration tests additionally need `RUN_CLUSTER_TESTS=1` (and two nodes).
+The suite expects a fresh Core with auth disabled; it enables JWT auth for the
+run and restores the original state afterwards.
 *Use `coverage html` to create an html report.*
 
 #### Docker

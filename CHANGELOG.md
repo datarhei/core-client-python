@@ -1,6 +1,39 @@
 Changelog
 ---------
 
+## Unreleased
+
+-   Fix `v3_fs_get_file_exists` crashing on a missing file (empty `HEAD` body now returns an `Error` instead of raising `JSONDecodeError`)
+-   Add `Makefile` targets for dockerized testing (`test`, `test-integration`, `test-all`, `core-up`, `core-down`, `core-logs`) that start a fresh Core and tear it down again
+-   Mod restructures integration tests into `tests/integration/` with shared fixtures: decoupled and individually runnable, session-managed JWT auth lifecycle, polling instead of fixed sleeps
+-   Add integration coverage for previously untested non-cluster endpoints (`v3_fs_get_file_exists`, `v3_metrics`, `v3_process_get_report`)
+-   Add `tests/integration/README.md` documenting endpoints not testable against a standalone Core (IAM, `session_token`, `fs` PATCH, playout)
+-   Fix outdated test `Dockerfile` command and `RUN_INTEGRATION_TESTS` handling
+
+## 2.6.0
+
+-   Add `log_event_rate` to process config limits
+-   Add `public_domains` to the cluster node model
+-   Add `lines` to process report history
+-   Add GPU fields to process state resources (usage, encoder, decoder, memory)
+-   Add `map` details to process state progress mapping
+-   Mod raises the lint line-length and reformats the client and API modules (black/pre-commit hook bump)
+-   Mod reworks the integration tests (auth, login and config flow, conftest)
+
+## 2.5.0
+
+-   Mod modernizes type hints across all models to PEP 604 (`Optional[X]`/`List`/`Dict` → `X | None`, `list[...]`, `dict[...]`)
+
+## 2.4.0
+
+-   Add `v3_fs_get_file_exists` to check whether a file exists (`HEAD`)
+-   Add cluster node filesystem endpoints (`v3_cluster_node_fs_get_file`, `v3_cluster_node_fs_get_file_list`, `v3_cluster_node_fs_head_file`, `v3_cluster_node_fs_put_file`)
+-   Add cluster process probe endpoints (`v3_cluster_process_get_probe`, `v3_cluster_process_post_probe`)
+-   Mod renames `v3_fs_delete_file_list` to `v3_cluster_node_fs_delete_file`
+
+Breaking changes:
+- `v3_fs_delete_file_list` is now `v3_cluster_node_fs_delete_file`
+
 ## 2.3.0
 
 Ccompatibility: Core v16.20.0 (or older)

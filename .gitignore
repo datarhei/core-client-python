@@ -3,3 +3,6 @@ htmlcov
 .coverage
 coverage.xml
 scripts/**
+.DS_Store
+core-openapi.json
+TODO.md

@@ -8,5 +8,6 @@ WORKDIR /client
 RUN pip install -r requirements-dev.txt
 
 ENV CORE_URL=""
+ENV RUN_INTEGRATION_TESTS="1"
 
-CMD ["pytest", "tests/1_pre.py", "tests/2_protected.py", "tests/3_main.py", "tests/4_errors.py", "tests/5_post.py"]
+CMD ["pytest", "tests/unit", "tests/integration"]

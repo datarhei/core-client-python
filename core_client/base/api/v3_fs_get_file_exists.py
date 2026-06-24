@@ -34,9 +34,13 @@ def _build_response(response: httpx.Response):
     elif response.status_code == 301:
         response_301 = response.content
         return response_301
-    else:
+    elif response.content:
         response_error = TypeAdapter(Error).validate_python(response.json())
         return response_error
+    else:
+        # HEAD responses carry no body, so synthesize the Error from the status.
+        reason = response.reason_phrase or "Error"
+        return Error(code=response.status_code, message=reason, details=[reason])
 
 
 def sync(client: Client, **kwargs):
