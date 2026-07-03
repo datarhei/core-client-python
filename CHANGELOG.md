@@ -3,6 +3,14 @@ Changelog
 
 ## Unreleased
 
+-   Add cluster endpoints `v3_cluster_get_healthy`, `v3_cluster_get_deployments`, `v3_cluster_process_get_metadata`, `v3_cluster_db_get_process_map`, `v3_cluster_fs_get_file_list` (with `ClusterDeployments`/`ClusterDeploymentsProcess` models)
+-   Fix `v3_cluster_process_get_probe` using `POST` instead of `GET`
+-   Add opt-in `raise_on_error` that turns an `Error` response into a `CoreAPIError` exception
+-   Mod reuses a pooled `httpx` client per instance instead of one per request, and adds `close()`/`aclose()` and context-manager support
+-   Mod enables HTTP/2 consistently on the sync and async paths
+-   Add a lock around the token refresh path (thread-safety) and an async login/refresh path (`alogin`) for `AsyncClient`
+-   Mod README: note on `domain` vs. `domainpattern`, and fix the "GET processes" example
+-   Mod `setup.py` with `long_description`, `license` and `project_urls` for PyPI
 -   Fix `v3_fs_get_file_exists` crashing on a missing file (empty `HEAD` body now returns an `Error` instead of raising `JSONDecodeError`)
 -   Add `Makefile` targets for dockerized testing (`test`, `test-integration`, `test-all`, `core-up`, `core-down`, `core-logs`) that start a fresh Core and tear it down again
 -   Mod restructures integration tests into `tests/integration/` with shared fixtures: decoupled and individually runnable, session-managed JWT auth lifecycle, polling instead of fixed sleeps

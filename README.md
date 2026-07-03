@@ -111,6 +111,15 @@ asyncio.run(main())
 
 ## API definitions
 
+> **Note on `domain` vs. `domainpattern` (IAM domains / cluster)**
+>
+> - **List endpoints** (`v3_process_get_list`, `v3_cluster_process_get_list`): `domain`
+>   means "act in the context of this domain" and does **not** filter the result.
+>   To filter a list by domain, use `domainpattern` (a glob).
+> - **Detail endpoints** (`v3_process_get`, `…_get_probe`, `…_get_state`, …): a
+>   domain-scoped process returns `404` unless the matching `domain` is passed —
+>   even when the id was taken from a list response.
+
 ### General
 
 -   `GET` /api
@@ -129,6 +138,24 @@ asyncio.run(main())
 
     ```python
     v3_cluster_get()
+    ```
+
+-   `GET` /api/v3/cluster/healthy
+
+    ```python
+    v3_cluster_get_healthy()
+    ```
+
+-   `GET` /api/v3/cluster/deployments
+
+    ```python
+    v3_cluster_get_deployments()
+    ```
+
+-   `GET` /api/v3/cluster/fs/{storage}
+
+    ```python
+    v3_cluster_fs_get_file_list(storage: str, glob: str = "", sort: str = "", order: str = "")
     ```
 
 -   `PUT` /api/v3/cluster/leave
@@ -160,6 +187,12 @@ asyncio.run(main())
 
     ```python
     v3_cluster_db_get_process_list()
+    ```
+
+-   `GET` /api/v3/cluster/db/map/process
+
+    ```python
+    v3_cluster_db_get_process_map()
     ```
 
 -   `GET` /api/v3/cluster/db/user
@@ -308,11 +341,21 @@ asyncio.run(main())
     *Model: [ProcessCommandAction](https://github.com/datarhei/core-client-python/blob/main/core_client/base/models/v3/process_command.py)*
 
 
+-   `GET` /api/v3/cluster/process/{id}/metadata/{key}
+    ```python
+    v3_cluster_process_get_metadata(id: str, key: str, domain: str = "")
+    ```
+
 -   `PUT` /api/v3/cluster/process/{id}/metadata/{key}
     ```python
     v3_cluster_process_put_metadata(id: str, domain: str = "", key: str, data: Metadata)
     ```
     *Model: [Metadata](https://github.com/datarhei/core-client-python/blob/main/core_client/base/models/v3/metadata.py)*
+
+-   `GET` /api/v3/cluster/process/{id}/probe
+    ```python
+    v3_cluster_process_get_probe(id: str, domain: str = "")
+    ```
 
 
 ### Config
@@ -654,7 +697,7 @@ client = Client(base_url="http://127.0.0.1:8080", username="admin", password="da
 client.login()
 
 process_list = client.v3_process_get_list()
-for process in processes:
+for process in process_list:
     print(process.id)
 ```
 

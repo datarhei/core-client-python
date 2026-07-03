@@ -3,6 +3,7 @@ Is deprecated. Please use `metrics_post`
 """
 
 import httpx
+from ._http import execute_async, execute_sync
 from pydantic import TypeAdapter, validate_call
 
 from ...models import Client
@@ -44,15 +45,11 @@ def _build_response(response: httpx.Response):
 
 def sync(client: Client, **kwargs):
     request, retries = _build_request(client, **kwargs)
-    transport = httpx.HTTPTransport(retries=retries)
-    httpx_client = httpx.Client(transport=transport, http2=True)
-    response = httpx_client.request(**request)
+    response = execute_sync(client, request, retries)
     return _build_response(response=response)
 
 
 async def asyncio(client: Client, **kwargs):
     request, retries = _build_request(client, **kwargs)
-    transport = httpx.AsyncHTTPTransport(retries=retries)
-    async with httpx.AsyncClient(transport=transport) as httpx_client:
-        response = await httpx_client.request(**request)
+    response = await execute_async(client, request, retries)
     return _build_response(response=response)

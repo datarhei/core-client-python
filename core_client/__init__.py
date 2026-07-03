@@ -1,7 +1,9 @@
+import asyncio
 import httpx
 import functools
 import importlib
 import pkgutil
+import threading
 import jwt
 from datetime import datetime
 from httpx import InvalidURL as HttpInvalidURL, HTTPError
@@ -10,6 +12,7 @@ from pydantic import HttpUrl, ValidationError as PydanticValidationError, valida
 from . import base
 from .models import Client as ClientModel
 from .base.models import Token, AccessToken, About, Error
+from .exceptions import CoreAPIError
 
 
 class Client:
@@ -25,6 +28,7 @@ class Client:
         auth0_token: str = None,
         retries: int = 3,
         timeout: float = 10.0,
+        raise_on_error: bool = False,
     ):
         self.headers = {
             "accept": "application/json",
@@ -44,6 +48,29 @@ class Client:
         self.auth0_token = auth0_token
         self.retries = retries
         self.timeout = timeout
+        self.raise_on_error = raise_on_error
+        # Guards the token refresh/login path against concurrent callers (§2.1).
+        self._refresh_lock = threading.Lock()
+        # Lazily created pooled httpx.Client reused across requests (§2.3/§2.4).
+        self._http_client = None
+
+    def _pooled_http_client(self):
+        if self._http_client is None:
+            transport = httpx.HTTPTransport(retries=self.retries)
+            self._http_client = httpx.Client(transport=transport, http2=True)
+        return self._http_client
+
+    def close(self):
+        """Close the pooled httpx client, if one was created."""
+        if self._http_client is not None:
+            self._http_client.close()
+            self._http_client = None
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *exc):
+        self.close()
 
     def _basic_login(self):
         domain_param = f"?domain={self.domain}" if self.domain else ""
@@ -169,14 +196,15 @@ class Client:
     def _get_headers(self):
         _headers = self.headers.copy()
         if (self.username and self.password) or self.access_token or self.refresh_token or self.auth0_token:
-            if (
-                self.refresh_token
-                and self._refresh_token_is_expired() is False
-                and self._access_token_is_expired() is True
-            ):
-                self._refresh_access_token()
-            elif self.refresh_token and self._refresh_token_is_expired() is True:
-                self.login()
+            with self._refresh_lock:
+                if (
+                    self.refresh_token
+                    and self._refresh_token_is_expired() is False
+                    and self._access_token_is_expired() is True
+                ):
+                    self._refresh_access_token()
+                elif self.refresh_token and self._refresh_token_is_expired() is True:
+                    self.login()
             if self.access_token:
                 _headers["authorization"] = f"Bearer {self.access_token}"
         return _headers
@@ -227,6 +255,11 @@ class Client:
             return Token()
         raise HTTPError(f'"{self.base_url}/api", {r_about.status_code}')
 
+    def _raise_if_error(self, result):
+        if self.raise_on_error and isinstance(result, Error):
+            raise CoreAPIError(result)
+        return result
+
     @classmethod
     def _make_proxy_method(cls, function):
         @functools.wraps(function)
@@ -236,8 +269,9 @@ class Client:
                 headers=self._get_headers(),
                 retries=self.retries,
                 timeout=self.timeout,
+                http_client=self._pooled_http_client(),
             )
-            return function(**kwargs)
+            return self._raise_if_error(function(**kwargs))
 
         return proxy_method
 
@@ -249,17 +283,155 @@ class Client:
 
 
 class AsyncClient(Client):
+    def _get_async_refresh_lock(self):
+        lock = getattr(self, "_async_refresh_lock", None)
+        if lock is None:
+            lock = asyncio.Lock()
+            self._async_refresh_lock = lock
+        return lock
+
+    def _pooled_async_http_client(self):
+        client = getattr(self, "_async_http_client", None)
+        if client is None:
+            transport = httpx.AsyncHTTPTransport(retries=self.retries)
+            client = httpx.AsyncClient(transport=transport, http2=True)
+            self._async_http_client = client
+        return client
+
+    async def aclose(self):
+        """Close the pooled async httpx client, if one was created."""
+        client = getattr(self, "_async_http_client", None)
+        if client is not None:
+            await client.aclose()
+            self._async_http_client = None
+
+    async def __aenter__(self):
+        return self
+
+    async def __aexit__(self, *exc):
+        await self.aclose()
+
+    async def _abasic_login(self):
+        domain_param = f"?domain={self.domain}" if self.domain else ""
+        async with httpx.AsyncClient(http2=True) as client:
+            r_login = await client.post(
+                url=f"{self.base_url}/api/login{domain_param}",
+                json={"username": f"{self.username}", "password": f"{self.password}"},
+                timeout=10.0,
+            )
+        if r_login.status_code == 200:
+            try:
+                response = Token(**r_login.json())
+                self._set_access_token_expires_at(response)
+                self.refresh_token = response.refresh_token
+                self._set_refresh_token_expires_at(response)
+                return response
+            except PydanticValidationError:
+                return Token()
+        else:
+            raise HTTPError("Authorization failed")
+
+    async def _aauth0_login(self):
+        _headers = self.headers.copy()
+        _headers["authorization"] = f"Bearer {self.auth0_token}"
+        async with httpx.AsyncClient(http2=True) as client:
+            r_login = await client.post(
+                url=f"{self.base_url}/api/login", headers=_headers, timeout=10.0
+            )
+        if r_login.status_code == 200:
+            try:
+                response = Token(**r_login.json())
+                self._set_access_token_expires_at(response)
+                self.refresh_token = response.refresh_token
+                self._set_refresh_token_expires_at(response)
+                return response
+            except PydanticValidationError:
+                return Token()
+        else:
+            raise HTTPError("Authorization failed")
+
+    async def _arefresh_access_token(self):
+        if self.refresh_token:
+            _headers = self.headers.copy()
+            _headers["authorization"] = f"Bearer {self.refresh_token}"
+            async with httpx.AsyncClient(http2=True) as client:
+                r_refresh = await client.get(
+                    url=f"{self.base_url}/api/login/refresh", headers=_headers, timeout=10.0
+                )
+            if r_refresh.status_code == 200:
+                response = AccessToken(**r_refresh.json())
+                if response.access_token is not None:
+                    self._set_access_token_expires_at(response)
+            else:
+                await self._abasic_login()
+        else:
+            await self._abasic_login()
+
+    async def alogin(self):
+        async with httpx.AsyncClient(http2=True) as client:
+            r_about = await client.get(url=f"{self.base_url}/api", timeout=self.timeout)
+        if r_about.status_code == 200:
+            try:
+                about = About(**r_about.json())
+            except PydanticValidationError:
+                raise HttpInvalidURL(f'"{self.base_url}/api"')
+            if about.auths and "localjwt" in about.auths:
+                if self.refresh_token:
+                    try:
+                        await self._arefresh_access_token()
+                        return self.token()
+                    except (PydanticValidationError, TypeError):
+                        raise HTTPError("Authorization failed")
+                elif self.auth0_token:
+                    await self._aauth0_login()
+                    return self.token()
+                elif self.username and self.password:
+                    await self._abasic_login()
+                    return self.token()
+                elif self.access_token and not self.refresh_token and not (self.username and self.password):
+                    try:
+                        response = Token(access_token=self.access_token)
+                        self._set_access_token_expires_at(response)
+                        return response
+                    except (PydanticValidationError, TypeError):
+                        return Token()
+                elif (
+                    not self.access_token and not self.refresh_token and not (self.username and self.password)
+                ):
+                    return Token()
+                else:
+                    raise HTTPError("Authorization failed")
+            return Token()
+        raise HTTPError(f'"{self.base_url}/api", {r_about.status_code}')
+
+    async def _aget_headers(self):
+        _headers = self.headers.copy()
+        if (self.username and self.password) or self.access_token or self.refresh_token or self.auth0_token:
+            async with self._get_async_refresh_lock():
+                if (
+                    self.refresh_token
+                    and self._refresh_token_is_expired() is False
+                    and self._access_token_is_expired() is True
+                ):
+                    await self._arefresh_access_token()
+                elif self.refresh_token and self._refresh_token_is_expired() is True:
+                    await self.alogin()
+            if self.access_token:
+                _headers["authorization"] = f"Bearer {self.access_token}"
+        return _headers
+
     @classmethod
     def _make_proxy_method(cls, function):
         @functools.wraps(function)
         async def proxy_method(self, *args, **kwargs):
             kwargs["client"] = ClientModel(
                 base_url=self.base_url,
-                headers=self._get_headers(),
+                headers=await self._aget_headers(),
                 retries=self.retries,
                 timeout=self.timeout,
+                http_client=self._pooled_async_http_client(),
             )
-            return await function(*args, **kwargs)
+            return self._raise_if_error(await function(*args, **kwargs))
 
         return proxy_method
 

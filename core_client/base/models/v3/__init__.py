@@ -7,6 +7,9 @@ from .cluster_node_state_value import ClusterNodeStateValue
 from .cluster_node_state import ClusterNodeState
 from .cluster_node import ClusterNode
 
+from .cluster_deployments_process import ClusterDeploymentsProcess
+from .cluster_deployments import ClusterDeployments
+
 from .cluster_reallocation_node_process import ClusterReallocationNodeProcess
 from .cluster_reallocation_node import ClusterReallocationNode
 from .cluster_reallocation import ClusterReallocation
