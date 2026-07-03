@@ -1,7 +1,7 @@
 Changelog
 ---------
 
-## Unreleased
+## 2.7.0
 
 -   Add cluster endpoints `v3_cluster_get_healthy`, `v3_cluster_get_deployments`, `v3_cluster_process_get_metadata`, `v3_cluster_db_get_process_map`, `v3_cluster_fs_get_file_list` (with `ClusterDeployments`/`ClusterDeploymentsProcess` models)
 -   Fix `v3_cluster_process_get_probe` using `POST` instead of `GET`
