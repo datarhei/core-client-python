@@ -11,7 +11,6 @@ from ..models.v3 import ProcessConfig, ProcessProbe
 def _build_request(
     client: Client,
     config: ProcessConfig,
-    coreid: str = "",
     retries: int = None,
     timeout: float = None,
 ):
@@ -23,7 +22,7 @@ def _build_request(
         timeout = client.timeout
     return {
         "method": "post",
-        "url": f"{client.base_url}/api/v3/cluster/process/probe?coreid={coreid}",
+        "url": f"{client.base_url}/api/v3/process/probe",
         "headers": client.headers,
         "timeout": timeout,
         "data": None,

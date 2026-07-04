@@ -1,6 +1,12 @@
 Changelog
 ---------
 
+## Unreleased
+
+-   Add `v3_process_post_probe` for `POST /api/v3/process/probe` (probe a process config directly; requires Core v16.20.0+)
+-   Add optional `coreid` query parameter to `v3_cluster_process_post_probe`
+-   Fix `ProcessProbeStream` field types `fps`, `bitrate_kbps`, `duration_sec` from `int` to `float` (matches the Core API; fractional values no longer raise a validation error)
+
 ## 2.7.0
 
 -   Add cluster endpoints `v3_cluster_get_healthy`, `v3_cluster_get_deployments`, `v3_cluster_process_get_metadata`, `v3_cluster_db_get_process_map`, `v3_cluster_fs_get_file_list` (with `ClusterDeployments`/`ClusterDeploymentsProcess` models)

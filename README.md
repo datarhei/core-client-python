@@ -357,6 +357,12 @@ asyncio.run(main())
     v3_cluster_process_get_probe(id: str, domain: str = "")
     ```
 
+-   `POST` /api/v3/cluster/process/probe
+    ```python
+    v3_cluster_process_post_probe(config: ProcessConfig, coreid: str = "")
+    ```
+    *Model: [ProcessConfig](https://github.com/datarhei/core-client-python/blob/main/core_client/base/models/v3/process_config.py)*
+
 
 ### Config
 
@@ -554,6 +560,13 @@ asyncio.run(main())
     ```python
     v3_process_get_probe(id: str, domain: str = "")
     ```
+
+-   `POST` /api/v3/process/probe
+    ```python
+    v3_process_post_probe(config: ProcessConfig)
+    ```
+    *Model: [ProcessConfig](https://github.com/datarhei/core-client-python/blob/main/core_client/base/models/v3/process_config.py)*
+    *Probes a process config directly (requires Core v16.20.0+).*
 
 -   `GET` /api/v3/process/{id}/report
     ```python

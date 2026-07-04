@@ -24,13 +24,13 @@ class ProcessProbeStream(BaseModel):
     }
     """
 
-    bitrate_kbps: int
+    bitrate_kbps: float
     channels: int
     codec: str
     coder: str
-    duration_sec: int
+    duration_sec: float
     format: str
-    fps: int
+    fps: float
     height: int
     index: int
     language: str
