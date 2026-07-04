@@ -1,7 +1,7 @@
 Changelog
 ---------
 
-## Unreleased
+## 2.8.0
 
 -   Add `v3_process_post_probe` for `POST /api/v3/process/probe` (probe a process config directly; requires Core v16.20.0+)
 -   Add optional `coreid` query parameter to `v3_cluster_process_post_probe`
