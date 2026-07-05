@@ -1,7 +1,7 @@
 Changelog
 ---------
 
-## Unreleased
+## 2.9.0
 
 -   Fix `v3_cluster_put_reallocation` and `v3_process_put_playout_input_stream` using `GET` instead of `PUT`
 -   Add `v3_fs_delete_file_list` for `DELETE /api/v3/fs/{storage}` (delete multiple files by glob)
