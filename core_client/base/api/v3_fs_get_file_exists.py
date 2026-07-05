@@ -29,17 +29,15 @@ def _build_request(
 
 
 def _build_response(response: httpx.Response):
-    if response.status_code == 200:
-        response_200 = response.content
-        return response_200
-    elif response.status_code == 301:
-        response_301 = response.content
-        return response_301
+    # This is a HEAD request: the body is always empty, so the useful
+    # information (content-type, last-modified, ...) lives in the headers.
+    if response.status_code in (200, 301):
+        return dict(response.headers)
     elif response.content:
         response_error = TypeAdapter(Error).validate_python(response.json())
         return response_error
     else:
-        # HEAD responses carry no body, so synthesize the Error from the status.
+        # HEAD error responses carry no body, so synthesize it from the status.
         reason = response.reason_phrase or "Error"
         return Error(code=response.status_code, message=reason, details=[reason])
 

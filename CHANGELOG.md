@@ -1,6 +1,10 @@
 Changelog
 ---------
 
+## Unreleased
+
+-   Fix `v3_fs_get_file_exists` returning the (always empty) `HEAD` body; it now returns the response headers (`dict`) with the file metadata, or an `Error` if the file does not exist
+
 ## 2.9.0
 
 -   Fix `v3_cluster_put_reallocation` and `v3_process_put_playout_input_stream` using `GET` instead of `PUT`

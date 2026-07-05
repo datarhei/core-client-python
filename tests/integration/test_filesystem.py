@@ -18,8 +18,10 @@ def test_fs_file_put_get_delete_roundtrip(admin_client):
 def test_fs_get_file_exists(admin_client):
     admin_client.v3_fs_put_file(storage="mem", path="exists.txt", data=b"x")
     res = admin_client.v3_fs_get_file_exists(storage="mem", path="exists.txt")
+    # HEAD returns the response headers (metadata), not a body.
     assert not isinstance(res, Error)
-    assert isinstance(res, bytes)
+    assert isinstance(res, dict)
+    assert "last-modified" in res
     admin_client.v3_fs_delete_file(storage="mem", path="exists.txt")
 
 
