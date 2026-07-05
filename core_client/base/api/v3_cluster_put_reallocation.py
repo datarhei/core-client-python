@@ -21,7 +21,7 @@ def _build_request(
     if not timeout:
         timeout = client.timeout
     return {
-        "method": "get",
+        "method": "put",
         "url": f"{client.base_url}/api/v3/cluster/reallocation",
         "headers": client.headers,
         "timeout": timeout,

@@ -4,27 +4,31 @@ from pydantic import TypeAdapter, validate_call
 
 from ...models import Client
 from ..models import Error
+from ..models.v3 import ProcessReport
 
 
 @validate_call()
 def _build_request(
     client: Client,
     id: str,
-    input_id: str,
+    report: ProcessReport,
+    domain: str = "",
     retries: int = None,
     timeout: float = None,
 ):
+    if not isinstance(report, dict):
+        report = report.model_dump()
     if not retries:
         retries = client.retries
     if not timeout:
         timeout = client.timeout
     return {
         "method": "put",
-        "url": f"{client.base_url}/api/v3/process/{id}/playout/{input_id}/stream",
+        "url": f"{client.base_url}/api/v3/process/{id}/report?domain={domain}",
         "headers": client.headers,
         "timeout": timeout,
         "data": None,
-        "json": None,
+        "json": report,
     }, retries
 
 

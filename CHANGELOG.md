@@ -1,6 +1,15 @@
 Changelog
 ---------
 
+## Unreleased
+
+-   Fix `v3_cluster_put_reallocation` and `v3_process_put_playout_input_stream` using `GET` instead of `PUT`
+-   Add `v3_fs_delete_file_list` for `DELETE /api/v3/fs/{storage}` (delete multiple files by glob)
+-   Add `v3_process_post_validate` (`POST /api/v3/process/validate`) and `v3_process_put_report` (`PUT /api/v3/process/{id}/report`)
+-   Add cluster endpoints `v3_cluster_get_snapshot`, `v3_cluster_put_transfer`, `v3_cluster_post_events`, `v3_cluster_db_get_kv`, `v3_cluster_db_get_reallocate_map`, `v3_cluster_db_get_node_list`, `v3_cluster_db_get_process`
+-   Add event endpoints `v3_events_post`, `v3_events_post_media` and the GraphQL query endpoint `graph_query`
+-   Add models `EventFilters`, `LogEventFilter`, `LogEvent`, `MediaEvent`, `GraphQuery`, `GraphResponse`, `ClusterKVSValue`, `ClusterStoreNode`
+
 ## 2.8.0
 
 -   Add `v3_process_post_probe` for `POST /api/v3/process/probe` (probe a process config directly; requires Core v16.20.0+)

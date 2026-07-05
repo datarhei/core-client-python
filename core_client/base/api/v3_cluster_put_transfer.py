@@ -10,7 +10,6 @@ from ..models import Error
 def _build_request(
     client: Client,
     id: str,
-    input_id: str,
     retries: int = None,
     timeout: float = None,
 ):
@@ -20,7 +19,7 @@ def _build_request(
         timeout = client.timeout
     return {
         "method": "put",
-        "url": f"{client.base_url}/api/v3/process/{id}/playout/{input_id}/stream",
+        "url": f"{client.base_url}/api/v3/cluster/transfer/{id}",
         "headers": client.headers,
         "timeout": timeout,
         "data": None,

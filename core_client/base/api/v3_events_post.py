@@ -4,33 +4,35 @@ from pydantic import TypeAdapter, validate_call
 
 from ...models import Client
 from ..models import Error
+from ..models.v3 import EventFilters, MediaEvent
 
 
 @validate_call()
 def _build_request(
     client: Client,
-    id: str,
-    input_id: str,
+    filters: EventFilters,
     retries: int = None,
     timeout: float = None,
 ):
+    if not isinstance(filters, dict):
+        filters = filters.model_dump()
     if not retries:
         retries = client.retries
     if not timeout:
         timeout = client.timeout
     return {
-        "method": "put",
-        "url": f"{client.base_url}/api/v3/process/{id}/playout/{input_id}/stream",
+        "method": "post",
+        "url": f"{client.base_url}/api/v3/events",
         "headers": client.headers,
         "timeout": timeout,
         "data": None,
-        "json": None,
+        "json": filters,
     }, retries
 
 
 def _build_response(response: httpx.Response):
     if response.status_code == 200:
-        response_200 = response.json()
+        response_200 = TypeAdapter(MediaEvent).validate_python(response.json())
         return response_200
     else:
         response_error = TypeAdapter(Error).validate_python(response.json())

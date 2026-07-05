@@ -4,13 +4,12 @@ from pydantic import TypeAdapter, validate_call
 
 from ...models import Client
 from ..models import Error
+from ..models.v3 import ClusterStoreNode
 
 
 @validate_call()
 def _build_request(
     client: Client,
-    id: str,
-    input_id: str,
     retries: int = None,
     timeout: float = None,
 ):
@@ -19,8 +18,8 @@ def _build_request(
     if not timeout:
         timeout = client.timeout
     return {
-        "method": "put",
-        "url": f"{client.base_url}/api/v3/process/{id}/playout/{input_id}/stream",
+        "method": "get",
+        "url": f"{client.base_url}/api/v3/cluster/db/node",
         "headers": client.headers,
         "timeout": timeout,
         "data": None,
@@ -30,7 +29,7 @@ def _build_request(
 
 def _build_response(response: httpx.Response):
     if response.status_code == 200:
-        response_200 = response.json()
+        response_200 = TypeAdapter(list[ClusterStoreNode]).validate_python(response.json())
         return response_200
     else:
         response_error = TypeAdapter(Error).validate_python(response.json())

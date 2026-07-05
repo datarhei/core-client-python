@@ -15,6 +15,7 @@ Requires Python 3.11+ and datarhei Core v16.10+.
     -   [Cluster Node (experimental)](#cluster-node)
     -   [Cluster Process (experimental)](#cluster-process)
     -   [Config](#config)
+    -   [Events](#events)
     -   [Filesystem](#filesystem)
     -   [IAM](#iam)
     -   [Log](#log)
@@ -128,6 +129,28 @@ asyncio.run(main())
     about()
     ```
 
+-   `POST` /api/graph/query
+
+    ```python
+    graph_query(query: GraphQuery)
+    ```
+    *Model: [GraphQuery](https://github.com/datarhei/core-client-python/blob/main/core_client/base/models/v3/graph_query.py)*
+
+### Events
+
+-   `POST` /api/v3/events
+
+    ```python
+    v3_events_post(filters: EventFilters)
+    ```
+
+-   `POST` /api/v3/events/media/{type}
+
+    ```python
+    v3_events_post_media(type: str, glob: str = "")
+    ```
+    *Model: [EventFilters](https://github.com/datarhei/core-client-python/blob/main/core_client/base/models/v3/event_filters.py)*
+
 ### Cluster
 
 ***Do not use in production!***
@@ -156,6 +179,25 @@ asyncio.run(main())
 
     ```python
     v3_cluster_fs_get_file_list(storage: str, glob: str = "", sort: str = "", order: str = "")
+    ```
+
+-   `GET` /api/v3/cluster/snapshot
+
+    ```python
+    v3_cluster_get_snapshot()
+    ```
+
+-   `POST` /api/v3/cluster/events
+
+    ```python
+    v3_cluster_post_events(filters: EventFilters)
+    ```
+    *Model: [EventFilters](https://github.com/datarhei/core-client-python/blob/main/core_client/base/models/v3/event_filters.py)*
+
+-   `PUT` /api/v3/cluster/transfer/{id}
+
+    ```python
+    v3_cluster_put_transfer(id: str)
     ```
 
 -   `PUT` /api/v3/cluster/leave
@@ -193,6 +235,30 @@ asyncio.run(main())
 
     ```python
     v3_cluster_db_get_process_map()
+    ```
+
+-   `GET` /api/v3/cluster/db/map/reallocate
+
+    ```python
+    v3_cluster_db_get_reallocate_map()
+    ```
+
+-   `GET` /api/v3/cluster/db/process/{id}
+
+    ```python
+    v3_cluster_db_get_process(id: str, domain: str = "")
+    ```
+
+-   `GET` /api/v3/cluster/db/kv
+
+    ```python
+    v3_cluster_db_get_kv()
+    ```
+
+-   `GET` /api/v3/cluster/db/node
+
+    ```python
+    v3_cluster_db_get_node_list()
     ```
 
 -   `GET` /api/v3/cluster/db/user
@@ -416,8 +482,9 @@ asyncio.run(main())
 
 -   `DELETE` /api/v3/fs/{storage}
     ```python
-    v3_fs_delete_file(storage: str, glob: str = "", size_min: str = "", size_max: str = "", lastmod_start: str = "", lastmod_end: str = "", sort: str = "", order: str = "")
+    v3_fs_delete_file_list(storage: str, glob: str = "", size_min: str = "", size_max: str = "", lastmod_start: str = "", lastmod_end: str = "")
     ```
+    *Deletes multiple files by glob (requires Core v16.20.0+).*
 
 -   `DELETE` /api/v3/fs/{storage}/{path}
     ```python
@@ -567,6 +634,19 @@ asyncio.run(main())
     ```
     *Model: [ProcessConfig](https://github.com/datarhei/core-client-python/blob/main/core_client/base/models/v3/process_config.py)*
     *Probes a process config directly (requires Core v16.20.0+).*
+
+-   `POST` /api/v3/process/validate
+    ```python
+    v3_process_post_validate(config: ProcessConfig)
+    ```
+    *Model: [ProcessConfig](https://github.com/datarhei/core-client-python/blob/main/core_client/base/models/v3/process_config.py)*
+    *Validates a process config (requires Core v16.20.0+).*
+
+-   `PUT` /api/v3/process/{id}/report
+    ```python
+    v3_process_put_report(id: str, report: ProcessReport, domain: str = "")
+    ```
+    *Model: [ProcessReport](https://github.com/datarhei/core-client-python/blob/main/core_client/base/models/v3/process_report.py)*
 
 -   `GET` /api/v3/process/{id}/report
     ```python
