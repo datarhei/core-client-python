@@ -1,7 +1,7 @@
 Changelog
 ---------
 
-## Unreleased
+## 2.10.1
 
 -   Fix `v3_cluster_node_put_state` parsing its `200` response as `ClusterNodeState`; the endpoint returns a string, so it now returns that string
 -   Fix `v3_iam_delete_user` parsing its `200` response as `IamUser`; the endpoint returns a string, so it now returns that string
