@@ -110,6 +110,20 @@ def test_method_bug_fixes(module, expected_method):
     assert '"method": "get"' not in text
 
 
+def test_cluster_reallocation_body_serializes_as_array(cm):
+    # Regression: ClusterReallocation must be a RootModel[list[...]], so the
+    # body is a top-level array, not {"RootModel": {...}}.
+    from core_client.base.api import v3_cluster_put_reallocation
+    from core_client.base.models.v3 import ClusterReallocation
+
+    payload = [{"target_node_id": "n1", "process_ids": [{"id": "p1", "domain": "d"}]}]
+    assert ClusterReallocation.model_validate(payload).model_dump() == payload
+
+    request, _ = v3_cluster_put_reallocation._build_request(cm, reallocation=payload)
+    assert request["method"] == "put"
+    assert request["json"] == payload
+
+
 def test_models_parse():
     assert ClusterStoreNode.model_validate({"id": "n1", "state": "online"}).id == "n1"
     assert LogEvent.model_validate({"event": "start", "level": 6, "ts": 1}).level == 6

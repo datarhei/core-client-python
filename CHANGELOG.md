@@ -1,6 +1,11 @@
 Changelog
 ---------
 
+## Unreleased
+
+-   Fix `ClusterReallocation` model: it was modeled with a single `RootModel: ClusterReallocationNode` field, so `v3_cluster_put_reallocation` serialized the body as `{"RootModel": {…}}`. It is now a `RootModel[list[ClusterReallocationNode]]` and sends the documented array `[{target_node_id, process_ids}]`
+-   Fix `v3_cluster_put_reallocation` parsing its response as `ClusterReallocation`; the endpoint returns a string, so it now returns that string
+
 ## 2.9.1
 
 -   Fix `v3_fs_get_file_exists` returning the (always empty) `HEAD` body; it now returns the response headers (`dict`) with the file metadata, or an `Error` if the file does not exist
