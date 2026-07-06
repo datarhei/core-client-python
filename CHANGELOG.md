@@ -1,10 +1,13 @@
 Changelog
 ---------
 
-## Unreleased
+## 2.9.2
 
 -   Fix `ClusterReallocation` model: it was modeled with a single `RootModel: ClusterReallocationNode` field, so `v3_cluster_put_reallocation` serialized the body as `{"RootModel": {…}}`. It is now a `RootModel[list[ClusterReallocationNode]]` and sends the documented array `[{target_node_id, process_ids}]`
 -   Fix `v3_cluster_put_reallocation` parsing its response as `ClusterReallocation`; the endpoint returns a string, so it now returns that string
+
+**Breaking changes:**
+- `ClusterReallocation` is now `RootModel[list[ClusterReallocationNode]]`; `v3_cluster_put_reallocation` sends a top-level array `[{target_node_id, process_ids}]` instead of `{"RootModel": {…}}`, and returns a string instead of a `ClusterReallocation` (both prior behaviors were broken)
 
 ## 2.9.1
 
