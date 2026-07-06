@@ -1,11 +1,6 @@
-from pydantic import BaseModel, RootModel
+from pydantic import RootModel
 
 from . import IamUser
 
-
-class IamUserList(BaseModel):
-    """
-    [IamUser]
-    """
-
-    RootModel: IamUser
+# JSON array of IamUser.
+IamUserList = RootModel[list[IamUser]]

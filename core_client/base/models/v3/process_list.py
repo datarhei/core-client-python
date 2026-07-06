@@ -1,7 +1,6 @@
-from pydantic import BaseModel, RootModel
+from pydantic import RootModel
 
 from . import Process
 
-
-class ProcessList(BaseModel):
-    RootModel: Process
+# JSON array of Process.
+ProcessList = RootModel[list[Process]]

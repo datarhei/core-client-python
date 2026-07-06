@@ -22,7 +22,7 @@ class ProcessStateProgressIOTee(BaseModel):
     state: str | None = None  # e.g., "running", "stopped", "error"
     fifo_enabled: bool = False
     fifo_state: str | None = None  # e.g., "running", "stopped", "error"
-    fifo_recovery_attempts_total: int | None = None
+    fifo_recovery_attempts_total: float | None = None
 
     class ConfigDict:
         use_enum_values = True

@@ -1,7 +1,6 @@
-from pydantic import BaseModel, RootModel
+from pydantic import RootModel
 
 from . import ClusterDbLock
 
-
-class ClusterDbLockList(BaseModel):
-    RootModel: ClusterDbLock
+# JSON array of ClusterDbLock.
+ClusterDbLockList = RootModel[list[ClusterDbLock]]

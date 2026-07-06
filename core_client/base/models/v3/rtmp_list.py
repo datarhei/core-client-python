@@ -1,7 +1,6 @@
-from pydantic import BaseModel, RootModel
+from pydantic import RootModel
 
 from . import Rtmp
 
-
-class RtmpList(BaseModel):
-    RootModel: list[Rtmp]
+# JSON array of Rtmp.
+RtmpList = RootModel[list[Rtmp]]

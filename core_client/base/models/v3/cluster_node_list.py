@@ -1,7 +1,6 @@
-from pydantic import BaseModel, RootModel
+from pydantic import RootModel
 
 from . import ClusterNode
 
-
-class ClusterNodeList(BaseModel):
-    RootModel: list[ClusterNode]
+# JSON array of ClusterNode.
+ClusterNodeList = RootModel[list[ClusterNode]]

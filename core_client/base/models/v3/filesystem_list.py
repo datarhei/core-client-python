@@ -1,7 +1,6 @@
-from pydantic import BaseModel, RootModel
+from pydantic import RootModel
 
 from . import Filesystem
 
-
-class FilesystemList(BaseModel):
-    RootModel: Filesystem
+# JSON array of Filesystem.
+FilesystemList = RootModel[list[Filesystem]]

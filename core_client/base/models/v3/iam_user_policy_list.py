@@ -1,11 +1,6 @@
-from pydantic import BaseModel, RootModel
+from pydantic import RootModel
 
 from . import IamUserPolicy
 
-
-class IamUserPolicyList(BaseModel):
-    """
-    [IamUserPolicy]
-    """
-
-    RootModel: IamUserPolicy
+# JSON array of IamUserPolicy.
+IamUserPolicyList = RootModel[list[IamUserPolicy]]

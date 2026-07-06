@@ -32,7 +32,7 @@ class Srt(BaseModel):
     """
 
     name: str | None = None
-    socketid: str | None = None
+    socketid: int | None = None
     publisher: dict[str, int] | None = None
     subscriber: dict[str, list[int]] | list[int]
     connections: dict[str, SrtConnection]

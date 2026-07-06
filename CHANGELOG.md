@@ -1,6 +1,16 @@
 Changelog
 ---------
 
+## Unreleased
+
+-   Fix 10 `*List` models that were modeled as `class X(BaseModel): RootModel: Y` (same bug as `ClusterReallocation`); they are now `RootModel[list[Y]]`: `IamUserPolicyList`, `IamUserList`, `ProcessList`, `FilesystemFileList`, `FilesystemList`, `RtmpList`, `ClusterNodeList`, `ClusterDbLockList`, `ConfigStorageS3List`, `ReportProcessList`
+-   Fix `Srt.socketid` type from `str` to `int` (matches OpenAPI `api.SRTChannel`)
+-   Fix `ProcessStateProgressIOTee.fifo_recovery_attempts_total` type from `int` to `float` (matches OpenAPI `api.ProgressIOTee`; fractional values no longer raise a validation error)
+
+**Breaking changes:**
+- `ReportProcessList` (the only one of the above exported from `core_client.base.models.v3`) changes from a `BaseModel` to a `RootModel[list[ReportProcess]]`
+- `Srt.socketid` is now `int` instead of `str`
+
 ## 2.9.2
 
 -   Fix `ClusterReallocation` model: it was modeled with a single `RootModel: ClusterReallocationNode` field, so `v3_cluster_put_reallocation` serialized the body as `{"RootModel": {…}}`. It is now a `RootModel[list[ClusterReallocationNode]]` and sends the documented array `[{target_node_id, process_ids}]`

@@ -1,11 +1,6 @@
-from pydantic import BaseModel, RootModel
+from pydantic import RootModel
 
 from . import ConfigStorageS3
 
-
-class ConfigStorageS3List(BaseModel):
-    """
-    [ConfigStorageS3]
-    """
-
-    RootModel: ConfigStorageS3
+# JSON array of ConfigStorageS3.
+ConfigStorageS3List = RootModel[list[ConfigStorageS3]]
