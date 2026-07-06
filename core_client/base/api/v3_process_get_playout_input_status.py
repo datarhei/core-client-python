@@ -4,6 +4,7 @@ from pydantic import TypeAdapter, validate_call
 
 from ...models import Client
 from ..models import Error
+from ..models.v3 import PlayoutStatus
 
 
 @validate_call()
@@ -30,7 +31,7 @@ def _build_request(
 
 def _build_response(response: httpx.Response):
     if response.status_code == 200:
-        response_200 = response.json()
+        response_200 = TypeAdapter(PlayoutStatus).validate_python(response.json())
         return response_200
     else:
         response_error = TypeAdapter(Error).validate_python(response.json())

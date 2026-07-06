@@ -5,6 +5,7 @@ Changelog
 
 -   Fix `v3_cluster_node_put_state` parsing its `200` response as `ClusterNodeState`; the endpoint returns a string, so it now returns that string
 -   Fix `v3_iam_delete_user` parsing its `200` response as `IamUser`; the endpoint returns a string, so it now returns that string
+-   Add `PlayoutStatus` model (with `PlayoutStatusIO`, `PlayoutStatusSwap`) and use it for `v3_process_get_playout_input_status`, which previously returned an untyped dict
 
 ## 2.10.0
 
