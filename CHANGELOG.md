@@ -1,6 +1,11 @@
 Changelog
 ---------
 
+## Unreleased
+
+-   Fix `v3_cluster_node_put_state` parsing its `200` response as `ClusterNodeState`; the endpoint returns a string, so it now returns that string
+-   Fix `v3_iam_delete_user` parsing its `200` response as `IamUser`; the endpoint returns a string, so it now returns that string
+
 ## 2.10.0
 
 -   Fix 10 `*List` models that were modeled as `class X(BaseModel): RootModel: Y` (same bug as `ClusterReallocation`); they are now `RootModel[list[Y]]`: `IamUserPolicyList`, `IamUserList`, `ProcessList`, `FilesystemFileList`, `FilesystemList`, `RtmpList`, `ClusterNodeList`, `ClusterDbLockList`, `ConfigStorageS3List`, `ReportProcessList`
