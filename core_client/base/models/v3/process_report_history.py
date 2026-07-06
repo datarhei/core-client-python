@@ -2,7 +2,7 @@ from typing import List, Optional
 
 from pydantic import BaseModel
 
-from . import ProcessStateExec, ProcessStateProgress
+from . import ProcessStateExec, ProcessStateProgress, ProcessStateResources
 
 
 class ProcessReportHistory(BaseModel):
@@ -40,3 +40,4 @@ class ProcessReportHistory(BaseModel):
     exited_at: int | None = None
     exit_state: ProcessStateExec | None = None
     progress: ProcessStateProgress | None = None
+    resources: ProcessStateResources | None = None

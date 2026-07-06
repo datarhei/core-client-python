@@ -36,3 +36,5 @@ class ProcessStateProgressMappingGraph(BaseModel):
     layout: str
     width: int
     height: int
+    id: str | None = None
+    dst_id: str | None = None

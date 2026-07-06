@@ -52,6 +52,8 @@ class ProcessState(BaseModel):
     reconnect_seconds: int
     runtime_seconds: int
     resources: ProcessStateResources | None = None
+    pid: int | None = None
+    limit_mode: str | None = None
 
     class ConfigDict:
         use_enum_values = True

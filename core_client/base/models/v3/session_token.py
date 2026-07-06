@@ -18,6 +18,6 @@ class SessionToken(BaseModel):
 
     match: str = "/**"
     ttl_sec: int = 3600
-    extras: dict[str, dict] | None = None
+    extra: dict | None = None
     remote: list[str] | None = None
     token: str | None = None

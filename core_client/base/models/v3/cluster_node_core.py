@@ -17,3 +17,4 @@ class ClusterNodeCore(BaseModel):
     error: str
     last_contact_ms: float
     latency_ms: float
+    version: str | None = None

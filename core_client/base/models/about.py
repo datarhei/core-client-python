@@ -12,6 +12,19 @@ class AboutVersion(BaseModel):
     compiler: str | None = None
 
 
+class AboutResources(BaseModel):
+    cpu_core: float | None = None
+    cpu_limit: float | None = None
+    cpu_used: float | None = None
+    ncpu: float | None = None
+    is_throttling: bool | None = None
+    memory_core_bytes: int | None = None
+    memory_limit_bytes: int | None = None
+    memory_total_bytes: int | None = None
+    memory_used_bytes: int | None = None
+    gpu: list | None = None
+
+
 class About(BaseModel):
     app: str
     auths: list[str] | None = None
@@ -20,3 +33,4 @@ class About(BaseModel):
     name: str | None = None
     uptime_seconds: int | None = None
     version: AboutVersion
+    resources: AboutResources | None = None

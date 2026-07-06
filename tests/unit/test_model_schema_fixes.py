@@ -49,6 +49,42 @@ def test_srt_socketid_is_int():
     assert srt.socketid == 347916646
 
 
+def test_session_token_field_is_extra_not_extras():
+    from core_client.base.models.v3 import SessionToken
+
+    assert "extra" in SessionToken.model_fields
+    assert "extras" not in SessionToken.model_fields
+    dumped = SessionToken(extra={"k": "v"}).model_dump()
+    assert dumped["extra"] == {"k": "v"}
+
+
+def test_config_has_update_check_and_compress():
+    from core_client.base.models.v3 import Config, ConfigCompress
+
+    cfg = Config.model_validate({"update_check": True, "compress": {"min_length": 100}})
+    assert cfg.update_check is True
+    assert isinstance(cfg.compress, ConfigCompress)
+    assert cfg.compress.min_length == 100
+
+
+def test_filesystem_file_accepts_core_id():
+    from core_client.base.models.v3 import FilesystemFile
+
+    f = FilesystemFile.model_validate(
+        {"name": "a", "size_bytes": 1, "last_modified": 0, "core_id": "node-1"}
+    )
+    assert f.core_id == "node-1"
+
+
+def test_about_accepts_resources():
+    from core_client.base.models import About
+
+    a = About.model_validate(
+        {"app": "core", "version": {"number": "16.20.0"}, "resources": {"ncpu": 4.0}}
+    )
+    assert a.resources.ncpu == 4.0
+
+
 def test_iotee_fifo_recovery_accepts_float():
     # openapi api.ProgressIOTee.fifo_recovery_attempts_total is a number (float).
     assert ProcessStateProgressIOTee.model_fields["fifo_recovery_attempts_total"].annotation == (

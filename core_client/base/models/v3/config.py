@@ -4,6 +4,7 @@ from typing import Optional
 from . import (
     ConfigApi,
     ConfigCluster,
+    ConfigCompress,
     ConfigDb,
     ConfigDebug,
     ConfigFfmpeg,
@@ -62,6 +63,8 @@ class Config(BaseModel):
     id: str | None = None
     name: str | None = None
     address: str | None = None
+    update_check: bool | None = None
+    compress: ConfigCompress | None = None
     log: ConfigLog | None = None
     db: ConfigDb | None = None
     host: ConfigHost | None = None

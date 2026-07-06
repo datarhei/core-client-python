@@ -19,3 +19,4 @@ class ReportProcess(BaseModel):
     exit_state: ProcessStateExec
     created_at: int
     exited_at: int
+    domain: str | None = None

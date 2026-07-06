@@ -16,3 +16,4 @@ class FilesystemOperation(BaseModel):
     source: str
     target: str
     operation: FilesystemOperationOrder
+    bandwidth_limit_kbit: int | None = None

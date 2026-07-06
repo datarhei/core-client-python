@@ -6,10 +6,14 @@ Changelog
 -   Fix 10 `*List` models that were modeled as `class X(BaseModel): RootModel: Y` (same bug as `ClusterReallocation`); they are now `RootModel[list[Y]]`: `IamUserPolicyList`, `IamUserList`, `ProcessList`, `FilesystemFileList`, `FilesystemList`, `RtmpList`, `ClusterNodeList`, `ClusterDbLockList`, `ConfigStorageS3List`, `ReportProcessList`
 -   Fix `Srt.socketid` type from `str` to `int` (matches OpenAPI `api.SRTChannel`)
 -   Fix `ProcessStateProgressIOTee.fifo_recovery_attempts_total` type from `int` to `float` (matches OpenAPI `api.ProgressIOTee`; fractional values no longer raise a validation error)
+-   Fix `SessionToken` field `extras` → `extra` (the Core API expects `extra`; the old key was silently ignored)
+-   Add missing fields found by a field-completeness audit against the OpenAPI schemas: `Config.update_check`/`compress`, `About.resources`, `ProcessState.pid`/`limit_mode`, `ProcessStateProgressIO.level`/`profile`/`sample_fmt`, `ProcessStateProgressMappingGraph.id`/`dst_id`, `FilesystemFile.core_id`, `FilesystemOperation.bandwidth_limit_kbit`, `ReportProcess.domain`, `ProcessReportHistory.resources`, `ClusterNodeCore.version`, `ClusterNodeResources` (`cpu_core`, `error`, `gpu`, `memory_core_bytes`, `memory_total_bytes`)
+-   Add models `ConfigCompress` and `AboutResources`
 
 **Breaking changes:**
 - `ReportProcessList` (the only one of the above exported from `core_client.base.models.v3`) changes from a `BaseModel` to a `RootModel[list[ReportProcess]]`
 - `Srt.socketid` is now `int` instead of `str`
+- `SessionToken.extras` is renamed to `SessionToken.extra`
 
 ## 2.9.2
 

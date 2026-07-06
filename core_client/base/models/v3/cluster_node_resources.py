@@ -19,3 +19,8 @@ class ClusterNodeResources(BaseModel):
     memory_limit_bytes: int
     memory_used_bytes: int
     ncpu: float
+    cpu_core: float | None = None
+    error: str | None = None
+    gpu: list | None = None
+    memory_core_bytes: int | None = None
+    memory_total_bytes: int | None = None

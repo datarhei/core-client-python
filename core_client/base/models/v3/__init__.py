@@ -72,6 +72,7 @@ from .config_storage import ConfigStorage
 from .config_tls import ConfigTls
 from .config_cluster_debug import ConfigClusterDebug
 from .config_cluster import ConfigCluster
+from .config_compress import ConfigCompress
 from .config import Config
 from .config_saved import ConfigSaved
 
