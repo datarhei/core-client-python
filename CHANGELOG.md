@@ -1,9 +1,12 @@
 Changelog
 ---------
 
-## Unreleased
+## 2.9.1
 
 -   Fix `v3_fs_get_file_exists` returning the (always empty) `HEAD` body; it now returns the response headers (`dict`) with the file metadata, or an `Error` if the file does not exist
+
+**Breaking changes:**
+- `v3_fs_get_file_exists` now returns a `dict` of response headers on success instead of `bytes` (the previous `bytes` return was always empty because `HEAD` responses have no body)
 
 ## 2.9.0
 

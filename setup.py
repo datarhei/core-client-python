@@ -19,7 +19,7 @@ tests_requirements = [
 
 setup(
     name="datarhei-mediacore-client",
-    version="2.9.0",
+    version="2.9.1",
     url="https://github.com/datarhei/core-client-python",
     project_urls={
         "Source": "https://github.com/datarhei/core-client-python",
