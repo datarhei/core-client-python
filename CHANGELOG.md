@@ -1,7 +1,7 @@
 Changelog
 ---------
 
-## Unreleased
+## 2.10.0
 
 -   Fix 10 `*List` models that were modeled as `class X(BaseModel): RootModel: Y` (same bug as `ClusterReallocation`); they are now `RootModel[list[Y]]`: `IamUserPolicyList`, `IamUserList`, `ProcessList`, `FilesystemFileList`, `FilesystemList`, `RtmpList`, `ClusterNodeList`, `ClusterDbLockList`, `ConfigStorageS3List`, `ReportProcessList`
 -   Fix `Srt.socketid` type from `str` to `int` (matches OpenAPI `api.SRTChannel`)
