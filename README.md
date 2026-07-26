@@ -9,11 +9,11 @@ Requires Python 3.11+ and datarhei Core v16.10+.
 -   [Usage](#usage)
 -   [API definitions](#api-definitions)
     -   [General](#general)
-    -   [Cluster (experimental)](#cluster)
-    -   [Cluster Database (experimental)](#cluster-database)
-    -   [Cluster IAM (experimental)](#cluster-iam)
-    -   [Cluster Node (experimental)](#cluster-node)
-    -   [Cluster Process (experimental)](#cluster-process)
+    -   [Cluster](#cluster)
+    -   [Cluster Database](#cluster-database)
+    -   [Cluster IAM](#cluster-iam)
+    -   [Cluster Node](#cluster-node)
+    -   [Cluster Process](#cluster-process)
     -   [Config](#config)
     -   [Events](#events)
     -   [Filesystem](#filesystem)
@@ -198,7 +198,9 @@ Notes:
 
 -   **Filter models:** `LogEventFilter` for the log-event streams
     (`/api/v3/events`, `/api/v3/cluster/events`); `ProcessEventFilter` (filter by
-    `type`, `domain`, …) for `/api/v3/cluster/events/process`. Raw `dict` filters are
+    `type`, `domain`, `pid`, `core_id`) for `/api/v3/cluster/events/process`. Each
+    filter value is a **case-insensitive, unanchored regex** (e.g. `type="progress"`,
+    `type="progress|report"`); multiple fields are AND-combined. Raw `dict` filters are
     also accepted. An empty filter delivers **all** events (a firehose — filter tightly).
 -   **Connect errors** (e.g. `401`) are raised as `CoreAPIError` on connection, so you
     can refresh and reconnect; network errors propagate as `httpx` exceptions.
@@ -209,10 +211,6 @@ Notes:
     cleanly.
 
 ### Cluster
-
-***Do not use in production!***
-*This is an upcoming feature. More here: [Core v16.10#vod](https://github.com/datarhei/core/tree/vod))*
-
 
 -   `GET` /api/v3/cluster
 
@@ -265,10 +263,6 @@ Notes:
 
 
 ### Cluster Database
-
-***Do not use in production!***
-*This is an upcoming feature. More here: [Core v16.10#vod](https://github.com/datarhei/core/tree/vod))*
-
 
 -   `GET` /api/v3/cluster/db/locks
 
@@ -332,10 +326,6 @@ Notes:
 
 ### Cluster IAM
 
-***Do not use in production!***
-*This is an upcoming feature. More here: [Core v16.10#vod](https://github.com/datarhei/core/tree/vod))*
-
-
 -   `GET` /api/v3/cluster/iam/user
 
     ```python
@@ -392,10 +382,6 @@ Notes:
 
 ### Cluster Node
 
-***Do not use in production!***
-*This is an upcoming feature. More here: [Core v16.10#vod](https://github.com/datarhei/core/tree/vod))*
-
-
 -   `GET` /api/v3/cluster/node
 
     ```python
@@ -423,10 +409,6 @@ Notes:
     ```
 
 ### Cluster Process
-
-***Do not use in production!***
-*This is an upcoming feature. More here: [Core v16.10#vod](https://github.com/datarhei/core/tree/vod))*
-
 
 -   `GET` /api/v3/cluster/process
 
