@@ -1,6 +1,17 @@
 Changelog
 ---------
 
+## 2.11.0
+
+-   Add async event streaming: `AsyncClient.v3_events_stream`, `v3_cluster_events_stream`, `v3_cluster_events_process_stream` — endless async generators over the SSE/NDJSON event endpoints (no read timeout, event-by-event, abort-safe). Raw `(event_type, data_str)` delivery by default; opt-in `model=` for typed events, `frame=False` for raw lines
+-   Add `v3_cluster_events_process_stream` for `POST /api/v3/cluster/events/process` (endpoint was missing)
+-   Add streaming helper `core_client/base/api/_stream.py`; streams use HTTP/1.1 (the Core cluster terminates HTTP/2 stream connections)
+-   Add `ProcessEventFilter` model; `EventFilters.filters` is now a `list[LogEventFilter | ProcessEventFilter]` (filter process streams by `type`, `domain`, ...)
+-   Add public `Client.refresh()` / `AsyncClient.arefresh()` for proactive token refresh
+-   Add one-shot `401` auto-retry to the sync and async request proxies (streaming exempt)
+-   Fix event filter serialization to use `model_dump(exclude_none=True)` (no more `null` filter fields); raw `dict` filters still accepted
+-   Mod `LogEventFilter`/`ProcessEventFilter` use `extra="forbid"` for unambiguous union resolution
+
 ## 2.10.1
 
 -   Fix `v3_cluster_node_put_state` parsing its `200` response as `ClusterNodeState`; the endpoint returns a string, so it now returns that string

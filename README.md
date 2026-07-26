@@ -43,9 +43,10 @@ Requires Python 3.11+ and datarhei Core v16.10+.
 
 ## Features
 -   Async & sync support
+-   Async event streaming (SSE / NDJSON) as endless async generators
 -   Request & response validation
 -   Retries and timeout settings per request
--   Automatic `JWT` renewal
+-   Automatic `JWT` renewal (+ public `refresh()`/`arefresh()`, one-shot `401` auto-retry)
 -   [pydantic Models](https://pydantic-docs.helpmanual.io/)
 -   [HTTPX](https://www.python-httpx.org/)
 
@@ -136,6 +137,18 @@ asyncio.run(main())
     ```
     *Model: [GraphQuery](https://github.com/datarhei/core-client-python/blob/main/core_client/base/models/v3/graph_query.py)*
 
+#### Token refresh (long-running applications)
+
+```python
+client.refresh()          # sync: refresh the access token now (re-login fallback)
+await client.arefresh()   # async
+```
+
+Tokens are also renewed lazily before each request. In addition, every request
+transparently retries **once** on a `401` (access token invalidated server-side by a
+restart or secret rotation). Streaming methods are exempt — handle `401` in your
+reconnect loop via `arefresh()`.
+
 ### Events
 
 -   `POST` /api/v3/events
@@ -150,6 +163,50 @@ asyncio.run(main())
     v3_events_post_media(type: str, glob: str = "")
     ```
     *Model: [EventFilters](https://github.com/datarhei/core-client-python/blob/main/core_client/base/models/v3/event_filters.py)*
+
+#### Event streaming (async)
+
+The event endpoints are **endless streams**. On the `AsyncClient` they are exposed as
+async generators that yield event by event (no read timeout). The default delivery is
+a lightweight `(event_type, data_str)` tuple — **no per-event validation** (a busy
+cluster emits thousands of events per second). Pass `model=` for typed events, or
+`frame=False` for raw lines.
+
+Streaming methods (async only):
+
+-   `v3_events_stream(filters=…, frame=True, model=None)` → `POST /api/v3/events`
+-   `v3_cluster_events_stream(filters=…)` → `POST /api/v3/cluster/events`
+-   `v3_cluster_events_process_stream(filters=…)` → `POST /api/v3/cluster/events/process`
+
+```python
+import asyncio
+from datarhei.mediacore import AsyncMediaCoreClient
+from datarhei.mediacore.base.models.v3 import EventFilters, ProcessEventFilter
+
+async def main():
+    client = AsyncMediaCoreClient(base_url="http://127.0.0.1:8080", username="admin", password="datarhei")
+    await client.alogin()
+
+    filters = EventFilters(filters=[ProcessEventFilter(type="progress")])
+    async for event_type, data in client.v3_cluster_events_process_stream(filters=filters):
+        print(event_type, data)   # data is the raw JSON line (str)
+
+asyncio.run(main())
+```
+
+Notes:
+
+-   **Filter models:** `LogEventFilter` for the log-event streams
+    (`/api/v3/events`, `/api/v3/cluster/events`); `ProcessEventFilter` (filter by
+    `type`, `domain`, …) for `/api/v3/cluster/events/process`. Raw `dict` filters are
+    also accepted. An empty filter delivers **all** events (a firehose — filter tightly).
+-   **Connect errors** (e.g. `401`) are raised as `CoreAPIError` on connection, so you
+    can refresh and reconnect; network errors propagate as `httpx` exceptions.
+-   **Reconnect is the caller's responsibility.** The generator ends normally on EOF; it
+    does not retry. Wrap it in your own reconnect/backoff loop for long-running use, and
+    call `await client.arefresh()` on a `401` before reconnecting.
+-   Cancelling the task or calling `aclose()` on the generator closes the connection
+    cleanly.
 
 ### Cluster
 

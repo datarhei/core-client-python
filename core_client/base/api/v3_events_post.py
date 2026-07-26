@@ -15,7 +15,7 @@ def _build_request(
     timeout: float = None,
 ):
     if not isinstance(filters, dict):
-        filters = filters.model_dump()
+        filters = filters.model_dump(exclude_none=True)
     if not retries:
         retries = client.retries
     if not timeout:

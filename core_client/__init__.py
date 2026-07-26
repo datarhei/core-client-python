@@ -219,6 +219,17 @@ class Client:
             expires_at=expires_at,
         )
 
+    def refresh(self):
+        """Refresh the access token now (proactive), under the refresh lock.
+
+        Uses the existing refresh-token path with re-login fallback. Unlike
+        ``login()`` this makes no ``GET /api`` preflight, so it is suited for
+        periodic background refresh in long-running applications.
+        """
+        with self._refresh_lock:
+            self._refresh_access_token()
+        return self.token()
+
     def login(self):
         r_about = httpx.get(url=f"{self.base_url}/api", timeout=self.timeout)
         if r_about.status_code == 200:
@@ -264,14 +275,25 @@ class Client:
     def _make_proxy_method(cls, function):
         @functools.wraps(function)
         def proxy_method(self, **kwargs):
-            kwargs["client"] = ClientModel(
-                base_url=self.base_url,
-                headers=self._get_headers(),
-                retries=self.retries,
-                timeout=self.timeout,
-                http_client=self._pooled_http_client(),
-            )
-            return self._raise_if_error(function(**kwargs))
+            def call():
+                call_kwargs = dict(kwargs)
+                call_kwargs["client"] = ClientModel(
+                    base_url=self.base_url,
+                    headers=self._get_headers(),
+                    retries=self.retries,
+                    timeout=self.timeout,
+                    http_client=self._pooled_http_client(),
+                )
+                return function(**call_kwargs)
+
+            result = call()
+            # One-shot retry on a 401: the token may have been invalidated
+            # server-side (restart / secret rotation). Invalidate and retry once.
+            if isinstance(result, Error) and result.code == 401:
+                with self._refresh_lock:
+                    self.access_token = None
+                result = call()
+            return self._raise_if_error(result)
 
         return proxy_method
 
@@ -404,6 +426,12 @@ class AsyncClient(Client):
             return Token()
         raise HTTPError(f'"{self.base_url}/api", {r_about.status_code}')
 
+    async def arefresh(self):
+        """Async counterpart of :meth:`Client.refresh`."""
+        async with self._get_async_refresh_lock():
+            await self._arefresh_access_token()
+        return self.token()
+
     async def _aget_headers(self):
         _headers = self.headers.copy()
         if (self.username and self.password) or self.access_token or self.refresh_token or self.auth0_token:
@@ -424,16 +452,57 @@ class AsyncClient(Client):
     def _make_proxy_method(cls, function):
         @functools.wraps(function)
         async def proxy_method(self, *args, **kwargs):
-            kwargs["client"] = ClientModel(
-                base_url=self.base_url,
-                headers=await self._aget_headers(),
-                retries=self.retries,
-                timeout=self.timeout,
-                http_client=self._pooled_async_http_client(),
-            )
-            return self._raise_if_error(await function(*args, **kwargs))
+            async def call():
+                call_kwargs = dict(kwargs)
+                call_kwargs["client"] = ClientModel(
+                    base_url=self.base_url,
+                    headers=await self._aget_headers(),
+                    retries=self.retries,
+                    timeout=self.timeout,
+                    http_client=self._pooled_async_http_client(),
+                )
+                return await function(*args, **call_kwargs)
+
+            result = await call()
+            if isinstance(result, Error) and result.code == 401:
+                async with self._get_async_refresh_lock():
+                    self.access_token = None
+                result = await call()
+            return self._raise_if_error(result)
 
         return proxy_method
+
+    @classmethod
+    def _make_stream_method(cls, function):
+        """Wrap an ``asyncio_stream`` module function as an async-generator method.
+
+        Unlike ``_make_proxy_method`` this is a plain (non-async) method that
+        returns an async generator, so callers do ``async for ev in client.x(...)``.
+        Headers are fetched fresh when iteration starts (connection time), and
+        ``_raise_if_error`` is not applied — streaming errors surface as
+        ``CoreAPIError`` on connect (see ``_stream``).
+        """
+
+        @functools.wraps(function)
+        def stream_method(self, **kwargs):
+            async def agen():
+                client = ClientModel(
+                    base_url=self.base_url,
+                    headers=await self._aget_headers(),
+                    retries=self.retries,
+                    timeout=self.timeout,
+                )
+                async for item in function(client=client, **kwargs):
+                    yield item
+
+            return agen()
+
+        return stream_method
+
+    @classmethod
+    def _add_stream_method(cls, method_name, function):
+        if not hasattr(cls, method_name):
+            setattr(cls, method_name, cls._make_stream_method(function))
 
 
 for module_info in pkgutil.walk_packages(path=base.__path__, prefix=f"{base.__name__}."):
@@ -445,11 +514,12 @@ for module_info in pkgutil.walk_packages(path=base.__path__, prefix=f"{base.__na
         sub_prefix = f"{module.__name__}."
         for submodule_info in pkgutil.walk_packages(path=module.__path__, prefix=sub_prefix):
             submodule = importlib.import_module(submodule_info.name)
+            method_name = submodule_info.name.split(".")[-1]
+            if hasattr(submodule, "asyncio_stream"):
+                AsyncClient._add_stream_method(method_name, submodule.asyncio_stream)
             if hasattr(submodule, "asyncio"):
-                method_name = submodule_info.name.split(".")[-1]
                 AsyncClient._add_proxy_method(method_name, submodule.asyncio)
             if hasattr(submodule, "sync"):
-                method_name = submodule_info.name.split(".")[-1]
                 Client._add_proxy_method(method_name, submodule.sync)
 
     except Exception as e:

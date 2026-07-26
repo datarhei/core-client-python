@@ -14,6 +14,7 @@ from .cluster_kvs_value import ClusterKVSValue
 from .cluster_store_node import ClusterStoreNode
 
 from .log_event_filter import LogEventFilter
+from .process_event_filter import ProcessEventFilter
 from .event_filters import EventFilters
 from .log_event import LogEvent
 from .media_event import MediaEvent
