@@ -1,6 +1,12 @@
 Changelog
 ---------
 
+## 2.11.1
+
+-   Docs: `ProcessEventFilter` fields verified against the Core source (`pid`, `domain`, `type`, `core_id`); document that filter values are case-insensitive, unanchored regex, AND-combined across fields
+-   Docs: README streaming section documents the regex filter semantics
+-   Docs: drop the "experimental" / "do not use in production" labels from the cluster sections
+
 ## 2.11.0
 
 -   Add async event streaming: `AsyncClient.v3_events_stream`, `v3_cluster_events_stream`, `v3_cluster_events_process_stream` — endless async generators over the SSE/NDJSON event endpoints (no read timeout, event-by-event, abort-safe). Raw `(event_type, data_str)` delivery by default; opt-in `model=` for typed events, `frame=False` for raw lines
