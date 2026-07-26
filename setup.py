@@ -19,7 +19,7 @@ tests_requirements = [
 
 setup(
     name="datarhei-mediacore-client",
-    version="2.11.1",
+    version="2.11.2",
     url="https://github.com/datarhei/core-client-python",
     project_urls={
         "Source": "https://github.com/datarhei/core-client-python",
@@ -36,6 +36,7 @@ setup(
         "Programming Language :: Python :: 3.11",
         "Programming Language :: Python :: 3.12",
         "Programming Language :: Python :: 3.13",
+        "Programming Language :: Python :: 3.14",
         "Topic :: datarhei Core Development :: Libraries",
     ],
     python_requires=">=3.11",

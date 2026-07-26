@@ -13,8 +13,10 @@ def test_expected_methods_are_exposed():
 
 
 def test_basic_login_uses_resolved_domain_in_url(monkeypatch):
-    access = jwt.encode({"exp": 4102444800}, "secret", algorithm="HS256")
-    refresh = jwt.encode({"exp": 4102444800}, "secret", algorithm="HS256")
+    # 32+ byte key: avoids PyJWT's InsecureKeyLengthWarning on newer versions.
+    secret = "secret" * 6
+    access = jwt.encode({"exp": 4102444800}, secret, algorithm="HS256")
+    refresh = jwt.encode({"exp": 4102444800}, secret, algorithm="HS256")
     seen = {}
 
     class Response:

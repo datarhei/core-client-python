@@ -1,6 +1,11 @@
 Changelog
 ---------
 
+## 2.11.2
+
+-   Add official support for Python 3.14 (classifier); verified: import + full unit suite pass on 3.11–3.14
+-   Mod test uses a 32+ byte JWT key to avoid PyJWT's `InsecureKeyLengthWarning`
+
 ## 2.11.1
 
 -   Docs: `ProcessEventFilter` fields verified against the Core source (`pid`, `domain`, `type`, `core_id`); document that filter values are case-insensitive, unanchored regex, AND-combined across fields
