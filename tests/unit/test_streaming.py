@@ -142,7 +142,12 @@ async def test_connect_error_without_json_body(monkeypatch):
 def test_stream_methods_are_async_only():
     from core_client import AsyncClient, Client
 
-    for name in ("v3_events_stream", "v3_cluster_events_stream", "v3_cluster_events_process_stream"):
+    for name in (
+        "v3_events_stream",
+        "v3_cluster_events_stream",
+        "v3_cluster_events_log_stream",
+        "v3_cluster_events_process_stream",
+    ):
         assert hasattr(AsyncClient, name)
         assert not hasattr(Client, name)
 
@@ -183,6 +188,30 @@ async def test_process_stream_method_end_to_end(monkeypatch):
         ("message", '{"pid":"p1","type":"progress"}'),
         ("message", '{"pid":"p2","type":"progress"}'),
     ]
+
+
+async def test_cluster_events_log_stream_method_end_to_end(monkeypatch):
+    # /cluster/events/log is Core's alias of /cluster/events (same LogEvents handler).
+    from core_client import AsyncClient
+    from core_client.base.models.v3 import EventFilters, LogEventFilter
+
+    captured = {}
+    lines = [b"event: log\n", b'data: {"event":"start","level":6}\n', b"\n"]
+    _patch(monkeypatch, _client_capturing(captured, lines))
+
+    client = AsyncClient(base_url="http://h")
+    out = [
+        ev
+        async for ev in client.v3_cluster_events_log_stream(
+            filters=EventFilters(filters=[LogEventFilter(level="info")])
+        )
+    ]
+
+    import json
+
+    assert captured["url"].endswith("/api/v3/cluster/events/log")
+    assert json.loads(captured["body"]) == {"filters": [{"level": "info"}]}
+    assert out == [("log", '{"event":"start","level":6}')]
 
 
 async def test_stream_method_typed_model(monkeypatch):

@@ -176,6 +176,7 @@ Streaming methods (async only):
 
 -   `v3_events_stream(filters=…, frame=True, model=None)` → `POST /api/v3/events`
 -   `v3_cluster_events_stream(filters=…)` → `POST /api/v3/cluster/events`
+-   `v3_cluster_events_log_stream(filters=…)` → `POST /api/v3/cluster/events/log` (Core alias of `/api/v3/cluster/events`)
 -   `v3_cluster_events_process_stream(filters=…)` → `POST /api/v3/cluster/events/process`
 
 ```python
@@ -197,7 +198,8 @@ asyncio.run(main())
 Notes:
 
 -   **Filter models:** `LogEventFilter` for the log-event streams
-    (`/api/v3/events`, `/api/v3/cluster/events`); `ProcessEventFilter` (filter by
+    (`/api/v3/events`, `/api/v3/cluster/events`, `/api/v3/cluster/events/log`);
+    `ProcessEventFilter` (filter by
     `type`, `domain`, `pid`, `core_id`) for `/api/v3/cluster/events/process`. Each
     filter value is a **case-insensitive, unanchored regex** (e.g. `type="progress"`,
     `type="progress|report"`); multiple fields are AND-combined. Raw `dict` filters are

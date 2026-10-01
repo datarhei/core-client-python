@@ -1,6 +1,11 @@
 Changelog
 ---------
 
+## 2.12.0
+
+-   Add `AsyncClient.v3_cluster_events_log_stream` for `POST /api/v3/cluster/events/log` (endpoint was missing; Core routes it to the same `cluster.LogEvents` handler as `/api/v3/cluster/events`, so it is an alias with identical SSE format and `LogEventFilter` semantics)
+-   Add `hls` to `SessionCollectorActiveSession` (optional): per-session HLS stats reported by newer Core versions, with the new models `SessionCollectorActiveSessionHls`, `SessionCollectorActiveSessionHlsVariant`, `SessionCollectorActiveSessionHlsSegments` and `SessionCollectorActiveSessionHlsBandwidth`
+
 ## 2.11.2
 
 -   Add official support for Python 3.14 (classifier); verified: import + full unit suite pass on 3.11–3.14

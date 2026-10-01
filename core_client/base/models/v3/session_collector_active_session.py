@@ -1,5 +1,7 @@
 from pydantic import BaseModel
-from typing import Union
+from typing import Optional, Union
+
+from . import SessionCollectorActiveSessionHls
 
 
 class SessionCollectorActiveSession(BaseModel):
@@ -15,6 +17,7 @@ class SessionCollectorActiveSession(BaseModel):
         "bytes_tx": 0,
         "bandwidth_rx_kbit": 1931.2,
         "bandwidth_tx_kbit": 0
+        + "hls": SessionCollectorActiveSessionHls
     }
     """
 
@@ -28,3 +31,4 @@ class SessionCollectorActiveSession(BaseModel):
     bytes_tx: int
     bandwidth_rx_kbit: float
     bandwidth_tx_kbit: float
+    hls: SessionCollectorActiveSessionHls | None = None

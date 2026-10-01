@@ -94,3 +94,67 @@ def test_iotee_fifo_recovery_accepts_float():
         {"address": "a", "format": "hls", "fifo_recovery_attempts_total": 2.5}
     )
     assert tee.fifo_recovery_attempts_total == 2.5
+
+
+def test_session_accepts_hls_stats():
+    # Newer Core versions report per-session HLS stats; older ones omit `hls`.
+    from core_client.base.models.v3 import SessionCollectorActiveSession
+
+    session = SessionCollectorActiveSession.model_validate(
+        {
+            "id": "BmNaBxNNHqen7WHhr6NtAE",
+            "reference": "main",
+            "created_at": 1788466169,
+            "local": "/memfs/c61cba4f/9666411c/live/main.m3u8",
+            "remote": "www.wetter.com",
+            "extra": {"extra": {"player": "855035f5"}, "method": "GET"},
+            "bytes_rx": 0,
+            "bytes_tx": 918799984,
+            "bandwidth_rx_kbit": 0,
+            "bandwidth_tx_kbit": 2242.192,
+            "hls": {
+                "hls_variants": [
+                    {
+                        "path": "/memfs/c61cba4f/9666411c/live/0.m3u8",
+                        "active": True,
+                        "switches": 2,
+                        "bandwidth_bits": 2393600,
+                        "resolution": "1280x720",
+                        "codecs": "",
+                    }
+                ],
+                "hls_segments": {
+                    "requests": 1447,
+                    "failed": 0,
+                    "too_slow": 0,
+                    "retries": 3,
+                    "too_late": 0,
+                    "sequence_gaps": 17,
+                    "last": 1788469276,
+                },
+                "http_status": {"200": 2954},
+                "bandwidth_tx_bits": {"min": 20901924.34, "max": 2540419186.66, "avg": 1001351629.39},
+            },
+        }
+    )
+    assert session.hls.hls_variants[0].resolution == "1280x720"
+    assert session.hls.hls_variants[0].active is True
+    assert session.hls.hls_segments.sequence_gaps == 17
+    assert session.hls.http_status["200"] == 2954
+    assert session.hls.bandwidth_tx_bits.avg == 1001351629.39
+
+    legacy = SessionCollectorActiveSession.model_validate(
+        {
+            "id": "restreamer-ui:ingest:5f61d80a",
+            "reference": "5f61d80a",
+            "created_at": 1662548810,
+            "local": "unknown",
+            "remote": "unknown",
+            "extra": "",
+            "bytes_rx": 616691712,
+            "bytes_tx": 0,
+            "bandwidth_rx_kbit": 1931.2,
+            "bandwidth_tx_kbit": 0,
+        }
+    )
+    assert legacy.hls is None
