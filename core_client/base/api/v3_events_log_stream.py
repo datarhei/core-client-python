@@ -9,16 +9,20 @@ identical wire format and filter semantics (``LogEventFilter``).
 """
 
 from ...models import Client
-from ._stream import serialize_filters, stream_events
+from ._stream import NDJSON, serialize_filters, stream_events
 
 
 def _build_request(client: Client, filters=None):
     return "POST", f"{client.base_url}/api/v3/events/log", serialize_filters(filters)
 
 
-async def asyncio_stream(client: Client, *, filters=None, frame: bool = True, model=None):
+async def asyncio_stream(
+    client: Client, *, filters=None, frame: bool = True, model=None, accept: str = NDJSON
+):
     method, url, body = _build_request(client, filters=filters)
-    async for item in stream_events(client, method, url, json=body, frame=frame):
+    async for item in stream_events(
+        client, method, url, json=body, frame=frame, accept=accept
+    ):
         if model is not None and frame:
             event_type, data = item
             yield event_type, model.model_validate_json(data)

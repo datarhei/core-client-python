@@ -198,16 +198,41 @@ async def main():
 asyncio.run(main())
 ```
 
+For the log streams, `event` must name an existing component exactly (lowercased);
+the other fields are regexes:
+
+```python
+from datarhei.mediacore.base.models.v3 import EventFilters, LogEventFilter
+
+filters = EventFilters(filters=[LogEventFilter(event="iam", level="debug")])
+async for _, data in client.v3_cluster_events_log_stream(filters=filters):
+    print(json.loads(data))
+```
+
 Notes:
 
 -   **Filter models:** `LogEventFilter` for the log-event streams
-    (`/api/v3/events`, `/api/v3/cluster/events`, `/api/v3/cluster/events/log`);
-    `ProcessEventFilter` (filter by
-    `type`, `domain`, `pid`, `core_id`) for `/api/v3/events/process` and
-    `/api/v3/cluster/events/process`. Each
-    filter value is a **case-insensitive, unanchored regex** (e.g. `type="progress"`,
-    `type="progress|report"`); multiple fields are AND-combined. Raw `dict` filters are
-    also accepted. An empty filter delivers **all** events (a firehose — filter tightly).
+    (`/api/v3/events`, `/api/v3/events/log`, `/api/v3/cluster/events`,
+    `/api/v3/cluster/events/log`); `ProcessEventFilter` (filter by `type`, `domain`,
+    `pid`, `core_id`) for `/api/v3/events/process` and `/api/v3/cluster/events/process`.
+    Omitting `filters` delivers **all** events (a firehose — filter tightly).
+    Raw `dict` filters are also accepted.
+-   **Filter values are case-insensitive, unanchored regexes** (e.g. `type="progress"`,
+    `type="progress|report"`), AND-combined across fields — **except
+    `LogEventFilter.event`**, which Core never compiles as a regex. It is matched as an
+    exact, lowercased component name (`filter[strings.ToLower(f.Component)]`, then a
+    plain map lookup on the event's component), so a name that does not exist silently
+    drops *every* event. The components a Core emits are values like `iam`, `http`,
+    `filesystem`, `processlimiter`, `cluster` — not process or report names. A
+    `LogEventFilter` without `event` builds the key `""` and matches nothing, so always
+    set it. `data` additionally requires the key to **exist** on the event.
+-   **Wire format:** the streams request NDJSON (`accept: application/x-json-stream`)
+    and therefore yield `("message", data_str)`, with the component inside the JSON as
+    `event`. Core's log endpoints would default to SSE, but its SSE branch is broken for
+    a cluster — it serializes an empty `LogEvent` for every event. Pass
+    `accept=SSE` (from `core_client.base.api._stream`) for the SSE framing, where
+    `event_type` is the component. Keepalives are dropped in framed mode and passed
+    through with `frame=False`.
 -   **Connect errors** (e.g. `401`) are raised as `CoreAPIError` on connection, so you
     can refresh and reconnect; network errors propagate as `httpx` exceptions.
 -   **Reconnect is the caller's responsibility.** The generator ends normally on EOF; it

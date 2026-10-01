@@ -1,6 +1,20 @@
 Changelog
 ---------
 
+## 2.14.0
+
+Fixes three reasons the event streams could deliver nothing usable. All three were
+found by running the streams against a live cluster and verified in the Core source.
+
+-   Fix the event streams sending **no request body** when `filters` is omitted. The endpoints reject a bodyless request with `400` ("request doesn't contain any content", `ShouldBindJSONValidation`), so `client.v3_cluster_events_log_stream()` raised `CoreAPIError: 400` instead of streaming. `filters=None` now serializes to the empty filter set `{"filters": []}`, which is how Core expresses "deliver everything"
+-   Fix the log-event streams returning only empty events on a cluster, by requesting NDJSON (`accept: application/x-json-stream`) instead of letting Core default to SSE. Core's SSE branch calls `LogEvent.Unmarshal(e)` and ignores its return value; in a cluster the proxy delivers `*api.LogEventRaw`, for which Unmarshal bails out without touching the struct, so the zero value gets serialized and the stream consists of `{"ts":0,"level":"","event":"", ...}` with an empty SSE event name. Its NDJSON branch decodes the payload correctly
+-   Add `accept=` to all six streaming methods, with the constants `NDJSON` and `SSE` in `core_client.base.api._stream`, so the SSE framing (where `event_type` is the component rather than `"message"`) stays reachable
+-   Mod framed mode (`frame=True`) drops the NDJSON keepalive lines Core writes every 5 seconds, matching how the SSE framing hides them as `:keepalive` comments; `frame=False` still yields them
+-   Docs: `LogEventFilter.event` is **not** a regex. Core never compiles it; it is an exact, lowercased component-name lookup, so a name that does not exist silently drops every event, and a filter without `event` matches nothing. The 2.11.1 note claiming all filter values are regexes was wrong for this one field
+
+**Breaking changes:**
+- The log-event streams (`v3_events_stream`, `v3_events_log_stream`, `v3_cluster_events_stream`, `v3_cluster_events_log_stream`) now yield `("message", data_str)` instead of `(component, data_str)`, because they request NDJSON. The component is in the payload as `event`; pass `accept=SSE` to restore the previous framing. The process streams are unaffected - their endpoints always served NDJSON
+
 ## 2.13.0
 
 Synced against the current Core OpenAPI doc (96 paths / 125 definitions vs. 85 / 112 before);

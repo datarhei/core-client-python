@@ -156,6 +156,7 @@ def _client_capturing(captured, lines):
     def handler(request):
         captured["url"] = str(request.url)
         captured["body"] = request.content
+        captured["headers"] = request.headers
         return httpx.Response(
             200,
             headers={"content-type": "application/x-json-stream"},
@@ -251,3 +252,72 @@ async def test_raw_mode_throughput(monkeypatch):
     rate = count / elapsed if elapsed else float("inf")
     assert count == n_lines
     assert rate >= 800, f"throughput {rate:.0f}/s below 800/s floor"
+
+
+# --- wire format / accept header ----------------------------------------------
+
+
+async def test_streams_request_ndjson_by_default(monkeypatch):
+    # Core's log-event endpoints default to SSE, whose cluster branch returns only
+    # empty events (see _stream's module docstring), so NDJSON is requested.
+    from core_client import AsyncClient
+    from core_client.base.api._stream import NDJSON
+
+    captured = {}
+    _patch(monkeypatch, _client_capturing(captured, [b'{"event":"iam"}\n']))
+
+    client = AsyncClient(base_url="http://h")
+    out = [ev async for ev in client.v3_cluster_events_log_stream()]
+
+    assert captured["headers"]["accept"] == NDJSON
+    # exactly one accept header, no leftover "application/json" variant
+    assert captured["headers"].get_list("accept") == [NDJSON]
+    assert out == [("message", '{"event":"iam"}')]
+
+
+async def test_stream_accept_can_be_overridden_to_sse(monkeypatch):
+    from core_client import AsyncClient
+    from core_client.base.api._stream import SSE
+
+    captured = {}
+    lines = [b"event: iam\n", b'data: {"event":"iam"}\n', b"\n"]
+    _patch(monkeypatch, _client_capturing(captured, lines))
+
+    client = AsyncClient(base_url="http://h")
+    out = [ev async for ev in client.v3_cluster_events_log_stream(accept=SSE)]
+
+    assert captured["headers"]["accept"] == SSE
+    # with SSE framing the component comes back as the event type
+    assert out == [("iam", '{"event":"iam"}')]
+
+
+async def test_ndjson_keepalives_are_skipped_when_framed(monkeypatch):
+    from core_client import AsyncClient
+
+    captured = {}
+    lines = [
+        b'{"event": "keepalive"}\n',
+        b'{"event":"iam","message":"match"}\n',
+        b'{"type":"keepalive"}\n',
+        b'{"event":"http"}\n',
+    ]
+    _patch(monkeypatch, _client_capturing(captured, lines))
+
+    client = AsyncClient(base_url="http://h")
+    out = [ev async for ev in client.v3_cluster_events_log_stream()]
+    assert out == [
+        ("message", '{"event":"iam","message":"match"}'),
+        ("message", '{"event":"http"}'),
+    ]
+
+
+async def test_raw_mode_still_yields_keepalives(monkeypatch):
+    from core_client import AsyncClient
+
+    captured = {}
+    lines = [b'{"event": "keepalive"}\n', b'{"event":"iam"}\n']
+    _patch(monkeypatch, _client_capturing(captured, lines))
+
+    client = AsyncClient(base_url="http://h")
+    out = [ev async for ev in client.v3_cluster_events_log_stream(frame=False)]
+    assert out == ['{"event": "keepalive"}', '{"event":"iam"}']
