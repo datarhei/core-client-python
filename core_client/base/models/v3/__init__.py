@@ -1,5 +1,6 @@
 from .cluster_node_auth import ClusterNodeAuth
 from .cluster_node_core import ClusterNodeCore
+from .cluster_node_resources_gpu import ClusterNodeResourcesGpu
 from .cluster_node_resources import ClusterNodeResources
 from .cluster_node_files import ClusterNodeFiles
 from .cluster_node_version import ClusterNodeVersion
@@ -17,6 +18,11 @@ from .log_event_filter import LogEventFilter
 from .process_event_filter import ProcessEventFilter
 from .event_filters import EventFilters
 from .log_event import LogEvent
+from .process_progress_input_avstream import ProcessProgressInputAvstream
+from .process_progress_input import ProcessProgressInput
+from .process_progress_output import ProcessProgressOutput
+from .process_progress import ProcessProgress
+from .process_event import ProcessEvent
 from .media_event import MediaEvent
 
 from .graph_query import GraphQuery
@@ -160,6 +166,8 @@ from .report_process import ReportProcess
 from .report_process_list import ReportProcessList
 
 from .rtmp import Rtmp
+from .rtmp_connection import RtmpConnection
+from .rtmp_channel import RtmpChannel
 
 from .session_collector_active_session_hls_variant import SessionCollectorActiveSessionHlsVariant
 from .session_collector_active_session_hls_segments import SessionCollectorActiveSessionHlsSegments
@@ -188,9 +196,12 @@ from .skills_protocol_io import SkillsProtocolIO
 from .skills_protocol import SkillsProtocol
 from .skills import Skills
 
+from .srt_log import SrtLog
 from .srt_connection_stats import SrtConnectionStats
 from .srt_connection import SrtConnection
 from .srt import Srt
 from .srt_list import SrtList
+from .srt_channel_connection import SrtChannelConnection
+from .srt_channel import SrtChannel
 
 from .widget import Widget

@@ -5,5 +5,9 @@ coverage.xml
 scripts/**
 .DS_Store
 core-openapi.json
+openapi-doc-latest.json
 TODO.md
 .eggs/
+build/
+dist/
+*.egg-info/

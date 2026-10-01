@@ -169,12 +169,15 @@ reconnect loop via `arefresh()`.
 The event endpoints are **endless streams**. On the `AsyncClient` they are exposed as
 async generators that yield event by event (no read timeout). The default delivery is
 a lightweight `(event_type, data_str)` tuple — **no per-event validation** (a busy
-cluster emits thousands of events per second). Pass `model=` for typed events, or
+cluster emits thousands of events per second). Pass `model=` for typed events
+(`LogEvent` for the log streams, `ProcessEvent` for the process streams), or
 `frame=False` for raw lines.
 
 Streaming methods (async only):
 
 -   `v3_events_stream(filters=…, frame=True, model=None)` → `POST /api/v3/events`
+-   `v3_events_log_stream(filters=…)` → `POST /api/v3/events/log` (Core alias of `/api/v3/events`)
+-   `v3_events_process_stream(filters=…)` → `POST /api/v3/events/process`
 -   `v3_cluster_events_stream(filters=…)` → `POST /api/v3/cluster/events`
 -   `v3_cluster_events_log_stream(filters=…)` → `POST /api/v3/cluster/events/log` (Core alias of `/api/v3/cluster/events`)
 -   `v3_cluster_events_process_stream(filters=…)` → `POST /api/v3/cluster/events/process`
@@ -200,7 +203,8 @@ Notes:
 -   **Filter models:** `LogEventFilter` for the log-event streams
     (`/api/v3/events`, `/api/v3/cluster/events`, `/api/v3/cluster/events/log`);
     `ProcessEventFilter` (filter by
-    `type`, `domain`, `pid`, `core_id`) for `/api/v3/cluster/events/process`. Each
+    `type`, `domain`, `pid`, `core_id`) for `/api/v3/events/process` and
+    `/api/v3/cluster/events/process`. Each
     filter value is a **case-insensitive, unanchored regex** (e.g. `type="progress"`,
     `type="progress|report"`); multiple fields are AND-combined. Raw `dict` filters are
     also accepted. An empty filter delivers **all** events (a firehose — filter tightly).
@@ -429,6 +433,24 @@ Notes:
     ```python
     v3_cluster_process_get(id: str, domain: str = "", filter: str = "")
     ```
+
+-   `GET` /api/v3/cluster/process/{id}/config
+    ```python
+    v3_cluster_process_get_config(id: str, domain: str = "")
+    ```
+    *Model: [ProcessConfig](https://github.com/datarhei/core-client-python/blob/main/core_client/base/models/v3/process_config.py)*
+
+-   `GET` /api/v3/cluster/process/{id}/state
+    ```python
+    v3_cluster_process_get_state(id: str, domain: str = "")
+    ```
+    *Model: [ProcessState](https://github.com/datarhei/core-client-python/blob/main/core_client/base/models/v3/process_state.py)*
+
+-   `GET` /api/v3/cluster/process/{id}/report
+    ```python
+    v3_cluster_process_get_report(id: str, created_at: int = "", exited_at: int = "", domain: str = "")
+    ```
+    *Model: [ProcessReport](https://github.com/datarhei/core-client-python/blob/main/core_client/base/models/v3/process_report.py)*
 
 -   `PUT` /api/v3/cluster/process/{id}
     ```python
@@ -748,6 +770,20 @@ Notes:
     v3_rtmp_get()
     ```
 
+-   `GET` /api/v3/rtmp/channels
+
+    ```python
+    v3_rtmp_get_channels()
+    ```
+    *Model: [RtmpChannel](https://github.com/datarhei/core-client-python/blob/main/core_client/base/models/v3/rtmp_channel.py) — the detailed listing; `v3_rtmp_get` returns names only*
+
+-   `PUT` /api/v3/rtmp/disconnect
+
+    ```python
+    v3_rtmp_put_disconnect(path: str = "")
+    ```
+    *Disconnects the sessions of `path`; `*` disconnects all. Returns a string.*
+
 ### Session
 
 -   `GET` /api/v3/session
@@ -788,6 +824,20 @@ Notes:
     ```python
     v3_srt_get()
     ```
+
+-   `GET` /api/v3/srt/channels
+
+    ```python
+    v3_srt_get_channels()
+    ```
+    *Model: [SrtChannel](https://github.com/datarhei/core-client-python/blob/main/core_client/base/models/v3/srt_channel.py) — marked EXPERIMENTAL by Core*
+
+-   `PUT` /api/v3/srt/disconnect
+
+    ```python
+    v3_srt_put_disconnect()
+    ```
+    *Disconnects all SRT sessions. Returns a string.*
 
 ### Widget
 

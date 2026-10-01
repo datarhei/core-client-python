@@ -8,10 +8,12 @@ class ProcessStateProgressMappingMap(BaseModel):
         "output": -1,
         "index": 0,
         "name": "graph_0_in_1_0",
-        "copy": false
+        "copy": false,
+        + "id": "string"
     }
     """
 
+    id: str | None = None
     input: int
     output: int
     index: int

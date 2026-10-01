@@ -78,6 +78,7 @@ class ProcessStateProgressIO(BaseModel):
     gop: float | None = None
     drop: int | None = None
     tee: list[ProcessStateProgressIOTee] | None = None
+    iomap: list[int] | None = None
     level: int | None = None
     profile: int | None = None
     sample_fmt: str | None = None

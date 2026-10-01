@@ -1,4 +1,7 @@
 from pydantic import BaseModel
+from typing import List, Optional
+
+from . import ClusterNodeResourcesGpu
 
 
 class ClusterNodeResources(BaseModel):
@@ -21,6 +24,6 @@ class ClusterNodeResources(BaseModel):
     ncpu: float
     cpu_core: float | None = None
     error: str | None = None
-    gpu: list | None = None
+    gpu: list[ClusterNodeResourcesGpu] | None = None
     memory_core_bytes: int | None = None
     memory_total_bytes: int | None = None

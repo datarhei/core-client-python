@@ -1,7 +1,7 @@
 from pydantic import BaseModel, model_validator
 from typing import Dict, Union, List, Optional
 
-from . import SrtConnection
+from . import SrtConnection, SrtLog
 
 
 class Srt(BaseModel):
@@ -36,7 +36,7 @@ class Srt(BaseModel):
     publisher: dict[str, int] | None = None
     subscriber: dict[str, list[int]] | list[int]
     connections: dict[str, SrtConnection]
-    log: None | dict[str, str]
+    log: dict[str, list[SrtLog]] | None = None
 
     @model_validator(mode="before")
     def remove_empty(cls, values):

@@ -1,6 +1,22 @@
 Changelog
 ---------
 
+## 2.13.0
+
+Synced against the current Core OpenAPI doc (96 paths / 125 definitions vs. 85 / 112 before);
+every finding was verified against the Core source, since the doc has two known errors of its own.
+
+-   Add cluster process endpoints `v3_cluster_process_get_config`, `v3_cluster_process_get_state` and `v3_cluster_process_get_report` (`GET /api/v3/cluster/process/{id}/{config,state,report}`). The report endpoint returns a `ProcessReport`; Core's OpenAPI annotation claims `api.ProcessState`, but its handler returns `process.Report`
+-   Add `v3_rtmp_get_channels` (`GET /api/v3/rtmp/channels`) with the models `RtmpChannel`/`RtmpConnection` — the detailed channel listing; `GET /api/v3/rtmp` returns names only
+-   Add `v3_srt_get_channels` (`GET /api/v3/srt/channels`) with the models `SrtChannel`/`SrtChannelConnection` (Core marks the endpoint EXPERIMENTAL)
+-   Add `v3_rtmp_put_disconnect` (`PUT /api/v3/rtmp/disconnect`, query `path`, `*` for all) and `v3_srt_put_disconnect` (`PUT /api/v3/srt/disconnect`)
+-   Add `AsyncClient.v3_events_process_stream` for `POST /api/v3/events/process` (the node-local counterpart of `v3_cluster_events_process_stream`) and `AsyncClient.v3_events_log_stream` for `POST /api/v3/events/log` (Core alias of `/api/v3/events`)
+-   Add `ProcessEvent` with `ProcessProgress`, `ProcessProgressInput`, `ProcessProgressOutput` and `ProcessProgressInputAvstream`, so the process event streams can be consumed typed via `model=ProcessEvent`
+-   Fix `Srt.log` and `SrtConnection.log`: Core sends `map[string][]api.SRTLog`, they were typed `dict[str, str]` and raised a `ValidationError` as soon as the log was non-empty. Both are now `dict[str, list[SrtLog]]` with the new `SrtLog` model
+-   Add `ProcessStateProgressIO.iomap` (new in the Core API)
+-   Add 10 missing fields to `ProcessStateProgressIOAvstream` (`channels`, `codec`, `height`, `layout`, `level`, `pix_fmt`, `profile`, `sample_fmt`, `sampling_hz`, `width`) and `ProcessStateProgressMappingMap.id`
+-   Mod `AboutResources.gpu` and `ClusterNodeResources.gpu` are typed as `list[AboutResourcesGpu]` / `list[ClusterNodeResourcesGpu]` instead of a bare `list`
+
 ## 2.12.0
 
 -   Add `AsyncClient.v3_cluster_events_log_stream` for `POST /api/v3/cluster/events/log` (endpoint was missing; Core routes it to the same `cluster.LogEvents` handler as `/api/v3/cluster/events`, so it is an alias with identical SSE format and `LogEventFilter` semantics)

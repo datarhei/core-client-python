@@ -12,6 +12,18 @@ class AboutVersion(BaseModel):
     compiler: str | None = None
 
 
+class AboutResourcesGpu(BaseModel):
+    """api.AboutGPUResources"""
+
+    memory_limit_bytes: int | None = None
+    memory_total_bytes: int | None = None
+    memory_used_bytes: int | None = None
+    usage_decoder: float | None = None
+    usage_encoder: float | None = None
+    usage_general: float | None = None
+    usage_limit: float | None = None
+
+
 class AboutResources(BaseModel):
     cpu_core: float | None = None
     cpu_limit: float | None = None
@@ -22,7 +34,7 @@ class AboutResources(BaseModel):
     memory_limit_bytes: int | None = None
     memory_total_bytes: int | None = None
     memory_used_bytes: int | None = None
-    gpu: list | None = None
+    gpu: list[AboutResourcesGpu] | None = None
 
 
 class About(BaseModel):

@@ -1,16 +1,16 @@
 from pydantic import BaseModel
 from typing import Dict
 
-from . import SrtConnectionStats
+from . import SrtConnectionStats, SrtLog
 
 
 class SrtConnection(BaseModel):
     """
     {
-        "log": {},
+        "log": {"<name>": [SrtLog]},
         "stats": SrtConnectionsStats
     }
     """
 
-    log: dict[str, str]
+    log: dict[str, list[SrtLog]] | None = None
     stats: SrtConnectionStats
