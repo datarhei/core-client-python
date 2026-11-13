@@ -1,6 +1,20 @@
 Changelog
 ---------
 
+## 2.16.0
+
+Adds query parameters that existing endpoints were missing. Earlier OpenAPI syncs compared
+paths and model fields but not the query parameters of existing endpoints; every gap below
+was already in the spec and is verified against the Core handlers.
+
+-   Add `purge` to `v3_process_delete` (default `True`, Core's default). Before, every delete through the client also deleted the files the process created, and there was no way to keep them; pass `purge=False` to keep them
+-   Add the filters `filter`, `reference`, `process_ids`, `idpattern`, `refpattern`, `ownerpattern`, `domainpattern` to `v3_cluster_node_get_process_list`, which always returned every process of the node with all fields. The comma separated process-id filter is named `process_ids` because `id` is already the node; it is sent as the `id` query parameter
+-   Add `domain` (the domain of the acting user) to `v3_cluster_iam_get_user_list` and `v3_iam_post_user`; the cluster variant of the latter already had it. Empty values behave as before, Core treats them as absent
+-   Docs: on the list endpoints (`v3_process_get_list`, `v3_cluster_process_get_list`, `v3_report_get_process`) `domain` has no effect. The README claimed it means "act in the context of this domain", but the list handlers never read it and check every process against its own domain; filter with `domainpattern`
+-   Docs: `v3_cluster_process_delete` also takes `domain` (the README signature lacked it)
+
+**Note on 2.15.0:** Core now answers a failed `DELETE /api/v3/cluster/process/{id}` with `404` instead of `400` (every `ProcessRemove` error, `cluster_process.go`). The client needed no change, it returns the `Error` (or raises `CoreAPIError`) with whatever code Core sends, but code checking for `code == 400` there must check for `404`.
+
 ## 2.15.0
 
 Synced against the current Core OpenAPI doc (100 paths / 126 definitions vs. 96 / 125 before),

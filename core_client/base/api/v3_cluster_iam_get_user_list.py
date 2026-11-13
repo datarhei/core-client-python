@@ -10,6 +10,7 @@ from ..models.v3 import IamUser
 @validate_call()
 def _build_request(
     client: Client,
+    domain: str = "",
     retries: int = None,
     timeout: float = None,
 ):
@@ -19,7 +20,7 @@ def _build_request(
         timeout = client.timeout
     return {
         "method": "get",
-        "url": f"{client.base_url}/api/v3/cluster/iam/user",
+        "url": f"{client.base_url}/api/v3/cluster/iam/user?domain={domain}",
         "headers": client.headers,
         "timeout": timeout,
         "data": None,

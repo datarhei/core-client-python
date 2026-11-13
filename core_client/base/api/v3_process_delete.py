@@ -11,16 +11,22 @@ def _build_request(
     client: Client,
     id: str,
     domain: str = "",
+    purge: bool = True,
     retries: int = None,
     timeout: float = None,
 ):
+    """
+    Args:
+        purge (bool): Whether to delete the files the process created as well.
+            Core's default is True, so pass purge=False to keep them.
+    """
     if not retries:
         retries = client.retries
     if not timeout:
         timeout = client.timeout
     return {
         "method": "delete",
-        "url": f"{client.base_url}/api/v3/process/{id}?domain={domain}",
+        "url": f"{client.base_url}/api/v3/process/{id}?domain={domain}&purge={str(purge).lower()}",
         "headers": client.headers,
         "timeout": timeout,
         "data": None,

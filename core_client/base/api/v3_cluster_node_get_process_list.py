@@ -8,14 +8,38 @@ from ..models.v3 import Process
 
 
 @validate_call()
-def _build_request(client: Client, id: str, retries: int = None, timeout: float = None):
+def _build_request(
+    client: Client,
+    id: str,
+    filter: str = "",
+    reference: str = "",
+    process_ids: str = "",
+    idpattern: str = "",
+    refpattern: str = "",
+    ownerpattern: str = "",
+    domainpattern: str = "",
+    retries: int = None,
+    timeout: float = None,
+):
+    """
+    Args:
+        id (str): ID of the node
+        filter (str): config, state, report, metadata
+        reference (str): reference value
+        process_ids (str): Comma separated list of process ids. Sent as the `id`
+            query parameter; renamed here because `id` is the node.
+        idpattern (str): Glob pattern for ids
+        refpattern (str): Glob pattern for references
+        ownerpattern (str): Glob pattern for owners
+        domainpattern (str): Glob pattern for domains
+    """
     if not retries:
         retries = client.retries
     if not timeout:
         timeout = client.timeout
     return {
         "method": "get",
-        "url": f"{client.base_url}/api/v3/cluster/node/{id}/process",
+        "url": f"{client.base_url}/api/v3/cluster/node/{id}/process?filter={filter}&reference={reference}&id={process_ids}&idpattern={idpattern}&refpattern={refpattern}&ownerpattern={ownerpattern}&domainpattern={domainpattern}",
         "headers": client.headers,
         "timeout": timeout,
         "data": None,

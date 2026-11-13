@@ -115,9 +115,10 @@ asyncio.run(main())
 
 > **Note on `domain` vs. `domainpattern` (IAM domains / cluster)**
 >
-> - **List endpoints** (`v3_process_get_list`, `v3_cluster_process_get_list`): `domain`
->   means "act in the context of this domain" and does **not** filter the result.
->   To filter a list by domain, use `domainpattern` (a glob).
+> - **List endpoints** (`v3_process_get_list`, `v3_cluster_process_get_list`,
+>   `v3_report_get_process`): `domain` has **no effect** — the list handlers never read
+>   it and check every process against its own domain instead. To filter a list by
+>   domain, use `domainpattern` (a glob).
 > - **Detail endpoints** (`v3_process_get`, `…_get_probe`, `…_get_state`, …): a
 >   domain-scoped process returns `404` unless the matching `domain` is passed —
 >   even when the id was taken from a list response.
@@ -463,7 +464,7 @@ The same alias API, applied to the whole cluster.
 -   `GET` /api/v3/cluster/iam/user
 
     ```python
-    v3_cluster_iam_get_user_list()
+    v3_cluster_iam_get_user_list(domain: str = "")
     ```
 
 -   `POST` /api/v3/cluster/iam/user
@@ -534,8 +535,9 @@ The same alias API, applied to the whole cluster.
 
 -   `GET` /api/v3/cluster/node/{id}/process
     ```python
-    v3_cluster_node_get_process_list(id: str)
+    v3_cluster_node_get_process_list(id: str, filter: str = "", reference: str = "", process_ids: str = "", idpattern: str = "", refpattern: str = "", ownerpattern: str = "", domainpattern: str = "")
     ```
+    *`id` is the node; the comma separated process-id filter is `process_ids` (sent as the `id` query parameter).*
 
 -   `GET` /api/v3/cluster/node/{id}/version
     ```python
@@ -588,7 +590,7 @@ The same alias API, applied to the whole cluster.
 
 -   `DELETE` /api/v3/cluster/process/{id}
     ```python
-    v3_cluster_process_delete(id: str)
+    v3_cluster_process_delete(id: str, domain: str = "")
     ```
 
 -   `PUT` /api/v3/cluster/process/{id}/command
@@ -694,7 +696,7 @@ The same alias API, applied to the whole cluster.
 -   `POST` /api/v3/iam/user
 
     ```python
-    v3_iam_post_user(config: IamUser)
+    v3_iam_post_user(config: IamUser, domain: str = "")
     ```
     *Model: [IamUser](https://github.com/datarhei/core-client-python/blob/main/core_client/base/models/v3/iam_user.py)*
 
@@ -790,8 +792,9 @@ The same alias API, applied to the whole cluster.
 
 -   `DELETE` /api/v3/process/{id}
     ```python
-    v3_process_delete(id: str, domain: str = "")
+    v3_process_delete(id: str, domain: str = "", purge: bool = True)
     ```
+    *`purge` also deletes the files the process created (Core's default); pass `purge=False` to keep them.*
 
 -   `PUT` /api/v3/process/{id}/command
     ```python
