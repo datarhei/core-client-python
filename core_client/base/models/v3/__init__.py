@@ -1,3 +1,5 @@
+from .alias import Alias
+
 from .cluster_node_auth import ClusterNodeAuth
 from .cluster_node_core import ClusterNodeCore
 from .cluster_node_resources_gpu import ClusterNodeResourcesGpu

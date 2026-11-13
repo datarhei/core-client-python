@@ -1,6 +1,16 @@
 Changelog
 ---------
 
+## 2.15.0
+
+Synced against the current Core OpenAPI doc (100 paths / 126 definitions vs. 96 / 125 before),
+verified against the Core source.
+
+-   Add the alias API: `v3_alias_get_list`, `v3_alias_put_list`, `v3_alias_post`, `v3_alias_get`, `v3_alias_put`, `v3_alias_delete` for `/api/v3/alias` and `/api/v3/alias/rule`, plus the same six as `v3_cluster_alias_*` for `/api/v3/cluster/alias`. Aliases are rewrite rules for the HTTP filesystems: a path matching `pattern` (a regex) is served with the content of `target`. Modifying them requires a superuser
+-   Add the `Alias` model (`pattern`, `target`, both required)
+-   The alias `pattern` is percent-encoded for the `/rule` endpoints, unlike the raw query interpolation used elsewhere in the client: unencoded, `?`, `&` and `#` would break the query string and Go decodes a literal `+` as a space, so a pattern like `^/live/(.+)\.m3u8$` would never be found
+-   Add `reason` to `v3_process_put_command` and `v3_cluster_process_put_command`, and `ProcessCommand.reason`. Core writes it into the process report as the last log line (`Details: <reason>`) for `stop`, `restart` and `reload`. It is only sent when set, so existing calls send the same body as before
+
 ## 2.14.0
 
 Fixes three reasons the event streams could deliver nothing usable. All three were

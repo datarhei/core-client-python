@@ -13,9 +13,19 @@ def _build_request(
     id: str,
     command: ProcessCommandAction,
     domain: str = "",
+    reason: str = "",
     retries: int = None,
     timeout: float = None,
 ):
+    """
+    Args:
+        reason (str): Optional reason for stop/restart/reload. Core writes it
+            into the process report as the last log line, "Details: <reason>".
+            Omitted from the body when empty.
+    """
+    body = {"command": command}
+    if reason:
+        body["reason"] = reason
     if not retries:
         retries = client.retries
     if not timeout:
@@ -26,7 +36,7 @@ def _build_request(
         "headers": client.headers,
         "timeout": timeout,
         "data": None,
-        "json": {"command": command},
+        "json": body,
     }, retries
 
 

@@ -241,6 +241,64 @@ Notes:
 -   Cancelling the task or calling `aclose()` on the generator closes the connection
     cleanly.
 
+### Alias
+
+Aliases are rewrite rules for the HTTP filesystems: a request whose path matches
+`pattern` (a regular expression) is served with the content of `target`, which can
+reference capture groups with `$1`, `${1}` or `${name}`. They are evaluated in list
+order and the first match applies. The pattern is the ID of an alias; the client
+percent-encodes it for the `/rule` endpoints, so pass it unescaped. Modifying
+aliases requires a superuser (`403` otherwise).
+
+```python
+from datarhei.mediacore.base.models.v3 import Alias
+
+client.v3_alias_post(alias=Alias(pattern=r"^/live/(?P<name>[^/]+)\.m3u8$",
+                                 target="/memfs/${name}/index.m3u8"))
+client.v3_alias_delete(pattern=r"^/live/(?P<name>[^/]+)\.m3u8$")
+```
+
+-   `GET` /api/v3/alias
+
+    ```python
+    v3_alias_get_list()
+    ```
+    *Returns all aliases in evaluation order. Model: [Alias](https://github.com/datarhei/core-client-python/blob/main/core_client/base/models/v3/alias.py)*
+
+-   `PUT` /api/v3/alias
+
+    ```python
+    v3_alias_put_list(aliases: list[Alias])
+    ```
+    *Replaces all aliases; they are evaluated in the given order.*
+
+-   `POST` /api/v3/alias
+
+    ```python
+    v3_alias_post(alias: Alias)
+    ```
+    *Appends an alias. `409` if the pattern already exists.*
+
+-   `GET` /api/v3/alias/rule
+
+    ```python
+    v3_alias_get(pattern: str)
+    ```
+
+-   `PUT` /api/v3/alias/rule
+
+    ```python
+    v3_alias_put(pattern: str, alias: Alias)
+    ```
+    *Replaces the alias with the given pattern; its position is kept.*
+
+-   `DELETE` /api/v3/alias/rule
+
+    ```python
+    v3_alias_delete(pattern: str)
+    ```
+    *Returns a string.*
+
 ### Cluster
 
 -   `GET` /api/v3/cluster
@@ -292,6 +350,51 @@ Notes:
     v3_cluster_put_leave()
     ```
 
+
+### Cluster Alias
+
+The same alias API, applied to the whole cluster.
+
+-   `GET` /api/v3/cluster/alias
+
+    ```python
+    v3_cluster_alias_get_list()
+    ```
+    *Returns all aliases in evaluation order. Model: [Alias](https://github.com/datarhei/core-client-python/blob/main/core_client/base/models/v3/alias.py)*
+
+-   `PUT` /api/v3/cluster/alias
+
+    ```python
+    v3_cluster_alias_put_list(aliases: list[Alias])
+    ```
+    *Replaces all aliases; they are evaluated in the given order.*
+
+-   `POST` /api/v3/cluster/alias
+
+    ```python
+    v3_cluster_alias_post(alias: Alias)
+    ```
+    *Appends an alias. `409` if the pattern already exists.*
+
+-   `GET` /api/v3/cluster/alias/rule
+
+    ```python
+    v3_cluster_alias_get(pattern: str)
+    ```
+
+-   `PUT` /api/v3/cluster/alias/rule
+
+    ```python
+    v3_cluster_alias_put(pattern: str, alias: Alias)
+    ```
+    *Replaces the alias with the given pattern; its position is kept.*
+
+-   `DELETE` /api/v3/cluster/alias/rule
+
+    ```python
+    v3_cluster_alias_delete(pattern: str)
+    ```
+    *Returns a string.*
 
 ### Cluster Database
 
@@ -490,9 +593,10 @@ Notes:
 
 -   `PUT` /api/v3/cluster/process/{id}/command
     ```python
-    v3_cluster_process_put_command(id: str, command: ProcessCommandAction)
+    v3_cluster_process_put_command(id: str, command: ProcessCommandAction, domain: str = "", reason: str = "")
     ```
     *Model: [ProcessCommandAction](https://github.com/datarhei/core-client-python/blob/main/core_client/base/models/v3/process_command.py)*
+    *`reason` is optional (`stop`, `restart`, `reload`); Core writes it into the process report as the last log line, `Details: <reason>`.*
 
 
 -   `GET` /api/v3/cluster/process/{id}/metadata/{key}
@@ -691,9 +795,10 @@ Notes:
 
 -   `PUT` /api/v3/process/{id}/command
     ```python
-    v3_process_put_command(id: str, domain: str = "", command: ProcessCommandAction)
+    v3_process_put_command(id: str, command: ProcessCommandAction, domain: str = "", reason: str = "")
     ```
     *Model: [ProcessCommandAction](https://github.com/datarhei/core-client-python/blob/main/core_client/base/models/v3/process_command.py)*
+    *`reason` is optional (`stop`, `restart`, `reload`); Core writes it into the process report as the last log line, `Details: <reason>`.*
 
 -   `GET` /api/v3/process/{id}/config
     ```python

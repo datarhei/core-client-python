@@ -11,6 +11,9 @@ class ProcessCommandAction(str, Enum):
 
 class ProcessCommand(BaseModel):
     command: ProcessCommandAction
+    # Optional free-text reason for stop/restart/reload. Core writes it into the
+    # process report as the last log line, "Details: <reason>".
+    reason: str | None = None
 
     class ConfigDict:
         use_enum_values = True
